@@ -187,16 +187,16 @@ Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will 
 	* `#!/`home&&param=1
 
 * Contain a legal (no spaces) page name/state designator
-	* \#!/ `home`&&param=1
+	* \#!/`home`&&param=1
 
 * If the hash URI contains any request parameters, they need to occur after the state designator, be delimited by `&` if more than one request parameter is passed, and separated from the state designator by a `&&` (double ampersand)
 	* \#!/home`&&param=1`
-	* \#!/home`&&param=1``&``param2=2`
+	* \#!/home`&&param=1&param2=2`
 	* **non-existent** in #!/home
 
 Basically: http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=something`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse=too`
 
-Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` data following it) are legal, allowed, and encouraged. So http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse` is just as legal as its predecessor above.
+Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse` is just as legal as its predecessor above.
 
 Now, the quintessential core facet of the HashNav object is its ability to parse a hash URI and store it in a logical and meaningful manner.
 
@@ -285,7 +285,7 @@ As you can see, relative hashes are certainly powerful, and definitely have thei
 ###History <a name="HistoryTracking"></a>Tracking
 When `trackHistory` is set to `true`, the history object and its various methods become available to you.
 
-What history tracking actually does is takes the current hash data object (via [getStoredHashData()](#PMI:getStoredHashData "Jump to it!")) and pushes it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data, except in the past tense. Using the [history methods](#PMI:history "Jump to it!") or [navigateTo()](#PMI:navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occures that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it will be logged in the browser).
+What history tracking actually does is takes the current hash data object (via [getStoredHashData()](#PMI:getStoredHashData "Jump to it!")) and pushes it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data, except in the past tense. Using the [history methods](#PMI:history "Jump to it!") or [navigateTo()](#PMI:navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occures that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
 
 Do <a name="vci"></a>note that History Tracking enables some of the more powerful paramter filtering functionality of the [registerObserver()](#PMI:registerObserver "Jump to it!") and [observe()](#DMI:observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!").
 
@@ -309,10 +309,11 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * **FOR THE LOVE OF GOD: REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI:unregisterObserver "Jump to it!") OR [unobserve()](#DMI:unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
 * Query strings are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
-* The end values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings (until HashNav [moves away from the QueryString library](#comingsoon "Jump to it!")).
+* The end values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings (until HashNav [moves away from the QueryString library](#ComingSoon "Jump to it!")).
 * Query params do not overwrite one another! In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
 * Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method; however, events may still trigger when these invalid pages are navigated to in the browser. **Avoid the use of whitespace at all costs!**
-* Use the [triggerEvent()](#PMI:TriggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished regstering *all* your observers or initializing a page -- much more efficient, here's an [example](#PMI:TriggerEvent "Jump to it!")).
+
+* Use the [triggerEvent()](#PMI:TriggerEvent) method whenever you register a new observer (or after you're finished regstering *all* your observers or initializing a page -- much more efficient, here's an [example](#PMI:TriggerEvent "Jump to it!")).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI:TriggerEvent "Jump to it!") after registering an observer or two! Ooh!
 
 ##Coming <a name="ComingSoon"></a>Soon
