@@ -14,13 +14,13 @@ Some of the nifty (and quite-frankly awesome) tools provided to developers inclu
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
 
-Do note that this bad boy is **STILL IN BETA** and as such probably contains *a myriad of bugs and glitches that I have yet to find* whilst using it. I’ll stomp them as I come across them, but if you happen across any yourself, **don’t hesitate to file an issue** (or fork the project and stomp a few yourself) and I’ll hop right on it.
+Do note that this bad boy is **STILL IN BETA** and as such probably contains *a myriad of bugs and glitches that I have yet to find* whilst using it. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
 
 <br />
 Crash Course
 ------------
 
-If you’re in a hurry and just need some decent hash navigation, you could do something like this:
+If you're in a hurry and just need some decent hash navigation, you could do something like this:
 
 	#JS
 	var hashNav = new HashNav();
@@ -77,21 +77,21 @@ Class: HashNav
 
 * prefix – (`string`: defaults to **"!/"**) Determines the string that will be looked for after the pound/hash sign (#) in URIs. If the prefix is **not** found, the HashNav object will refuse to recognize the hash change and ignore it, as will *most* observers (see [observer triggers](#ot "Jump to it!") below).
 
-* defaultHome – (`string`: defaults to **"home"**) Your website’s "meta-homepage." When visitors navigate to your page using a [Relative Hash](#rh "Jump down to ‘Relative Hashes’"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hash](#rh "Jump down to ‘Relative Hashes’") for more information on this integral setting.
+* defaultHome – (`string`: defaults to **"home"**) Your website's "meta-homepage." When visitors navigate to your page using a [Relative Hash](#rh "Jump down to ‘Relative Hashes'"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hash](#rh "Jump down to ‘Relative Hashes'") for more information on this integral setting.
 
-* trackHistory – (`boolean`: defaults to **true**) Enables [history tracking](#history "Jump down to the ‘History’ section") and exposes HashNav’s native `history.*` methods if set to `true`. Do not touch this unless you’re perfectly sure you recognize the [various compounding implications](#vci "Dear God, don’t touch that switch man!").
+* trackHistory – (`boolean`: defaults to **true**) Enables [history tracking](#history "Jump down to the ‘History' section") and exposes HashNav's native `history.*` methods if set to `true`. Do not touch this unless you're perfectly sure you recognize the [various compounding implications](#vci "Dear God, don't touch that switch man!").
 
-* exposeObserverMethods - (`boolean`: defaults to **true**) Exposes the `observe` and `unobserve` methods to ` Element.Properties` if set to `true`, allowing [observe](#dlm "Jump down to ‘DOM Method Index’") to be called from any DOM element as opposed to tying the observer to an element (a somewhat arduous journey) using `registerObserver`.
+* exposeObserverMethods - (`boolean`: defaults to **true**) Exposes the `observe` and `unobserve` methods to ` Element.Properties` if set to `true`, allowing [observe](#dlm "Jump down to ‘DOM Method Index'") to be called from any DOM element as opposed to tying the observer to an element (a somewhat arduous journey) using `registerObserver`.
 
-* cleanQueryString – (`boolean`: defaults to **false**) A **very** dangerous setting that will strip any nonconforming parameter entries and anything else MooTools's [String.cleanQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:cleanQueryString "MooTools More Documentation: cleanQueryString") doesn’t like if set to `true`. If set to `false`, a version of [String.parseQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:parseQueryString "MooTools More Documentation: String:parseQueryString") is used instead (default). It is recommended to leave this off (`false`) unless you [know what you’re doing](#kwyd "Jump down to ‘How Hashes Are Parsed’").
+* cleanQueryString – (`boolean`: defaults to **false**) A **very** dangerous setting that will strip any nonconforming parameter entries and anything else MooTools's [String.cleanQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:cleanQueryString "MooTools More Documentation: cleanQueryString") doesn't like if set to `true`. If set to `false`, a version of [String.parseQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:parseQueryString "MooTools More Documentation: String:parseQueryString") is used instead (default). It is recommended to leave this off (`false`) unless you [know what you're doing](#kwyd "Jump down to ‘How Hashes Are Parsed'").
 
-* queryMakeFalse – (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default (`false`). When queryMakeFalse is set to `true`, however, a blank parameter will be become a literal false (`param:false`). See [How Hashes Are Parsed](#kwyd "Jump down to ‘How Hashes Are Parsed’") for more information.
+* queryMakeFalse – (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default (`false`). When queryMakeFalse is set to `true`, however, a blank parameter will be become a literal false (`param:false`). See [How Hashes Are Parsed](#kwyd "Jump down to ‘How Hashes Are Parsed'") for more information.
 
-* externalConstants – (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods’) DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix ("NAVOBJSERDATA") used when the [serialize](#serialize "Jump down to it!") method is called.
+* externalConstants – (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods') DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix ("NAVOBJSERDATA") used when the [serialize](#serialize "Jump down to it!") method is called.
 
-* cookieOptions – (`object`) An object containing key/value pairs representing the default options passed to MooTool’s [Cookie]( http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie Object") object.
+* cookieOptions – (`object`) An object containing key/value pairs representing the default options passed to MooTool's [Cookie]( http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie Object") object.
 
-* ignoreVersionCheck – (`boolean`: defaults to **false**) When attempting to restore a session using [unserialize]("Jump down to it!"), version checking is used to prevent session data generated by older versions of the HashNav object from being recreated due to potential inconsistencies [future updates](#comingsoon "Jump down to the ‘Coming Soon’ section") may introduce into the serialization process. This version check can be skipped (at your own peril) by setting this option to `true`, which is definitely **not** recommended.
+* ignoreVersionCheck – (`boolean`: defaults to **false**) When attempting to restore a session using [unserialize]("Jump down to it!"), version checking is used to prevent session data generated by older versions of the HashNav object from being recreated due to potential inconsistencies [future updates](#comingsoon "Jump down to the ‘Coming Soon' section") may introduce into the serialization process. This version check can be skipped (at your own peril) by setting this option to `true`, which is definitely **not** recommended.
 
 ##Events
 > ###navchange
