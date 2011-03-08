@@ -187,11 +187,11 @@ Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will 
 	* `#!/`home&&param=1
 
 * Contain a legal (no spaces) page name/state designator
-	* #!/ `home`&&param=1
+	* \#!/ `home`&&param=1
 
 * If the hash URI contains any request parameters, they need to occur after the state designator, be delimited by `&` if more than one request parameter is passed, and separated from the state designator by a `&&` (double ampersand)
-	* #!/home`&&param=1`
-	* #!/home`&&param=1``&``param2=2`
+	* \#!/home`&&param=1`
+	* \#!/home`&&param=1``&``param2=2`
 	* **non-existent** in #!/home
 
 Basically: http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=something`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse=too`
