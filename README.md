@@ -87,7 +87,7 @@ Class: HashNav
 
 * queryMakeFalse - (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default (`false`). When queryMakeFalse is set to `true`, however, a blank parameter will be become a literal false (`param:false`). See [How Hashes Are Parsed](#kwyd "Jump down to ‘How Hashes Are Parsed'") for more information.
 
-* externalConstants - (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods') DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix ("NAVOBJSERDATA") used when the [serialize](#serialize "Jump down to it!") method is called.
+* externalConstants - (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods') DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix used when the [serialize](#serialize "Jump down to it!") method is called.
 
 * cookieOptions - (`object`) An object containing key/value pairs representing the default options passed to MooTool's [Cookie]( http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie Object") object.
 
@@ -103,7 +103,7 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 ##Public Method Index
 
-##DOM Method Index<pre id="dlm"></pre>
+##DOM Method Index<a name="dlm"></a>
 
 ###Element Method: observe
 Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#ro "Jump up to it!") the current object's ID/Class/Name/TagName as the `name` argument.
@@ -132,7 +132,7 @@ Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said
 	
 
 ##Additional Features
-###How Hashes Are Parsed<pre id="kwyd"></pre>
+###How Hashes Are Parsed<a name="kwyd"></a>
 Here's a perfectly fine and "legal" example of a hash URI: `http://fakesite.com/#!/somepage&&someparam=something&somethingelse=too`
 
 First of all, to construct a hash URI that the HashNav object will accept and recognize as "legal", the URI will have to conform to these rules:
@@ -196,7 +196,7 @@ An example of a real `storedHash` object in action:
 
 (Note that if `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of `''`)
 
-###Relative Hashes<pre id="rh"></pre>
+###Relative Hashes<a name="rh"></a>
 Assuming you've read [How Hashes Are Parsed](#kwyd "Jump up to it!") above, relative hashes are basically fully realized hash URIs that are missing a page or "state" designator. For example:
 
 	#!/home&&param=1  //I'm an absolute hash!
@@ -234,14 +234,14 @@ This carries with it some heavy implications!
 
 As you can see, relative hashes are certainly powerful, and definitely have their shining moments, but are dangerous when used willy-nilly. Watch out!
 
-###History Tracking<pre id="history"></pre>
+###History Tracking<a name="history"></a>
 When `trackHistory` is set to `true`, the history object and its various methods become available to you.
 
 What history tracking actually does is takes the current hash data object (via `getStoredHashData()`) and pushes it onto a "history" array. This means accessing history data is the same as accessing the currently stored hash data, except for past hash states. Using the history methods or navigateTo(), one can restore a previous state in the web application's history. However, be aware that when a hash change occures that the parser refuses to acknowledge, it will **not** be logged internally as history (but it will be logged in the browser).
 
-Do <pre id="vci">note</pre> that History Tracking enables some of the more powerful paramter filtering functionality of the `registerObserver()` and `observe()` methods to work. Disabling it will cripple both methods' trigger parameter filtering capabilities.
+Do <a name="vci"></a>note that History Tracking enables some of the more powerful paramter filtering functionality of the `registerObserver()` and `observe()` methods to work. Disabling it will cripple both methods' trigger parameter filtering capabilities.
 
-###Usage Modes<pre id="um"></pre>
+###Usage Modes<a name="um"></a>
 At its most conservative, the HashNav class only requires a small subset of the MooTools Core library to function properly. In case you do not feel like scrolling up, that subset is as follows:
 
 > * Conservative
@@ -267,7 +267,7 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * Use the [triggerEvent()](#te "Jump up to it!") method whenever you register a new observer (or after you're finished regstering *all* your observers or initializing a page -- much more efficient, check the examples).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use `triggerEvent()` after registering an observer or two! Ooh!
 
-##Coming Soon<pre id="comingsoon"></pre>
+##Coming Soon<a name="comingsoon"></a>
 * Paradigm shift in favor of complex URI parsing using some form of JSON over MooTools's QueryString library.
 * The privatization of both the HashNav object's `state` and (possibly) `storedHash` members (can still be interrogated using the available accessors).
 * The ability to both serialize and unserialize the observer stack (and all the functions and their relationships to various DOM elements).
@@ -275,8 +275,8 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 
 Check the *changelog* for more information on releases!
 
-<pre id="ot"></pre>
-<pre id="te"></pre>
-<pre id="serialize"></pre>
-<pre id="ws"></pre>
-<pre id="ro"></pre>
+<a name="ot"></a>
+<a name="te"></a>
+<a name="serialize"></a>
+<a name="ws"></a>
+<a name="ro"></a>
