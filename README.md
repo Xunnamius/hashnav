@@ -241,7 +241,7 @@ What history tracking actually does is takes the current hash data object (via `
 
 Do <a name="vci"></a>note that History Tracking enables some of the more powerful paramter filtering functionality of the `registerObserver()` and `observe()` methods to work. Disabling it will cripple both methods' trigger parameter filtering capabilities.
 
-###Usage Modes<a name="um"></a>
+###Usage <a name="um"></a>Modes###
 At its most conservative, the HashNav class only requires a small subset of the MooTools Core library to function properly. In case you do not feel like scrolling up, that subset is as follows:
 
 > * Conservative
