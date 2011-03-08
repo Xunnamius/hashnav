@@ -184,12 +184,14 @@ Let's start off with a perfectly fine and "legal" example of a hash URI: http://
 Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will recognize as legal, the URI will have to conform to these rules:
 
 * Begin with your `prefix` (`!/` by default)
-	* `#!/` home&&param=1
+	* `#!/`home&&param=1
+
 * Contain a legal (no spaces) page name/state designator
-	* #!/ `home` &&param=1
+	* #!/ `home`&&param=1
+
 * If the hash URI contains any request parameters, they need to occur after the state designator, be delimited by `&` if more than one request parameter is passed, and separated from the state designator by a `&&` (double ampersand)
-	* #!/home `&&param=1`
-	* #!/home `&&param=1` `&` `param2=2`
+	* #!/home`&&param=1`
+	* #!/home`&&param=1``&``param2=2`
 	* **non-existent** in #!/home
 
 Basically: http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=something`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse=too`
