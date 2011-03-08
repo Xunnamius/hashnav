@@ -103,7 +103,7 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 ##Public Method Index
 
-##DOM Method Index<a name="dlm"></a>
+##DOM <a name="dlm"></a>Method Index
 
 ###Element Method: observe
 Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#ro "Jump up to it!") the current object's ID/Class/Name/TagName as the `name` argument.
@@ -132,7 +132,7 @@ Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said
 	
 
 ##Additional Features
-###How Hashes Are Parsed<a name="kwyd"></a>
+###How Hashes <a name="kwyd"></a>Are Parsed
 Here's a perfectly fine and "legal" example of a hash URI: `http://fakesite.com/#!/somepage&&someparam=something&somethingelse=too`
 
 First of all, to construct a hash URI that the HashNav object will accept and recognize as "legal", the URI will have to conform to these rules:
@@ -196,7 +196,7 @@ An example of a real `storedHash` object in action:
 
 (Note that if `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of `''`)
 
-###Relative Hashes<a name="rh"></a>
+###Relative <a name="rh"></a>Hashes
 Assuming you've read [How Hashes Are Parsed](#kwyd "Jump up to it!") above, relative hashes are basically fully realized hash URIs that are missing a page or "state" designator. For example:
 
 	#!/home&&param=1  //I'm an absolute hash!
@@ -234,7 +234,7 @@ This carries with it some heavy implications!
 
 As you can see, relative hashes are certainly powerful, and definitely have their shining moments, but are dangerous when used willy-nilly. Watch out!
 
-###History Tracking<a name="history"></a>
+###History <a name="history"></a>Tracking
 When `trackHistory` is set to `true`, the history object and its various methods become available to you.
 
 What history tracking actually does is takes the current hash data object (via `getStoredHashData()`) and pushes it onto a "history" array. This means accessing history data is the same as accessing the currently stored hash data, except for past hash states. Using the history methods or navigateTo(), one can restore a previous state in the web application's history. However, be aware that when a hash change occures that the parser refuses to acknowledge, it will **not** be logged internally as history (but it will be logged in the browser).
@@ -267,7 +267,7 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * Use the [triggerEvent()](#te "Jump up to it!") method whenever you register a new observer (or after you're finished regstering *all* your observers or initializing a page -- much more efficient, check the examples).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use `triggerEvent()` after registering an observer or two! Ooh!
 
-##Coming Soon<a name="comingsoon"></a>
+##Coming <a name="comingsoon"></a>Soon
 * Paradigm shift in favor of complex URI parsing using some form of JSON over MooTools's QueryString library.
 * The privatization of both the HashNav object's `state` and (possibly) `storedHash` members (can still be interrogated using the available accessors).
 * The ability to both serialize and unserialize the observer stack (and all the functions and their relationships to various DOM elements).
