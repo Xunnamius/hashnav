@@ -75,35 +75,35 @@ Class: HashNav
 ##Options
 * interval - (`integer`: defaults to **200**) This value determines how long the pause (in miliseconds) between function calls for the polling method will be. Ignored when native `hashchange` functionality is present.
 
-* prefix – (`string`: defaults to **"!/"**) Determines the string that will be looked for after the pound/hash sign (#) in URIs. If the prefix is **not** found, the HashNav object will refuse to recognize the hash change and ignore it, as will *most* observers (see [observer triggers](#ot "Jump to it!") below).
+* prefix - (`string`: defaults to **"!/"**) Determines the string that will be looked for after the pound/hash sign (#) in URIs. If the prefix is **not** found, the HashNav object will refuse to recognize the hash change and ignore it, as will *most* observers (see [observer triggers](#ot "Jump to it!") below).
 
-* defaultHome – (`string`: defaults to **"home"**) Your website's "meta-homepage." When visitors navigate to your page using a [Relative Hash](#rh "Jump down to ‘Relative Hashes'"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hash](#rh "Jump down to ‘Relative Hashes'") for more information on this integral setting.
+* defaultHome - (`string`: defaults to **"home"**) Your website's "meta-homepage." When visitors navigate to your page using a [Relative Hash](#rh "Jump down to ‘Relative Hashes'"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hash](#rh "Jump down to ‘Relative Hashes'") for more information on this integral setting.
 
-* trackHistory – (`boolean`: defaults to **true**) Enables [history tracking](#history "Jump down to the ‘History' section") and exposes HashNav's native `history.*` methods if set to `true`. Do not touch this unless you're perfectly sure you recognize the [various compounding implications](#vci "Dear God, don't touch that switch man!").
+* trackHistory - (`boolean`: defaults to **true**) Enables [history tracking](#history "Jump down to the ‘History' section") and exposes HashNav's native `history.*` methods if set to `true`. Do not touch this unless you're perfectly sure you recognize the [various compounding implications](#vci "Dear God, don't touch that switch man!").
 
 * exposeObserverMethods - (`boolean`: defaults to **true**) Exposes the `observe` and `unobserve` methods to ` Element.Properties` if set to `true`, allowing [observe](#dlm "Jump down to ‘DOM Method Index'") to be called from any DOM element as opposed to tying the observer to an element (a somewhat arduous journey) using `registerObserver`.
 
-* cleanQueryString – (`boolean`: defaults to **false**) A **very** dangerous setting that will strip any nonconforming parameter entries and anything else MooTools's [String.cleanQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:cleanQueryString "MooTools More Documentation: cleanQueryString") doesn't like if set to `true`. If set to `false`, a version of [String.parseQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:parseQueryString "MooTools More Documentation: String:parseQueryString") is used instead (default). It is recommended to leave this off (`false`) unless you [know what you're doing](#kwyd "Jump down to ‘How Hashes Are Parsed'").
+* cleanQueryString - (`boolean`: defaults to **false**) A **very** dangerous setting that will strip any nonconforming parameter entries and anything else MooTools's [String.cleanQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:cleanQueryString "MooTools More Documentation: cleanQueryString") doesn't like if set to `true`. If set to `false`, a version of [String.parseQueryString]( http://mootools.net/docs/more/Types/String.QueryString#String:parseQueryString "MooTools More Documentation: String:parseQueryString") is used instead (default). It is recommended to leave this off (`false`) unless you [know what you're doing](#kwyd "Jump down to ‘How Hashes Are Parsed'").
 
-* queryMakeFalse – (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default (`false`). When queryMakeFalse is set to `true`, however, a blank parameter will be become a literal false (`param:false`). See [How Hashes Are Parsed](#kwyd "Jump down to ‘How Hashes Are Parsed'") for more information.
+* queryMakeFalse - (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default (`false`). When queryMakeFalse is set to `true`, however, a blank parameter will be become a literal false (`param:false`). See [How Hashes Are Parsed](#kwyd "Jump down to ‘How Hashes Are Parsed'") for more information.
 
-* externalConstants – (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods') DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix ("NAVOBJSERDATA") used when the [serialize](#serialize "Jump down to it!") method is called.
+* externalConstants - (`array`) Determines the key the [observe](#dlm "Jump down to ‘DOM Level Methods') DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix ("NAVOBJSERDATA") used when the [serialize](#serialize "Jump down to it!") method is called.
 
-* cookieOptions – (`object`) An object containing key/value pairs representing the default options passed to MooTool's [Cookie]( http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie Object") object.
+* cookieOptions - (`object`) An object containing key/value pairs representing the default options passed to MooTool's [Cookie]( http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie Object") object.
 
-* ignoreVersionCheck – (`boolean`: defaults to **false**) When attempting to restore a session using [unserialize]("Jump down to it!"), version checking is used to prevent session data generated by older versions of the HashNav object from being recreated due to potential inconsistencies [future updates](#comingsoon "Jump down to the ‘Coming Soon' section") may introduce into the serialization process. This version check can be skipped (at your own peril) by setting this option to `true`, which is definitely **not** recommended.
+* ignoreVersionCheck - (`boolean`: defaults to **false**) When attempting to restore a session using [unserialize]("Jump down to it!"), version checking is used to prevent session data generated by older versions of the HashNav object from being recreated due to potential inconsistencies [future updates](#comingsoon "Jump down to the ‘Coming Soon' section") may introduce into the serialization process. This version check can be skipped (at your own peril) by setting this option to `true`, which is definitely **not** recommended.
 
 ##Events
-> ###navchange
-> Fired on the `window` object when the HashNav object recognizes a hash change.
-> ####Signature
-> 	onNavchange(storedHashData)
-> ####Arguments
-> 1. storedHashData - (`object`) The hash data-object representing the most recent URI hash change.
+###navchange
+Fired on the `window` object when the HashNav object recognizes a hash change.
+####Signature
+	onNavchange(storedHashData)
+####Arguments
+1. storedHashData - (`object`) The hash data-object representing the most recent URI hash change.
 
 ##Public Method Index
 
-##DOM Method Index<span id="dlm"></span>
+##DOM Method Index<pre id="dlm"></pre>
 
 ###Element Method: observe
 Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#ro "Jump up to it!") the current object's ID/Class/Name/TagName as the `name` argument.
@@ -132,7 +132,7 @@ Calls [registerObserver()](#ro "Jump up to it!") on a DOM element, allowing said
 	
 
 ##Additional Features
-###How Hashes Are Parsed<span id="kwyd"></span>
+###How Hashes Are Parsed<pre id="kwyd"></pre>
 Here's a perfectly fine and "legal" example of a hash URI: `http://fakesite.com/#!/somepage&&someparam=something&somethingelse=too`
 
 First of all, to construct a hash URI that the HashNav object will accept and recognize as "legal", the URI will have to conform to these rules:
@@ -196,7 +196,7 @@ An example of a real `storedHash` object in action:
 
 (Note that if `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of `''`)
 
-###Relative Hashes<span id="rh"></span>
+###Relative Hashes<pre id="rh"></pre>
 Assuming you've read [How Hashes Are Parsed](#kwyd "Jump up to it!") above, relative hashes are basically fully realized hash URIs that are missing a page or "state" designator. For example:
 
 	#!/home&&param=1  //I'm an absolute hash!
@@ -234,14 +234,14 @@ This carries with it some heavy implications!
 
 As you can see, relative hashes are certainly powerful, and definitely have their shining moments, but are dangerous when used willy-nilly. Watch out!
 
-###History Tracking<span id="history"></span>
+###History Tracking<pre id="history"></pre>
 When `trackHistory` is set to `true`, the history object and its various methods become available to you.
 
 What history tracking actually does is takes the current hash data object (via `getStoredHashData()`) and pushes it onto a "history" array. This means accessing history data is the same as accessing the currently stored hash data, except for past hash states. Using the history methods or navigateTo(), one can restore a previous state in the web application's history. However, be aware that when a hash change occures that the parser refuses to acknowledge, it will **not** be logged internally as history (but it will be logged in the browser).
 
-Do <span id="vci">note</span> that History Tracking enables some of the more powerful paramter filtering functionality of the `registerObserver()` and `observe()` methods to work. Disabling it will cripple both methods' trigger parameter filtering capabilities.
+Do <pre id="vci">note</pre> that History Tracking enables some of the more powerful paramter filtering functionality of the `registerObserver()` and `observe()` methods to work. Disabling it will cripple both methods' trigger parameter filtering capabilities.
 
-###Usage Modes<span id="um"></span>
+###Usage Modes<pre id="um"></pre>
 At its most conservative, the HashNav class only requires a small subset of the MooTools Core library to function properly. In case you do not feel like scrolling up, that subset is as follows:
 
 > * Conservative
@@ -267,7 +267,7 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * Use the [triggerEvent()](#te "Jump up to it!") method whenever you register a new observer (or after you're finished regstering *all* your observers or initializing a page -- much more efficient, check the examples).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use `triggerEvent()` after registering an observer or two! Ooh!
 
-##Coming Soon<span id="comingsoon"></span>
+##Coming Soon<pre id="comingsoon"></pre>
 * Paradigm shift in favor of complex URI parsing using some form of JSON over MooTools's QueryString library.
 * The privatization of both the HashNav object's `state` and (possibly) `storedHash` members (can still be interrogated using the available accessors).
 * The ability to both serialize and unserialize the observer stack (and all the functions and their relationships to various DOM elements).
@@ -275,8 +275,8 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 
 Check the *changelog* for more information on releases!
 
-<span id="ot"></span>
-<span id="te"></span>
-<span id="serialize"></span>
-<span id="ws"></span>
-<span id="ro"></span>
+<pre id="ot"></pre>
+<pre id="te"></pre>
+<pre id="serialize"></pre>
+<pre id="ws"></pre>
+<pre id="ro"></pre>
