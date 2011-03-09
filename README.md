@@ -269,7 +269,7 @@ Congratulations, you're now a trigger master!
 	// The observer will be alerted when the hash URI looks something like   #!/page3   with any number of params!
 
 <br />
-###Element Method: <a name="PMI-registeredObserver"></a>registeredObserver
+###Public Method: <a name="PMI-registeredObserver"></a>registeredObserver
 Checks the internal observer stack for the supplied name.
 
 ####Syntax
