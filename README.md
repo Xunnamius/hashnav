@@ -103,7 +103,6 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 <a name="PMI-history"></a>
 ###Public Method: <a name="PMI-history.get"></a>history.get
-<hr />
 Grabs a storedHash data object from history and returns it.
 
 ####Syntax
@@ -121,6 +120,7 @@ which would return the whole history array.
 ####See Also
 * [History Tracking](#HistoryTracking "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-history.clear"></a>history.clear
 Clears the internal history array and resets the pointer to 0.
 
@@ -130,24 +130,28 @@ Clears the internal history array and resets the pointer to 0.
 ####See Also
 * [History Tracking](#HistoryTracking "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-startPolling"></a>startPolling
 Starts the internal polling routine if it is not already started. Note that this method only needs to be called if internal polling has been stopped using [stopPolling()](#PMI-stopPolling "Jump to it!").
 
 ####Syntax
 	hashNav.startPolling();
 
+<br />
 ###Public Method: <a name="PMI-stopPolling"></a>stopPolling
 Stops the internal polling routine if it is not already stopped. Call the [startPolling()](#PMI-startPolling "Jump to it!") method to restart the polling routine.
 
 ####Syntax
 	hashNav.stopPolling();
 
+<br />
 ###Public Method: <a name="PMI-poll"></a>poll
 Used by the HashNav object to interrogate the `window.location` object and assess the current state of the hash URI. Does not need to be called manually.
 
 ####Syntax
 	hashNav.poll();
 
+<br />
 ###Public Method: <a name="PMI-registerObserver"></a>registerObserver
 Registers an observer with the HashNav object and sets up a virtual "middle-man," if you will, to mediate between your observing functions and the `window` object in a cross-browser fashion.
 
@@ -254,6 +258,7 @@ Congratulations, you're now a trigger master!
 	
 	// The observer will be alerted when the hash URI looks something like   #!/page3   with any number of params!
 
+<br />
 ###Public Method: <a name="PMI-unregisterObserver"></a>unregisterObserver
 Removes the specified observer from HashNav's internal observer index, and removes all associated observer functionality.
 
@@ -269,6 +274,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 ####Notes
 * **WARNING:** **DO NOT** use [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents") to remove observer event handlers! That's what this method is for.
 
+<br />
 ###Public Method: <a name="PMI-unregisterObservers"></a>unregisterObservers
 [Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers.
 
@@ -285,6 +291,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 ####See Also
 * [unregisterObserver()](#PMI-unregisterObserver "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-navigateTo"></a>navigateTo
 Navigates the browser to the specified URI or history entry.
 
@@ -340,6 +347,7 @@ Navigates the browser to the specified URI or history entry.
 ####See Also
 * [history.get()](#PMI-history.get "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-getStoredHash"></a>getStoredHash
 Returns an object containing key/value pairs representing the currently stored hash URI's query string data.
 
@@ -357,6 +365,7 @@ Returns an object containing key/value pairs representing the currently stored h
 ####See Also
 * [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-getStoredHashData"></a>getStoredHashData
 Returns an object containing pertinent data on the currently [recognized](#HowHashesAreParsed "Jump to it!") hash URI.
 
@@ -395,6 +404,7 @@ storedHash:
 ####See Also
 * [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!")
 
+<br />
 ###Public Method: <a name="PMI-get"></a>get
 Grabs the value of the specified query parameter.
 
@@ -408,6 +418,7 @@ Grabs the value of the specified query parameter.
 * (`mixed`) Value of the specified query parameter or `null` if the query parameter does not exist.
 * (`object`) When more than one parameter is specified, an object is returned instead, housing the results in convenient key/value pairs.
 
+<br />
 ###Public Method: <a name="PMI-set"></a>set
 Sets the value of the specified query parameter (merges current parameter object (a la [getStoredHash()](#PMI-getStoredHash "Jump to it!") with supplied input using [Object.merge()](http://mootools.net/docs/core/Types/Object#Object:Object-merge "MooTools Core Documentation: Object.merge")).
 
@@ -426,6 +437,7 @@ Sets the value of the specified query parameter (merges current parameter object
 ####Notes
 * Using `set` changes the hash URI and as such will trigger a `navchange` event (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
 
+<br />
 ###Public Method: <a name="PMI-unset"></a>unset
 Unsets the specified query parameter.
 
@@ -438,6 +450,7 @@ Unsets the specified query parameter.
 ####Notes
 * Using `unset` changes the hash URI and as such will trigger a `navchange` event  (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
 
+<br />
 ###Public Method: <a name="PMI-has"></a>has
 Checks if a specific parameter or parameters are present in the hash URI query string.
 
@@ -451,6 +464,7 @@ Checks if a specific parameter or parameters are present in the hash URI query s
 * (`boolean`) `true` if one parameter is passed in and the result is true.
 * (`array`) If more than one parameter is specified, an array of present parameters is returned.
 
+<br />
 ###Public Method: <a name="PMI-serialize"></a>serialize
 Capture the current hash URI and correlated object session data for storage and later analyzation or unserialization.
 
@@ -464,6 +478,7 @@ Capture the current hash URI and correlated object session data for storage and 
 * [Serialize()](#PMI-serialize "Jump to it!") stores four cookies on your visitor's local machine: '\_history', '\_options', '\_state', and '\_version' (all prefixed by `externalConstants[1]`).
 * Note that Observers and their relationships to the `window` and various other DOM elements are not [yet](#ComingSoon "Jump to it!") included in the serialization process.
 
+<br />
 ###Public Method: <a name="PMI-unserialize"></a>unserialize
 Rebuild (unserialize) serialized HashNav session data.
 
@@ -482,6 +497,7 @@ Rebuild (unserialize) serialized HashNav session data.
 ####Notes
 * Attempting to share serialized data between different (even slightly different) versions of HashNav class instaces will result in this function returning `false`.
 
+<br />
 ###Public Method: <a name="PMI-deserialize"></a>deserialize
 Destroys all the cookies that currently hold serialized data.
 
@@ -495,6 +511,7 @@ Destroys all the cookies that currently hold serialized data.
 ####Notes
 * Cookies can only be deleted in MooTools with the original options used to create the cookies. If the `cookieOptions` object has been changed since the cookies were last created, the object may fail to delete them.
 
+<br />
 ###Public Method: <a name="PMI-triggerEvent"></a>triggerEvent
 Triggers a `navchange` event on the window, which triggers any active observers. **Do not use `window.fireEvent('navchange')` directly or your observers may die.**
 
@@ -521,9 +538,11 @@ you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if
 	
 	// Yay it worked! Try navigating to your page (from an external site or new tab) with the above line commented out, and see what happens.
 
+<br />
 ###Public Property (utility): <a name="PMI-scrl"></a>scrl
 One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instace of the `Fx.Scroll` Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's scrl method).
 
+<br />
 ###Public Method (utility): <a name="PMI-scrlTo"></a>scrlTo
 Calls [toElement()] on the [Fx.Scroll] instance housed within the [scrl](#PMI-scrl "Jump to it!") utility property.
 
@@ -563,6 +582,7 @@ processing.
 	
 	// Will trigger when hash URI = #!/home2&&object=1&object2=true&magic=happening
 
+<br />
 ###Element Method: <a name="DMI-unobserve"></a>unobserve
 Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observing DOM element. Note that this method passes [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") the current object's ID/Class/Name/TagName as the `name` argument.
 
@@ -585,6 +605,7 @@ Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observ
 	// And finally, remove the observer, which will stop the element from observing hash URI changes!
 	$('myFirstElement').unobserve(); // Easy right?
 
+<br />
 ###Element Method: <a name="DMI-observing"></a>observing
 Returns the DOM element's observer status.
 
