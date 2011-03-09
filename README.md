@@ -177,6 +177,7 @@ incorrect processing.
 ####Returns
 * (`boolean`) `true` if the registration completed successfully, otherwise `false`.
 
+<br />
 ####Observer <a name="ObserverTriggers"></a>Triggers
 An observer's trigger object is what is used to dictate if the observer should care about a hash URI change or not. Here's an example of a trigger obect:
 
@@ -254,8 +255,8 @@ following forms:
 	* ex. `params:{'*':'hello world'}`
 
 #####Notes
-* Due to the way objects work, only one `wildcard` can appear per trigger.
-* `wildcards` do **not** have to appear alone (ex. `params:{ '*':'~', someparam1:1, somepara2:2 }` is still legal... but useless). Any extra wild cards will be ignored.
+* Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would render the trigger functionality undefined.
+* `wildcards` do **not** have to appear alone (ex. `params:{ '*':'~', someparam1:1, somepara2:2 }` is still legal... but useless).
 
 Congratulations, you're now a trigger master!
 
