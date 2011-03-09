@@ -54,9 +54,11 @@ Class: HashNav
 * Modular
 
 ##Requires
+* MooTools 1.3
+
 * [Conservative](#UsageModes "Jump to it!")
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
-	* **More**: `More`, `String.QueryString`
+	* **More**: `More`, `String.QueryString`, `Object.Extras`
 * \+ [Window Scrolling](#UsageModes "Jump to it!")
 	* **Core**: `Fx`
 	* **More**: `Fx.Scroll`
@@ -792,7 +794,7 @@ At its most conservative, the HashNav class only requires a small subset of the 
 
 > * Conservative
 > 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` *(dependency of `Element` & `DOMReady`)*, `Element` & `Element.Event`, `DOMReady`
-> 	* **More**: `More`, `String.QueryString`
+> 	* **More**: `More`, `String.QueryString`, `Object.Extras`
 > * \+ Window Scrolling
 > 	* **Core**: `Fx`
 > 	* **More**: `Fx.Scroll`
