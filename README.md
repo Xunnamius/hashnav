@@ -236,7 +236,7 @@ Those string are as follows:
 present except those listed. Defaults to `false`.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { exclusive: true } }`
 
-(more qualifiers will be added as they become necessary for HashNav users)
+(more qualifiers will be added as they become necessary)
 
 There are also these cool little things called `wildcards`, represented, of course, by the asterisk `*`, and can appear **as a parameter within the `params` object.** When present within the `params` object, the `wildcard` may take the 
 
@@ -250,8 +250,12 @@ following forms:
 	* ex. `params:{'*':true}`
 * `*:false`, which is interpreted as "any empty parameter is allowed" (aka, there must be at least one empty parameter present in the hash URI)
 	* ex. `params:{'*':false}`
+* `*:string`, which is interpreted as "all parameters present must equal this string" (aka, all present parameters must equal this string and there must be at least one parameter present in the hash URI)
+	* ex. `params:{'*':'hello world'}`
 
-Note that only one `wildcard` is allowed per trigger, but `wildcards` do **not** have to appear alone (ex. `params:{ '*':'~', someparam1:1, somepara2:2 }` is still legal). Any extra wild cards will be ignored.
+#####Notes
+* Due to the way objects work, only one `wildcard` can appear per trigger.
+* `wildcards` do **not** have to appear alone (ex. `params:{ '*':'~', someparam1:1, somepara2:2 }` is still legal... but useless). Any extra wild cards will be ignored.
 
 Congratulations, you're now a trigger master!
 
@@ -263,6 +267,29 @@ Congratulations, you're now a trigger master!
 	hashNav.registerObserver('observer', { page: 'page3', params: {} }, function(e){ if(e[0]) console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
 	
 	// The observer will be alerted when the hash URI looks something like   #!/page3   with any number of params!
+
+<br />
+###Element Method: <a name="PMI-registeredObserver"></a>registeredObserver
+Checks the internal observer stack for the supplied name.
+
+####Syntax
+	myElement.registeredObserver(name);
+
+####Returns
+* (`boolean`) `true` if the observer name was found or `false` if it was not.
+
+####Examples
+	// Create a observer
+	hashNav.registerObserver('myObserver', ... );
+	
+	// This...
+	hashNav.registeredObserver('myObserver'); // Will return true
+	
+	// And finally, unregister the observer...
+	hashNav.unregisterObserver('myObserver'); // Easy right?
+	
+	// Aaaand....
+	hashNav.registeredObserver('myObserver'); // Will return false!!
 
 <br />
 ###Public Method: <a name="PMI-unregisterObserver"></a>unregisterObserver
@@ -627,20 +654,20 @@ Returns the DOM element's observer status.
 
 ####Examples
 	// Create a new Element and insert it into the document
-	var myElement = new Element('div', { id: 'myFirstElement' });
+	var myElement = new Element('div', { id: 'myFirstElement' }); // By the way, the observer's name (as acknowledged by the HashNav object) will be: myFirstElement
 	myElement.inject(document.body);
 	
 	// Tell the element to observe the hash URI
 	$('myFirstElement').observe( ... );
 	
-	// Will trigger when hash URI = #!/home2&&object=1&object2=true&magic=happening
-	
+	// This...
 	$('myFirstElement').observing(); // Will return true
 	
 	// And finally, remove the observer, which will stop the element from observing hash URI changes!
 	$('myFirstElement').unobserve(); // Easy right?
 	
-	$('myFirstElement').observing(); // Will return false
+	// This...
+	$('myFirstElement').observing(); // Will return false!!
 	
 <br />
 ##Additional Features
