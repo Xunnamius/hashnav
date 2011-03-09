@@ -148,7 +148,7 @@ Used by the HashNav object to interrogate the `window.location` object and asses
 	hashNav.poll();
 
 ###Public Method: <a name="PMI-registerObserver"></a>registerObserver
-Registers an observer with the HashNav object and set up a middle man to mediate between your observing functions and the `window` object in a cross-browser fashion.
+Registers an observer with the HashNav object and sets up a virtual "middle-man," if you will, to mediate between your observing functions and the `window` object in a cross-browser fashion.
 
 ####Syntax
 	hashNav.registerObserver(name, trigger, fn[, args[, bind[, scrlto]]]);
@@ -156,13 +156,13 @@ Registers an observer with the HashNav object and set up a middle man to mediate
 ####Arguments
 1. name - (`string`) The observer's name. This value will be used to [unregister the observer](#PMI-unregisterObserver "Jump to it!") later. Without it, the observer cannot be [unregistered](#PMI-unregisterObserver "Jump to it!").
 	* Note that observers can in fact have the same name without conflict. This is useful for grouping related observers together under one name. Do note, however, that when [unregisterObserver()](#PMI-unregisterObserver "Jump to 
-it!") is called on a name that is tied to multiple observers, **all** of the observers that share the specified name will be unregistered.
+it!") is called on a name that is tied to multiple observers, **all** of the observers that share the specified name will be [unregistered](#PMI-unregisterObserver "Jump to it!").
 2. trigger - (`object`) This object is as special as it is important. So important, in fact, that it gets its [own section](#ObserverTriggers) below.
 3. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually 
 denoted *e* for *event* -- followed by any custom arguments.
-4. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your argument is an array, wrap it within another array literal to prevent 
+4. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your single argument is an array, wrap it within another array literal to prevent 
 incorrect processing.
-5. bind - (`object`, optional) Object or Element to bind the `this` keyword to within the observer function.
+5. bind - (`object`, optional) Object or element to bind the `this` keyword to within the observer function.
 6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI.
 
 ####Returns
@@ -173,7 +173,7 @@ An observer's trigger object is what is used to dictate if the observer should c
 
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
-An observer registered with the above trigger would call its observing function when the uri looked something like `#!/home2&&object=1&object2=true&magic=happening`.
+An observer registered with the above trigger would call its observing function when the URI looked something like `#!/home2&&object=1&object2=true&magic=happening`.
 
 #####Trigger Syntax
 The Syntax for trigger objects may seem esoteric at first, but it's actually quite easy (maybe even intuitive).
@@ -202,13 +202,13 @@ The `page` key accepts more than just a page/state designator string. You can al
 	* ex. `page:true`
 * The boolean literal `false`, which is interpreted as "match any change to the hash URI"
 	* ex. `page:false`
-	* **WARNING!:** This matches *any* change in the hash URI, even changes that are not recognized as [legal](#HowHashesAreParsed "Jump to it!") by the HashNav object! *Any* change to the hash will trigger this observer!
+	* **WARNING:** This matches *any* change in the hash URI, even changes that are not recognized as [legal](#HowHashesAreParsed "Jump to it!") by the HashNav object! *Any* change to the hash will trigger this observer!
 
 The `params` key is just as special. Each parameter you specify within the `params` object can be fed:
 
 * A blank string `''`, which is interpreted as "if the parameter is present with any value (even an empty or non-existent one)"
 	* ex. `params:{someparam:''}`
-* The tilde mark `~`, which, when found alone, is parsed as a special keyword (much like 'all' in most of HashNav's other methods) and interpreted as "if this parameter is **NOT** present"
+* The tilde mark `'~'`, which, when found alone, is parsed as a special keyword (much like `all` in most of HashNav's other methods) and interpreted as "if this parameter is **NOT** present"
 	* ex. `params:{someparam:'~'}`
 * The boolean literal `true`, which is interpreted as "if the parameter is an orphan"
 	* ex. `params:{someparam:true}`
@@ -272,7 +272,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 	hashNav.unregisterObservers(name1[, name2[, name3[, ...]]]);
 
 ####Arguments
-1. name - (`string`) The name of the observer or group of observers to unregister. If the `all` keyword is passed in, *all* observers will be unregistered (rendering any argument following 'all' useless).
+1. name - (`string`) The name of the observer or group of observers to unregister. If the `all` keyword is passed in, *all* observers will be unregistered (rendering any argument following `all` useless).
 
 ####Examples
 	// Unregisters observer1, Xunnamius, Linkin, and Park
@@ -280,6 +280,58 @@ Removes the specified observer from HashNav's internal observer index, and remov
 
 ####See Also
 * [unregisterObserver()](#PMI-unregisterObserver "Jump to it!")
+
+###Public Method: <a name="PMI-navigateTo"></a>navigateTo
+Navigates the browser to the specified URI or history entry.
+
+####Syntax
+	hashNav.navigateTo(location[, forced]);
+	hashNav.navigateTo(page, params[, forced]);
+	hashNav.navigateTo(prefix, page, params[, forced]);
+
+####Arguments
+* First Mode
+	1. location - (`mixed`) The target destination.
+		* If this is a `number` (and `trackHistory` is true), the browser will navigate to the history entry that corresponds with the supplied parameter by passing `location` as an argument to [history.get()](#PMI-history.get "Jump to it!").
+		* If this is an `object` made up of key/value pairs representing the desired hash URI query string/path (similar to what you'd would get if [getStoredHash()](#PMI-getStoredHash "Jump to it!") were called), the browser will navigate to the specified parameters (without changing the page/state designator).
+		* If this is a `string`
+			* and the `string` starts with `#`, the current hash URI will be replaced with `location` (ex. '#!/home&&param=1')
+			* and the `string` starts with `&`, the browser will append `location` to the end of the current query string. (ex. '&param=1')
+			* and none of the above rules are matched, the browser will navigate to your `prefix` initialization option + `location`  (ex. '#!/' + 'home&&param=1')
+	2. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
+
+* Second Mode
+	1. page - (`string`) The page/state designator to navigate to. (ex. 'home')
+	2. params - (`mixed`) The query string/path to apply to the new hash URI. This can either be a literal query string or an object comprized of key/value pairs. (ex. 'hello=world&hello2=2')
+
+* Third Mode
+	1. prefix - (`string`) The hash prefix to navigate to. (ex. '#')
+	2. page - (`string`) The page/state designator to navigate to. (ex. 'home')
+	3. params - (`mixed`) The query string/path to apply to the new hash URI. This can either be a literal query string or an object comprized of key/value pairs.  (ex. 'hello=world&hello2=2')
+
+####Notes
+* The only time you'd need to use `forced` would be if you were navigating to the same unchanging hash URI again and again, and wanted your observers to take note.
+* Just because you can navigate to it doesn't make it a [legal](#HowHashesAreParsed "Jump to it!") hash URI!
+
+####Examples
+	// Current URI = #!/home&&param=1   (pretend that each navigateTo below is mutually exclusive)
+	
+	hashNav.navigateTo('#Illegal'); // Current URI becomes #Illegal
+	hashNav.navigateTo('Legal'); // Current URI becomes #!/Legal
+	hashNav.navigateTo('&&Legal'); // Current URI becomes #!/&&Legal
+	hashNav.navigateTo('&Legal'); // Current URI becomes #!/home&&param=1&Legal
+	hashNav.navigateTo(-1); // Current URL remains the same but no observers are triggered (because nothing has changed!)
+	hashNav.navigateTo(-1, true); // Current URL remains the same and any curious observers are triggered (forced!)
+	hashNav.navigateTo({ param2:2 }); // Current URL becomes #!/&&param2=2
+	hashNav.navigateTo('somepage', { param2:2 }); // Current URL becomes #!/somepage&&param2=2
+	hashNav.navigateTo('#', 'IllegalURI', { param2:2 }); // Current URL becomes #IllegalURI&&param2=2
+	hashNav.navigateTo('#!/', 'home', { param:1 }); // Current URL remains the same but no observers are triggered (because nothing has changed!)
+	hashNav.navigateTo('#!/', 'home', { param:1 }, true); // Current URL remains the same and any curious observers are triggered (forced!)
+	
+	// etc...
+
+####See Also
+* [history.get()](#PMI-history.get "Jump to it!")
 
 ###Public Method: <a name="PMI-getStoredHash"></a>getStoredHash
 Returns an object containing key/value pairs representing the currently stored hash URI's query string data.
@@ -336,6 +388,62 @@ storedHash:
 ####See Also
 * [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!")
 
+###Public Method: <a name="PMI-get"></a>get
+Grabs the value of the specified query parameter.
+
+####Syntax
+	hashNav.get(parameter1[, parameter2[, parameter3]]);
+
+####Arguments
+1. parameter - (`string`) The name of a hash URI query parameter. If `all` is passed in, the results would be the same as calling [getStoredHash()](#PMI-getStoredHash "Jump to it!").
+
+####Returns
+* (`mixed`) Value of the specified query parameter or `null` if the query parameter does not exist.
+* (`object`) When more than one parameter is specified, an object is returned instead, housing the results in convenient key/value pairs.
+
+###Public Method: <a name="PMI-set"></a>set
+Sets the value of the specified query parameter.
+
+####Syntax
+	hashNav.set(parameter, value);
+	hashNav.set(paramobject);
+
+####Arguments
+* First Mode
+	1. parameter - (`string`) The name of a hash URI query parameter.
+	2. value - (`mixed`) The value to assign the parameter.
+
+* Second Mode
+	1. paramobject - (`object`) An object of key/value pairs similar in structure to what is returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!").
+
+####Notes
+* Using `set` changes the hash URI and as such will trigger a `navchange` event.
+
+###Public Method: <a name="PMI-unset"></a>unset
+Unsets the specified query parameter.
+
+####Syntax
+	hashNav.unset(parameter1[, parameter2[, parameter3]]);
+
+####Arguments
+1. parameter - (`string`) The name of a hash URI query parameter. If `all` is passed in, all parameters will be unset.
+
+####Notes
+* Using `unset` changes the hash URI and as such will trigger a `navchange` event.
+
+###Public Method: <a name="PMI-has"></a>has
+Checks if a specific parameter or parameters are present in the hash URI query string.
+
+####Syntax
+	hashNav.has(parameter1[, parameter2[, parameter3]]);
+
+####Arguments
+1. parameter - (`string`) The name of a hash URI query parameter.
+
+####Returns
+* (`boolean`) `true` if one parameter is passed in and the result is true.
+* (`array`) If more than one parameter is specified, an array of present parameters is returned.
+
 ###Public Method: <a name="PMI-triggerEvent"></a>triggerEvent
 Triggers a `navchange` event on the window, which triggers any active observers. **Do not use `window.fireEvent('navchange')` directly or your observers may die.**
 
@@ -374,7 +482,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 1. trigger - (`object`) Trigger object. See [observer trigger](#ot "Jump to it!").
 2. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually 
 denoted *e* for *event* -- followed by any custom arguments (the function is bound to the current DOM object).
-3. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your argument is an array, wrap it within another array literal to prevent incorrect 
+3. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your single argument is an array, wrap it within another array literal to prevent incorrect 
 processing.
 4. scrollToElement - (`mixed`, optional) An ID string/element DOM object that will be scroll to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead.
 
