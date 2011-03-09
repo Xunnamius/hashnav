@@ -540,11 +540,11 @@ you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if
 
 <br />
 ###Public Property (utility): <a name="PMI-scrl"></a>scrl
-One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instace of the `Fx.Scroll` Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's scrl method).
+One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instace of the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's scrl method).
 
 <br />
 ###Public Method (utility): <a name="PMI-scrlTo"></a>scrlTo
-Calls [toElement()] on the [Fx.Scroll] instance housed within the [scrl](#PMI-scrl "Jump to it!") utility property.
+Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toElement "MooTools More Documentation: Fx.Scroll:toElement()") on the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") instance housed within the [scrl](#PMI-scrl "Jump to it!") utility property.
 
 ####Syntax
 	hashNav.scrlTo(elementID);
