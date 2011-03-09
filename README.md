@@ -185,6 +185,7 @@ An observer's trigger object is what is used to dictate if the observer should c
 
 An observer registered with the above trigger would call its observing function when the URI looked something like `#!/home2&&object=1&object2=true&magic=happening`.
 
+<br />
 #####Trigger Syntax
 The Syntax for trigger objects may seem esoteric at first, but it's actually quite easy (maybe even intuitive).
 
@@ -201,6 +202,7 @@ we see that we have:
 
 Pretty simple, 'eh? Just remember that the `page` and `params` keys are *required* to exist within your trigger objects. If they are missing, your observer will crash. Now let's get serious.
 
+<br />
 #####Advanced Trigger Syntax
 Now that we've got a grasp on simple triggers, let's spice things up a little.
 
@@ -227,6 +229,7 @@ The `params` key is just as special. Each parameter you specify within the `para
 
 But we're still not finished!
 
+<br />
 #####Qualifiers and Wildcards
 Trigger objects also have an optional third key called `qualifiers`, which applies special "group logic" to the trigger based on the qualifying strings that are passed in.
 
@@ -254,6 +257,7 @@ following forms:
 * `*:string`, which is interpreted as "all parameters present must equal this string" (aka, all present parameters must equal this string and there must be at least one parameter present in the hash URI)
 	* ex. `params:{'*':'hello world'}`
 
+<br />
 #####Notes
 * Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would render the trigger functionality undefined.
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':'~', someparam1:1, somepara2:2 }` is still legal... but useless).
