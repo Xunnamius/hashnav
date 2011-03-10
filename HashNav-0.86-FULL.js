@@ -1,4 +1,23 @@
-/* Documentation and updates @ http://github.com/Xunnamius/HashNav */
+/*
+---
+description: An AJAX-esque hash navigation class made in JavaScript using MooTools 1.3
+
+license: MIT-style
+
+authors:
+- Xunnamius
+
+requires:
+core/1.3:
+- Class.Extras
+- Element.Event
+more/1.3.0.1:
+- String.QueryString
+
+provides: [HashNav]
+
+Documentation and updates @ http://github.com/Xunnamius/HashNav
+*/
 
 (function() // Private
 {
