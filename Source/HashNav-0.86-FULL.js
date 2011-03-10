@@ -11,12 +11,16 @@ requires:
 core/1.3:
 - Class.Extras
 - Element.Event
+- Fx
+- Cookie
+- JSON
 more/1.3.0.1:
 - String.QueryString
+- Fx.Scroll
 
 provides: [HashNav]
 
-Documentation and updates @ http://github.com/Xunnamius/HashNav
+documentation and updates: http://github.com/Xunnamius/HashNav
 */
 
 (function() // Private
