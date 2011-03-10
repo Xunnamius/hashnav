@@ -630,7 +630,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 1. trigger - (`object`) Trigger object. See [observer trigger](#ObserverTriggers "Jump to it!").
 2. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments (the function is bound to the current DOM object).
 3. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your single argument is an array, wrap it within another array literal to prevent incorrect processing.
-4. scrollToElement - (`mixed`, optional) An ID string/element DOM object that will be scroll to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead.
+4. scrollToElement - (`mixed`, optional) An ID string/DOM object that will be scrolled to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead.
 
 ####Returns
 * (`element`) The DOM element in question.
