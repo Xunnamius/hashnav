@@ -2,10 +2,11 @@
 ---
 description: An AJAX-esque hash navigation class made in JavaScript using MooTools 1.3 (compressed version)
 
-license: MIT-style
+license:
+- MIT-style license
 
 authors:
-- Xunnamius
+- Tre (Xunnamius) Giles (http://darkgray.org/)
 
 requires:
 core/1.3:
@@ -18,7 +19,9 @@ more/1.3.0.1:
 - String.QueryString
 - Fx.Scroll
 
-provides: [HashNav]
+provides:
+- HashNav
+...
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
