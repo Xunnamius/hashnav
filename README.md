@@ -16,6 +16,8 @@ Some of the nifty (and quite-frankly awesome) tools provided to developers inclu
 
 Do note that this bad boy is **STILL IN BETA** and as such probably contains *a myriad of bugs and glitches that I have yet to find* whilst using it. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
 
+Feel free to file an issue if you see any errors/typos/broken links in the README file as well. Thanks!
+
 <br />
 Crash Course
 ------------
@@ -508,7 +510,7 @@ Checks if a specific parameter or parameters are present in the hash URI query s
 
 ####Returns
 * (`boolean`) If only one parameter was passed in, the result will be `true`/`false`.
-* (`array`) If more than one parameter is specified, an array of present parameters is returned.
+* (`array-like object`) If more than one parameter is specified, an array-like object of the arguments you supplied that are present as parameters is returned.
 
 <br />
 ###Public Method: <a name="PMI-isLegalHash"></a>isLegalHash
@@ -550,7 +552,7 @@ Rebuild (unserialize) serialized HashNav session data.
 
 ####Arguments
 1. restoreParadigm - (`string`, optional: defaults to **true**) If `true`, the unserialized data will replace the current data session.
-2. fireEventOnNav - (`boolean`, optional: defaults to **true**) If `restoreParadigm` is `true`, this boolean will be passed to [navigateTo](#navigateTo "Jump to it!") in place of the `forced` parameter.
+2. fireEventOnNav - (`boolean`, optional: defaults to **true**) If `restoreParadigm` is `true`, this boolean will be passed to [navigateTo](#PMI-navigateTo "Jump to it!") in place of the `forced` parameter.
 3. cookieName - (`string`, optional: defaults to `externalConstants[1]`) The prefix attached to the data cookies.
 
 ####Returns
@@ -761,7 +763,9 @@ An example of a real `storedHash` object in action:
 ]
 </code></pre>
 
-(Note that if `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of an empty string)
+####Notes
+* If `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of an empty string
+* When a URI is recognized as *illegal* and a [trigger](#ObserverTriggers "Jump to it!") is set to `{ page: false }`, parameters within that trigger are ignored.
 
 ###Relative <a name="RelativeHashes"></a>Hashes
 Assuming you've read [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!") above, relative hashes are basically fully realized hash URIs that are missing their page/state designator. For example:
