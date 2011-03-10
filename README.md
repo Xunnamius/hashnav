@@ -580,9 +580,7 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 	hashNav.triggerEvent();
 
 ####Notes
-* Use the [triggerEvent()](#PMI-TriggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more 
-
-efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
+* Use the [triggerEvent()](#PMI-TriggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
 
 * This stipulation also applies to [DOM element observers](#DMI-observe "Jump to it!") as well.
 
@@ -771,11 +769,11 @@ Wait, `home` is missing! How can that be? Well, the HashNav object is smart enou
 
 	#!/&&param=1	  //I'm a relative hash! Ooh!
 
-becomes
+becomes:
 
 	#!/contact&&param=1
 
-when the current page is "contact", and becomes
+when the current page is "contact", and becomes:
 
 	#!/about&&param=1
 
@@ -785,7 +783,7 @@ By now you've got to be asking yourself "what if my user navigates to my website
 
 	#!/&&param=1	  //I'm a relative hash! Ooh!
 
-becomes
+becomes:
 
 	#!/home&&param=1
 
