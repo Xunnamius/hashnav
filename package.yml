@@ -1,7 +1,7 @@
 name: HashNav
 author: Xunnamius
 category: Utilities
+current: 0.8
 tags: [hash, navigation, ajax, watcher]
 docs: http://github.com/Xunnamius/HashNav/blob/master/README.md
 demo: http://xunnamius.github.com/HashNav/
-current: 0.8
