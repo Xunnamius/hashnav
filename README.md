@@ -308,7 +308,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 	hashNav.unregisterObserver(name);
 
 ####Arguments
-1. name - (`string`) The name of the observer or group of observers to unregister. If the `all` keyword is passed in, *all* observers will be unregistered.
+1. name - (`string`) The name of the observer or group of observers to unregister.
 
 ####Returns
 * (`boolean`) `true` if the observer was successfully unregistered, otherwise `false` (if the observer name doesn't exist or an internal issue was encountered).
@@ -318,7 +318,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 
 <br />
 ###Public Method: <a name="PMI-unregisterObservers"></a>unregisterObservers
-[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers.
+[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers using the `all` keyword.
 
 ####Syntax
 	hashNav.unregisterObservers(name1[, name2[, name3[, ...]]]);
