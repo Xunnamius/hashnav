@@ -582,7 +582,7 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 	hashNav.triggerEvent();
 
 ####Notes
-* Use the [triggerEvent()](#PMI-TriggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
+* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-triggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
 
 * This stipulation also applies to [DOM element observers](#DMI-observe "Jump to it!") as well.
 
@@ -829,8 +829,8 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * The end values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings (until HashNav [moves away from the QueryString library](#ComingSoon "Jump to it!")).
 * Query params do not overwrite one another! In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
 * Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method; however, events may still trigger when these invalid pages are navigated to in the browser. **Avoid the use of whitespace at all costs!**
-* Use the [triggerEvent()](#PMI-TriggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* your observers or initializing a page -- much more efficient, here's an [example](#PMI-TriggerEvent "Jump to it!")).
-	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-TriggerEvent "Jump to it!") after registering an observer or two! Ooh!
+* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* your observers or initializing a page -- much more efficient, here's an [example](#PMI-triggerEvent "Jump to it!")).
+	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-triggerEvent "Jump to it!") after registering an observer or two! Ooh!
 
 ##Coming <a name="ComingSoon"></a>Soon
 * Paradigm shift in favor of complex URI parsing using some form of [JSON](http://mootools.net/docs/core/Utilities/JSON "MooTools Core Documentation: JSON") over [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString").
