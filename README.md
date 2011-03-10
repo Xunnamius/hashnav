@@ -14,7 +14,7 @@ Some of the nifty (and quite-frankly awesome) tools provided to developers inclu
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
 
-Do note that this bad boy is **STILL IN BETA** and as such probably contains *a myriad of bugs and glitches that I have yet to find* whilst using it. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
+Do note that this bad boy is **STILL IN BETA** and as such probably contains a few bugs that I have yet to find whilst testing the hell out of it these past few days. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
 
 Feel free to file an issue if you see any errors/typos/broken links in the README file as well. Thanks!
 
