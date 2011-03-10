@@ -28,7 +28,7 @@ Class: HashNav
 ##Arguments
 1. Options (`object`, optional) See below.
 
-##Options
+##Options<a name="options"></a>
 * interval - (`integer`: defaults to **200**) This value determines how long the pause (in milliseconds) between function calls for the polling method will be. Ignored when the native `onhashchange` event is present.
 
 * prefix - (`string`: defaults to **"!/"**) Determines the string that will be looked for after the pound/hash sign (#) in URIs. If the prefix is **not** found, the HashNav object will refuse to recognize the hash change as [legal](#HowHashesAreParsed "Jump to it!") and will ignore it, as will *most* observers (see [observer triggers](#ObserverTriggers "Jump to it!") below).
