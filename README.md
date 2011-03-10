@@ -18,7 +18,7 @@ Do note that this bad boy is **STILL IN BETA** and as such probably contains a f
 
 Feel free to file an issue if you see any errors/typos/broken links in the README file as well. Thanks!
 
-For demos and example code, check out this git page: http://xunnamius.github.com/HashNav
+For demos and example code, check out this git page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
 <br />
 Crash Course
