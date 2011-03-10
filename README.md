@@ -32,3 +32,24 @@ If you're in a hurry and just need some decent hash navigation (or a little cras
 	var hashNav = new HashNav();
 	hashNav.registerObserver('observer', { page: true, params: {} }, function(e){ if(e[0]) console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
 	hahsNav.triggerEvent();
+
+What this does is register an observer named **observer** with the hashNav object, which handles all the nitty-gritty details of hash 
+navigation for you.
+
+This observer will watch the URI hash and call the function
+
+	function(e){ if(e[0]) console.log('event triggered:', e, arguments); }
+
+with arguments `[1, 2, 3, 4]` bound to the default namespace denoted by `null` whenever it observes any [legal]
+(http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#HowHashesAreParsed "Jump to it!") page change that satisfies its 
+[trigger object](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers "Jump to it!"). For example:
+
+	#!/home -> #!/about
+	#!/faq&&entry=1 -> #!/faq&&entry=2
+
+(Check out [How Hashes Are Parsed](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#HowHashesAreParsed "Jump to 
+it!") for more information on what's going in *within* the example function itself.)
+
+Now, the final line, `hashNav.triggerEvent();`, is called so that our new observer is alerted to any potential change.  
+For more information on how to use the glorious trigger system in conjunction with the magical observer paradigm, read the 
+[documentation](http://xunnamius.github.com/HashNav "It's really cool :D").
