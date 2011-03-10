@@ -169,16 +169,10 @@ Registers an observer with the HashNav object and sets up a virtual "middle-man,
 
 ####Arguments
 1. name - (`string`) The observer's name. This value will be used to [unregister the observer](#PMI-unregisterObserver "Jump to it!") later. Without it, the observer cannot be [unregistered](#PMI-unregisterObserver "Jump to it!").
-	* Note that observers can in fact have the same name without conflict. This is useful for grouping related observers together under one name. Do note, however, that when [unregisterObserver()](#PMI-unregisterObserver "Jump to 
-
-it!") is called on a name that is tied to multiple observers, **all** of the observers that share the specified name will be [unregistered](#PMI-unregisterObserver "Jump to it!").
+	* Note that observers can in fact have the same name without conflict. This is useful for grouping related observers together under one name. Do note, however, that when [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") is called on a name that is tied to multiple observers, **all** of the observers that share the specified name will be [unregistered](#PMI-unregisterObserver "Jump to it!").
 2. trigger - (`object`) This object is as special as it is important. So important, in fact, that it gets its [own section](#ObserverTriggers) below.
-3. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually 
-
-denoted *e* for *event* -- followed by any custom arguments.
-4. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your single argument is an array, wrap it within another array literal to prevent 
-
-incorrect processing.
+3. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments.
+4. args - (`mixed`, optional) Arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments. Warning: if your single argument is an array, wrap it within another array literal to prevent incorrect processing.
 5. bind - (`object`, optional) Object or element to bind the `this` keyword to within the observer function.
 6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI.
 
@@ -197,7 +191,7 @@ An observer registered with the above trigger would call its observing function 
 #####Trigger Syntax
 The Syntax for trigger objects may seem esoteric at first, but it's actually quite easy (maybe even intuitive).
 
-Taking our above example
+Taking our above example,
 
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
@@ -243,16 +237,18 @@ Trigger objects also have an optional third key called `qualifiers`, which appli
 
 Those string are as follows:
 
-* exclusive - (`boolean`, defaults to **false**) When `true`, the trigger will only activate its observing function when all of the parameters in the `params` object are present **exclusively**, meaning there are no other parameters 
-
-present except those listed. Defaults to `false`.
+* exclusive - (`boolean`, defaults to **false**) When `true`, the trigger will only activate its observing function when all of the parameters in the `params` object are present **exclusively**, meaning there are no other parameters present except those listed. Defaults to `false`.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { exclusive: true } }`
+
+* strict - (`boolean`, defaults to **false**) When `true`, the trigger processes its parameters using string (===) comparison as apposed to normal comparison (==).
+	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { strict: true } }`
+
+* wildstrict - (`boolean`, defaults to **false**) When `true`, the trigger processes its `wildcard` parameters using string (===) comparison as apposed to normal comparison (==).
+	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { wildstrict: true } }`
 
 (more qualifiers will be added as they become necessary)
 
-There are also these cool little things called `wildcards`, represented, of course, by the asterisk `*`, and can appear **as a parameter within the `params` object.** When present within the `params` object, the `wildcard` may take the 
-
-following forms:
+There are also these cool little things called `wildcards`, represented, of course, by the asterisk `*`, and can appear **as a parameter within the `params` object.** When present within the `params` object, the `wildcard` may take the following forms:
 
 * `*:'~'`, which is interpreted as "no parameters are allowed" (the same as supplying a trigger with an empty `params` object in conjunction with the `exclusive` `qualifier`)
 	* ex. `params:{'*':'~'}`
@@ -586,9 +582,7 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 ####Notes
 * Use the [triggerEvent()](#PMI-TriggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more 
 
-efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and 
-
-you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
+efficient, an example is below). This is required because most modern browsers fire their native `onhashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-TriggerEvent "Jump to it!"), it'll be as if the hash never fired! To better understand the problem, try the following example code out on your own page.
 
 * This stipulation also applies to [DOM element observers](#DMI-observe "Jump to it!") as well.
 
