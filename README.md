@@ -113,9 +113,7 @@ Grabs a storedHash data object from history and returns it.
 	hashNav.history.get(entry);
 
 ####Arguments
-1. entry - (`mixed`) History index to grab. Accepts positive numbers (0 being the first index to `history.legnth-1` being the last); *negative* numbers (-1 being the last index to `history.length` being the first); and the `all` keyword, 
-
-which would return the whole history array.
+1. entry - (`mixed`) History index to grab. Accepts positive numbers (0 being the first index to `history.legnth-1` being the last); *negative* numbers (-1 being the last index to `history.length` being the first); and the `all` keyword, which would return the whole history array.
 
 ####Returns
 * (`object`) The specified history object.
@@ -351,7 +349,7 @@ Navigates the browser to the specified URI or history entry.
 ####Arguments
 * First Mode
 	1. location - (`mixed`) The target destination.
-		* If this is a `number` (and `trackHistory` is true), the browser will navigate to the history entry that corresponds with the supplied parameter by passing `location` as an argument to [history.get()](#PMI-history.get "Jump to it!").
+		* If this is a `number` (and `trackHistory` is `true`), the browser will navigate to the history entry that corresponds with the supplied parameter by passing `location` as an argument to [history.get()](#PMI-history.get "Jump to it!"). Note that supplying a number that is "out of bounds" will have this method simply return `false` with no further action taken.
 		* If this is an `object` made up of key/value pairs representing the desired hash URI query string (similar to what you'd would get if [getStoredHash()](#PMI-getStoredHash "Jump to it!") were called), the browser will navigate to the specified parameters (without changing the page/state designator).
 		* If this is a `string`
 			* and the `string` starts with `#`, the current hash URI will be replaced with `location` (ex. '#!/home&&param=1')
@@ -484,6 +482,7 @@ Sets the value of the specified query parameter (merges current parameter object
 
 ####Notes
 * Using `set` changes the hash URI and as such will trigger a `navchange` event (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
+* You can use array literal notation to give a single parameter multiple values (stored within an array). ex. `{ param1: 1, param2: [1, 2, 3, 4] }`
 
 <br />
 ###Public Method: <a name="PMI-unset"></a>unset
