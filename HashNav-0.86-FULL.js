@@ -2,7 +2,7 @@
 
 (function() // Private
 {
-	var instance = null, history = [], observers = {}, version = 0.8, // Singleton
+	var instance = null, history = [], observers = {}, version = 0.86, // Singleton
 	utility = {
 		
 		/* Slightly modified version from MooTools More | script: String.QueryString.js | license: MIT-style license */
