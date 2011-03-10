@@ -140,12 +140,18 @@ Starts the internal polling routine if it is not already started. Note that this
 ####Syntax
 	hashNav.startPolling();
 
+####Returns
+* (`boolean`) `true` if the polling function was started successfully, otherwise `false`.
+
 <br />
 ###Public Method: <a name="PMI-stopPolling"></a>stopPolling
 Stops the internal polling routine if it is not already stopped. Call the [startPolling()](#PMI-startPolling "Jump to it!") method to restart the polling routine.
 
 ####Syntax
 	hashNav.stopPolling();
+
+####Returns
+* (`boolean`) `true` if the polling function was stopped successfully, otherwise `false`.
 
 <br />
 ###Public Method: <a name="PMI-poll"></a>poll
@@ -501,8 +507,25 @@ Checks if a specific parameter or parameters are present in the hash URI query s
 1. parameter - (`string`) The name of a hash URI query parameter.
 
 ####Returns
-* (`boolean`) `true` if one parameter is passed in and the result is true.
+* (`boolean`) If only one parameter was passed in, the result will be `true`/`false`.
 * (`array`) If more than one parameter is specified, an array of present parameters is returned.
+
+<br />
+###Public Method: <a name="PMI-isLegalHash"></a>isLegalHash
+Checks if the specified hash (or the [internally stored hash](#PMI-getStoredHashData "Jump to it!") URI is considered [legal](#HowHashesAreParsed "Jump to it!").
+
+####Syntax
+	hashNav.isLegalHash([hash]);
+
+####Arguments
+1. hash - (`string`, optional: defaults to **the current hash URI**) The hash to test against.
+
+####Returns
+* (`boolean`) `true` if the hash is legal, otherwise `false`.
+
+####See Also
+* [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")
+* [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!")
 
 <br />
 ###Public Method: <a name="PMI-serialize"></a>serialize
