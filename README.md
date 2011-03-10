@@ -46,7 +46,8 @@ with arguments `[1, 2, 3, 4]` bound to the default namespace denoted by `null` w
 
 Now, the final line, `hashNav.triggerEvent();`, is called so that our new observer is alerted to any potential change.
 
-For more information on how to use the glorious trigger system in conjunction with the nigh-magical observer paradigm, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).  
+For more information on how to use the glorious trigger system in conjunction with the nigh-magical observer paradigm, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).
+
 Check out this GitHub page for a live demo of the *whole* class: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
 Syntax
