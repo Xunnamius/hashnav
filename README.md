@@ -318,7 +318,7 @@ Removes the specified observer from HashNav's internal observer index, and remov
 
 <br />
 ###Public Method: <a name="PMI-unregisterObservers"></a>unregisterObservers
-[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers using the `all` keyword.
+[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers (and can utilize the `all` keyword).
 
 ####Syntax
 	hashNav.unregisterObservers(name1[, name2[, name3[, ...]]]);
