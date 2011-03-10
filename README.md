@@ -506,10 +506,11 @@ Checks if a specific parameter or parameters are present in the hash URI query s
 	hashNav.has(parameter1[, parameter2[, parameter3]]);
 
 ####Arguments
-1. parameter - (`string`) The name of a hash URI query parameter.
+1. parameter - (`string`) The name of a hash URI query parameter. If `all` is fed in as an argument, this method will return `false` if there are currently no parameters, and `true` in every other case.
 
 ####Returns
 * (`boolean`) If only one parameter was passed in, the result will be `true`/`false`.
+* (`boolean`) If `all` was passed in, the result will be `true` if there are parameters present or `false` if there are not.
 * (`array-like object`) If more than one parameter is specified, an array-like object of the arguments you supplied that are present as parameters is returned.
 
 <br />
