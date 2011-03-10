@@ -19,10 +19,9 @@ more/1.3.0.1:
 - Fx.Scroll
 
 provides: [HashNav]
-
-documentation and updates: http://github.com/Xunnamius/HashNav
 */
 
+/* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function() // Private
 {
 	var instance = null, history = [], observers = {}, version = 0.86, // Singleton
