@@ -790,5 +790,7 @@ If you would like to utilize the full power of the HashNav class (Vanilla HashNa
 * The ability to both serialize and unserialize the observer stack (and all the functions and their relationships to various DOM elements).
 * Splitting serialized data into chunks for storage in multiple cookies if said data is too large to fit into an individual cookie.
 * Ability to pass in serialized HashNav session data to the unserialize method for direct unserialization.
+* Add native "forward()" and "back()" methods (synthatic sugar) to the history object of the HashNav class.
+* May build an HTML5-ready history/popstate manipulation class ontop of this class if it is requested (but that's really moving away from "hash navigation" and heading towards "absolute history management," which is not my intention)
 
 *Check the change log for more information on releases!*

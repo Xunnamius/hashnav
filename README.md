@@ -1,14 +1,15 @@
 Hash Navigation Made Easy With HashNav!
 =======================================
-HashNav is an AJAX-esque hash navigation (or "HashNav") class made in JavaScript using MooTools 1.3.
+HashNav is a powerful AJAX-esque hash navigation (or "HashNav") class made in JavaScript using MooTools 1.3.
 
 ![Screenshot](http://i.imgur.com/sWNmn.png)
 
 Some of the nifty (and quite-frankly awesome) tools provided to developers include:
 
+* One of the most unique and intuitive hash URI parsers around
 * Query, grab, and manipulate hash data in the URI in a succinct and efficient manner
 * Quickly and easily navigate through a local history "smart-repository"
-* Register and unregister powerful URI observer events (which can optionally be tied to DOM elements), capable of meeting all your Hash Navigation needs
+* Register and unregister powerful URI observer events (which can optionally be tied to DOM elements), capable of meeting all your needs
 * Serialize (take a snapshot of) the current hash session for later analysis, storage, or session sharing
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
@@ -19,10 +20,10 @@ Some of the nifty (and quite-frankly awesome) tools provided to developers inclu
 
 Do note that this bad boy is **STILL IN BETA** and as such probably contains a few bugs that I have yet to find whilst testing the hell out of it these past few days. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
 
-Feel free to file an issue if you see any errors/typos/broken links in the README file as well. Thanks!
+Feel free to file an issue if you see any errors/typos/broken links in the README/Documentation files as well. Thanks!
 
 *Check the change log for more information on releases!*  
-For demos and example code, check out this git page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")  
+For beautiful demos and example code, check out this git page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")  
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.
 
 How to Use
