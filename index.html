@@ -1,1 +1,278 @@
-Coming Soon
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<!--
+eXtensible Hypertext Markup Language Document
+ 
+Programming on the internet the way it was meant to be done.
+ 
+By Xunnamius; Copyright Dark Gray 2011+. All Rights Reserved.
+ 
+Do not remove this header.
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+		<title>Titled Document</title>
+		
+		<style type="text/css">
+			h1 { text-align: center; }
+			h3 span { color: #CCB700; }
+			
+			h2 {
+				font-size: 10pt;
+				text-align: center;
+				margin-top: -20px;
+				color: #933;
+			}
+			
+			.mini { font-size: 10pt; }
+			
+			body > div {
+				border: solid #B55 2px;
+				padding: 5px;
+				margin-bottom: 25px;
+			}
+			
+			ul {
+				padding-left: 50px;
+				margin-top: -10px;
+			}
+			
+			ul.nobullets {
+				list-style-type: none;
+				padding-left: 10px;
+			}
+			
+			ul.nobullets li {
+				display: block;
+				margin: 25px 0;
+			}
+			
+			ul.nobullets li:first-child, ul.nobullets li:last-child {
+				margin: 0;
+			}
+			
+			input { text-align: center; }
+			
+			div.first p { margin: -2px 0; }
+			div.first p a { margin: 0; }
+			
+			a { margin-left: 10px; text-decoration: none; }
+			a:link, a:active, a:visited { color: blue; }
+			a:hover { text-decoration: underline; }
+			
+			.optional { border: dotted black 1px; background-color: #EEE; }
+			#test-trigger+li ul { margin-top: 15px; }
+			#scrollto { margin-top: 10000px; }
+		</style>
+	</head>
+
+	<body>
+		<h1>HashNav Class Test</h1>
+		<h2>Be sure to open up your JavaScript console (real big)!</h2>
+		<br />
+		<div class="first">
+			<h3>Current Hash URI: <span id="current-hash">(loading...)</span></h3>
+			<ul>
+				<li>Prefix: <span style="color: #BBB">#</span><span style="font-weight: bold;" id="hash-prefix">(loading...)</span></li>
+				<li>Page: <span id="hash-page">(loading...)</span></li>
+				<li>Path: <span id="hash-path">(loading...)</span></li>
+				<li>Legality: <span id="hash-legal">(loading...)</span></li>
+			</ul>
+			<h3>Previous Hash URI: <span id="previous-hash">(loading...)</span></h3>
+			<p>Try an <a href="#Illegal Hash!" title="Try it!">Illegal Hash URI!</a></p>
+			<p>Try a <a href="#!/home2" title="Try it!">Simple Hash URI</a></p>
+			<p>Try a <a href="#!/&&param=1" title="Try it!">Relative Hash URI</a></p>
+			<p>Try a <a href="#!/&&param=1&param=2&param=3&param=4&param=false&param=true" title="Try it!">Hash URI w/ Folding Parameters</a></p>
+			<p>Try a <a href="#!/page3&&param=2&param3&param4=magic&param5=" title="Try it!">Complex Hash URI</a></p>
+			<p>Try a <a href="#!/&&param=1&param=2&param=true&param2=&param3=&param4&param5&param6=false&param7=hello&8&9=9&t3n=HashNav%20is%20the%20greatest" title="Try it!">Super Complex Hash URI</a></p>
+		</div>
+		<div>
+			<h3>Pass Options to setOptions( )</h3>
+			<p id="test-setOptions"> hashNav.setOptions( <input type="text" id="test-setOptions-input" value="key/value JSON object" /> )
+				<a href="#" title="Do it!">Do it!</a>
+			</p>
+		</div>
+		<div>
+			<h3>Public Method Tester</h3>
+			<ul class="nobullets">
+				<li id="test-history.get">
+					<p class="test">
+						history.get( <input type="text" id="test-history.get-entry" value="entry (ex. param1)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-history.clear">
+					<p class="test">
+						history.clear( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-startPolling">
+					<p class="test">
+						startPolling( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-stopPolling">
+					<p class="test">
+						stopPolling( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-poll">
+					<p class="test">
+						poll( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-registerObserver">
+					<p class="test">
+						registerObserver( <input type="text" id="test-registeredObserver-name" value="name (ex. observer1)" />, <input type="text" id="test-registeredObserver-trigger" value="trigger object" />, <input type="text" id="test-registeredObserver-fn" value="callback function" />, <input type="text" id="test-registeredObserver-args" value="callback fn arguments" class="optional" />, <input type="text" id="test-registeredObserver-bind" value="bind the callback fn" class="optional" />, <input type="text" id="test-registeredObserver-scrlto" value="element ID (ex. scrollto)" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-registeredObserver">
+					<p class="test">
+						registeredObserver( <input type="text" id="test-registeredObserver-name" value="name (ex. observer1)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-unregisterObserver">
+					<p class="test">
+						unregisterObserver( <input type="text" id="test-unregisterObserver-name" value="name (ex. observer1)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-unregisterObservers">
+					<p class="test">
+						unregisterObservers( <input type="text" id="test-unregisterObservers-name" value="name (ex. ob1, ob2, ob3)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-navigateTo">
+					<p class="test">
+						navigateTo( <input type="text" id="test-navigateTo-parameter1" value="parameter1" />, <input type="text" id="test-navigateTo-parameter2" value="parameter2" class="optional" />, <input type="text" id="test-navigateTo-parameter3" value="parameter3" class="optional" />, <input type="text" id="test-navigateTo-parameter4" value="forced" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-getStoredHash">
+					<p class="test">
+						getStoredHash( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-getStoredHashData">
+					<p class="test">
+						getStoredHashData( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-get">
+					<p class="test">
+						get( <input type="text" id="test-get-parameters" value="parameter(s) (ex. p1, p2)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-set">
+					<p class="test">
+						set( <input type="text" id="test-set-parameter1" value="parameter 1" />, <input type="text" id="test-set-parameter1" value="parameter 2" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-unset">
+					<p class="test">
+						unset( <input type="text" id="test-unset-parameters" value="parameter(s) (ex. p1, p2)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-has">
+					<p class="test">
+						has( <input type="text" id="test-has-parameters" value="parameter(s) (ex. p1, p2)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-serialize">
+					<p class="test">
+						serialize( <input type="text" id="test-serialize-cookieName" value="cookieName" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-unserialize">
+					<p class="test">
+						unserialize(<input type="text" id="test-unserialize-restoreParadigm" value="restoreParadigm" class="optional" />, <input type="text" id="test-unserialize-fireEventOnNav" value="fireEventOnNav" class="optional" />, <input type="text" id="test-unserialize-cookieName" value="cookieName" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-deserialize">
+					<p class="test">
+						deserialize( <input type="text" id="test-deserialize-cookieName" value="cookieName" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-triggerEvent">
+					<p class="test">
+						triggerEvent( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-scrl">
+					<p class="special-test">
+						scrl
+						<a href="#" title="Do it!">What is it?!</a>
+					</p>
+				</li>
+				<li id="test-scrlTo">
+					<p class="special-test">
+						scrlTo( <input type="text" id="test-scrlTo-element" value="element ID (ex. scrollto)" /> )
+						<a href="#" title="Do it!">Run it!</a> (automatically scroll back: <input type="checkbox" id="test-scrlTo-back" checked="checked" />)
+					</p>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<h3>Element Method Tester <span class="mini">(on the test object at the bottom of this page)</span></h3>
+			<ul class="nobullets">
+				<li id="test-observe" class="element">
+					<p class="test">
+						observe( <input type="text" id="test-observe-trigger" value="trigger object" />, <input type="text" id="test-observe-fn" value="callback function" />, <input type="text" id="test-observe-args" value="callback fn arguments" class="optional" />, <input type="text" id="test-observe-scrlto" value="element ID" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-observing" class="element">
+					<p class="test">
+						observing( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-unobserve" class="element">
+					<p class="test">
+						unobserve( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<h3>Trigger Demystifier</h3>
+			<ul class="nobullets" id="trigger-emystifie">
+				<li id="test-trigger"><input type="text" id="test-trigger-object" value="trigger object" />  <a href="#" title="Do it!">Decode it!</a></li>
+				<li>
+					<ul id="test-trigger-result">
+						<li>(empty)</li>
+					</ul>
+				</li>
+				<li id="test-URI">Test against a URI: <input type="text" id="test-URI-trigger" value="trigger object" width="500" />  <a href="#" title="Do it!">Test it!</a></li>
+			</ul>
+		</div>
+		
+		<h1 id="scrollto">Hello World!</h1>
+		
+		<script type="text/javascript" src="mootools/mootools-core-1.3-FULL.js"></script>
+        <script type="text/javascript" src="mootools/mootools-more-1.3-FULL.js"></script>
+		<script type="text/javascript" src="UnderText.js"></script>
+		<script type="text/javascript" src="HashNav-0.8-FULL.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+	</body>
+</html>
