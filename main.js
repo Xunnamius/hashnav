@@ -1,3 +1,32 @@
+var PQS = function(queryString, makeFalse) // Parse Query String
+{
+	queryString = queryString.trim();
+	var vars = queryString.split(/[&;]/), object = {};
+	if (!vars.length || !queryString.length) return object;
+	
+	vars.each(function(val){
+		var index = val.indexOf('='),
+			value = index < 0 ? true : val.substr(index + 1),
+			key = val.substr(0, index),
+			keys = index < 0 ? [val] : key.match(/([^\]\[]+|(\B)(?=\]))/g),
+			obj = object;
+		
+		if(makeFalse && value.length === 0) value = false;
+		if(typeof(value) != 'boolean') value = decodeURIComponent(value);
+		
+		keys.each(function(key, i){
+			key = decodeURIComponent(key);
+			var current = obj[key];
+			
+			if(i < keys.length - 1) obj = obj[key] = current || {};
+			else if(typeof(current) == 'object') current.push(value);
+			else obj[key] = current != null ? [current, value] : value;
+		});
+	});
+
+	return object;
+}
+
 window.addEvent('domready', function()
 {
 	if(typeof(console) == 'undefined')
@@ -102,7 +131,7 @@ window.addEvent('domready', function()
 		$('test-scrlTo').getElements('a')[0].addEvent('click', function(e)
 		{
 			e.stop();
-			var undertext = $('test-scrlTo-element').retrieve('undertext'), element = undertext.get();;
+			var undertext = $('test-scrlTo-element').retrieve('undertext'), element = undertext.get();
 			if(element)
 			{
 				console.log('HashNav Class: Attempting to call HashNav::scrlTo(', element, ') ...');
@@ -124,7 +153,179 @@ window.addEvent('domready', function()
 		});
 		
 		console.log('Page: Setting up Trigger Demystifier...');
-		$('test-setOptions')
+		$$('#test-trigger a')[0].addEvent('click', function(e)
+		{
+			e.stop();
+			
+			var trigger = $('test-trigger-object').retrieve('undertext').get(), trigger = JSON.decode.attempt(trigger) || trigger, results = $('test-trigger-result'), msg;
+			results.empty();
+			
+			if(!trigger || !trigger.page || !trigger.params)
+			{
+				$('test-trigger-object').retrieve('undertext').flash();
+				new Element('li', { text: '(empty)' }).inject(results);
+				return;
+			}
+			
+			else new Element('li', { text: '(loading...)' }).inject(results);
+			results.getFirst('li').set('text', 'Your trigger will activate when the following conditions are met...');
+			
+			// Trigger logic
+			if(trigger.page === false) msg = 'The hash URI changes (even illegally)';
+			else if(trigger.page === true) 	msg = 'The state designator changes (legally)';
+			else if(trigger.page === '') 	msg = 'The state designator is the same as the defaultHome setting';
+			else msg = 'The state designator == ' + trigger.page;
+			new Element('li', { text: msg }).inject(results);
+			
+			if(!Object.getLength(trigger.params)) new Element('li', { text: (trigger.qualifiers && trigger.qualifiers.exclusive ? 'The hash URI is not allowed to have any parameters!' : 'The hash URI may contain any number of parameters!') }).inject(results);
+			else if(trigger.params['*'] && trigger.params['*'] === '~') new Element('li', { text: 'Wildcard: The hash URI is not allowed to have any parameters!' }).inject(results);
+			else if(trigger.params['*'] && trigger.params['*'] !== '' && trigger.params['*'] !== true && trigger.params['*'] !== false) new Element('li', { text: 'Wildcard: All parameters must equal ' + trigger.params['*'] }).inject(results);
+			else 
+			{
+				Object.each(trigger.params, function(item, index)
+				{
+					if(index === '*')
+					{
+						if(item === '') msg = 'Wildcard: There must be at least one parameter present within the hash URI';
+						else if(item === true) msg = 'Wildcard: There must be at least one orphan parameter present within the hash URI';
+						else if(item === false) msg = 'Wildcard: There must be at least one empty parameter present within the hash URI';
+					}
+					
+					else
+					{
+						 if(item === '~') msg = index + ' is NOT present within the hash URI';
+						 else if(item === true ) msg = index + ' is present as an orphan parameter within the hash URI';
+						 else if(item === false) msg = index + ' is present as an empty parameter within the hash URI';
+						 else if(item === '') msg = index + ' is present (with any value) within the hash URI';
+						 else msg = index + ' is present within the hash URI and equals ' + item;
+					}
+					
+					new Element('li', { text: msg }).inject(results);
+				});
+				
+				if(trigger.qualifiers.exclusive) new Element('li', { text: 'Due to the "exclusive" qualifier, your trigger parameters must appear alone (meaning there are no other parameters present except those listed)' }).inject(results);
+			}
+			
+			if(trigger.qualifiers)
+			{
+				if(trigger.qualifiers.strict) new Element('li', { text: 'Due to the "strict" qualifier, your trigger parameters will be evaluated using strict (===) comparison' }).inject(results);
+				if(trigger.qualifiers.wildstrict) new Element('li', { text: 'Due to the "wildstrict" qualifier, your wildcards will be evaluated using strict (===) comparison' }).inject(results);
+			}
+		});
+		
+		$$('#test-URI a')[0].addEvent('click', function(e)
+		{
+			e.stop();
+			
+			var undertext = $('test-URI-trigger').retrieve('undertext'), URI = undertext.get();
+			if(URI)
+			{
+				var trigger = $('test-trigger-object').retrieve('undertext').get(), trigger = JSON.decode.attempt(trigger) || trigger;
+				
+				if(!trigger || !trigger.page || !trigger.params)
+				{
+					$('test-trigger-object').retrieve('undertext').flash();
+					return;
+				}
+			
+				console.log('Page: Testing the (hopefully) valid URI(', URI, ') against ', trigger, '...');
+				
+				var lhsplit = URI.split('&&');
+				URI = [0, {page:'', pathString:'', pathParsed:''}];
+				URI[1]['page'] = lhsplit.shift().substr(hashNav.options.prefix.length+1).clean() || hashNav.state.current || hashNav.options.defaultHome;
+				URI[1]['pathString'] = lhsplit.join('&&');
+				URI[1]['pathParsed'] = PQS(URI[1]['pathString'], hashNav.options.queryMakeFalse);
+				
+				/* Trigger Logic from HashNav-0.88-FULL.js */
+				matches = function(e)
+				{
+					e = e[1];
+					if(!e) return false;
+					
+					var hist = this.history.get(-2),
+					hist = this.options.trackHistory ? (hist ? hist : (this.history.get(-1) ? -2 : -1)) : -1, 
+					path = e.pathParsed, satisfied = false, strict = false, wildstrict = false;
+					
+					if(trigger.qualifiers)
+					{
+						if(trigger.qualifiers.strict) strict = true;
+						if(trigger.qualifiers.wildstrict) wildstrict = true;
+					}
+					
+					// Trigger logic
+					if(trigger.page === false ||
+					(trigger.page 	=== true 	&& (hist == -2 || (hist != -1 && hist[1].page && e.page && e.page != hist[1].page))) ||
+					(trigger.page 	=== '' 		&& e.page == this.options.defaultHome) ||
+					trigger.page	==  e.page)
+					{
+						if(trigger.page === false) satisfied = true; // We don't negotiate with terrorists (or illegal hash URIs)!
+						hist = Object.every(trigger.params, function(item, index)
+						{
+							if(satisfied) return true;
+							else if(index === '*')
+							{
+								if(item === '~' && (!path || Object.getLength(path) == 0)) return satisfied = true;
+								else if(Object.getLength(path))
+								{
+									if(item === '' && Object.getLength(path)) return satisfied = true;
+									else
+									{
+										var temp = trigger.params['*'];
+										delete trigger.params['*'];
+										
+										if((item === true  && Object.contains(path, true)) ||
+										 (item === false && Object.contains(path, (this.options.makeFalse ? false : ''))) ||
+										 (Object.values(path).every(function(value){ return (wildstrict ? value === item : value.toString() == item.toString()); })))
+										 {
+											 trigger.params['*'] = temp;
+											 return true;
+										 }
+									 
+										trigger.params['*'] = temp;
+									}
+								}
+								
+								return false;
+							}
+							
+							else
+							{
+								 if(item === '~' && (!path || typeof(path[index]) == 'undefined')) return true;
+								 else if(Object.getLength(path))
+								 {
+									 if(
+									  (item === true  && path[index] === true) ||
+									  (item === false && (path[index] === '' || (this.options.makeFalse && path[index] === false))) ||
+									  (item === '' 	  && typeof(path[index]) != 'undefined') ||
+									  (path[index] 	  && (strict ? item === path : item.toString() == path[index].toString())))
+										return true;
+								 }
+								 
+								return false;
+							}
+						}.bind(hashNav));
+						
+						if(hist)
+						{
+							// Qualifier logic
+							if(trigger.qualifiers)
+							{
+								if(trigger.qualifiers.exclusive && Object.getLength(trigger.params) !== Object.getLength(path)) return;
+								// More coming soon
+							}
+							
+							return true;
+						}
+						
+						return false;
+					}
+				}.bind(hashNav);
+				
+				console.log('Page: Result -> ', matches(URI));
+			}
+			
+			else undertext.flash();
+		});
 		
 		console.log('Page: Ready!');
 		console.log('Page: Feel free to create another instance of the HashNav class (it\'s a singleton, all instances reference the same object) and call any of the methods through the JavaScript console');
