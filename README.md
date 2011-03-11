@@ -56,7 +56,6 @@ Now, the final line, `hashNav.triggerEvent();`, is called so that our new observ
 
 For more information on how to use the glorious trigger or observer systems, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).
 
-
 Check out this GitHub page for a live demo of the *whole* class: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
 Syntax
