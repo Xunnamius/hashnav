@@ -1,1 +1,7 @@
-Version 0.86 -- Initial push, still in BETA
+February 2011:
+	Version 0.16 (ALPHA) -- Initial creation, entered ALPHA
+
+March 2011:
+	Version 0.80 (BETA) -- Fixed a few bugs, added to GitHub, entered BETA
+	Version 0.86 (BETA) -- Fixed some bugs, added getStoredHash(), added getStoredHashData(), still in BETA
+	Version 0.88 (BETA) -- Added getCurrent(), fixed a few minor bugs, still in BETA
