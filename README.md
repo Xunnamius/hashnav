@@ -30,24 +30,31 @@ How to Use
 ----------
 If you're in a hurry and just need some decent hash navigation (or a little crash course in observer-oriented hash navigation), you could do something like:
 
-	var hashNav = new HashNav();
-	hashNav.registerObserver('observer', { page: true, params: {} }, function(e){ if(e[0]) console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
-	hahsNav.triggerEvent();
+	var hashNav = new HashNav(),
+	observerName = 'observer',
+	trigger = { page: true, params: {} },
+	callback = function(e){ console.log('event triggered:', e, arguments); },
+	arguments = [1, 2, 3, 4],
+	bind = null,
+	elementToScrollTo = 'header';
+	
+	hashNav.registerObserver(observerName, trigger, callback, arguments, bind, elementToScrollTo);
+	hashNav.triggerEvent();
 
 What this does is register an observer named **observer** with the hashNav object, which handles all the nitty-gritty details of hash navigation for you.
 
-This observer will watch the URI hash and call the function
+This observer will watch the URI hash and call the callback function
 
-	function(e){ if(e[0]) console.log('event triggered:', e, arguments); }
+	function(e){ console.log('event triggered:', e, arguments); }
 
-with arguments `[1, 2, 3, 4]` bound to the default namespace denoted by `null` whenever it observes any [legal](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#HowHashesAreParsed "Jump to it!") page change that satisfies its [trigger object](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers "Jump to it!"). For example:
+with arguments `[1, 2, 3, 4]` bound to the default namespace (denoted by `null`) whenever it observes any [legal](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#HowHashesAreParsed "Jump to it!") hash URI page/state designator change that satisfies its [trigger object](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers "Jump to it!"). For example:
 
-	#!/home -> #!/about
-	#!/faq&&entry=1 -> #!/faq&&entry=2
+	#!/home -- changing to --> #!/about
+	#!/faq&&entry=1 -- changing to --> #!/faq&&entry=2
 
 Now, the final line, `hashNav.triggerEvent();`, is called so that our new observer is alerted to any potential change.
 
-For more information on how to use the glorious trigger system in conjunction with the nigh-magical observer paradigm, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).
+For more information on how to use the glorious trigger or observer systems, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).
 
 Check out this GitHub page for a live demo of the *whole* class: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
