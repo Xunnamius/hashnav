@@ -23,7 +23,7 @@ Do note that this bad boy is **STILL IN BETA** and as such probably contains a f
 Feel free to file an issue if you see any errors/typos/broken links in the README/Documentation files as well. Thanks!
 
 *Check the change log for more information on releases!*  
-For beautiful demos and example code, check out this git page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")  
+For a fun little demo sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")  
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.
 
 How to Use
@@ -36,7 +36,7 @@ If you're in a hurry and just need some decent hash navigation (or a little cras
 	callback = function(e){ console.log('event triggered:', e, arguments); },
 	arguments = [1, 2, 3, 4],
 	bind = null,
-	elementToScrollTo = 'header';
+	elementToScrollTo = 'scrollto';
 	
 	hashNav.registerObserver(observerName, trigger, callback, arguments, bind, elementToScrollTo);
 	hashNav.triggerEvent();
