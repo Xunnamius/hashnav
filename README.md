@@ -4,7 +4,7 @@ HashNav is a powerful AJAX-esque hash navigation (or "HashNav") class made in Ja
 
 ![Screenshot](http://i.imgur.com/sWNmn.png)
 
-Some of the nifty (and quite-frankly awesome) tools provided to developers include:
+Some of the nifty (and quite-frankly awesome) tools provided for developers include:
 
 * One of the most unique and intuitive hash URI parsers around
 * Query, grab, and manipulate hash data in the URI in a succinct and efficient manner
