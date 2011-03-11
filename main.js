@@ -127,12 +127,12 @@ window.addEvent('domready', function()
 		$('test-setOptions')
 		
 		console.log('Page: Ready!');
-		console.log('Page: Feel free to create another instance of the HashNav class (it\'s a singleton, all instances reference the same object) and call any of the methods through the JavaScript console (go chrome!)');
+		console.log('Page: Feel free to create another instance of the HashNav class (it\'s a singleton, all instances reference the same object) and call any of the methods through the JavaScript console');
 		console.log('Page: Note that input fields with dotted borders and slightly darker backgrounds denote optional fields.');
-		console.warn('Page: Warning! Sometimes the console incorrectly folds logs or warnings together. Clear the console when you see this happening!');
-		console.warn('Page: Pro Tip #1 -> Use "str<...>" (without the quotes, replace "..." with your string) if you want to feed in a literal string. An example would be the string "true". If typed normally, it\'d be intrepreted as the literal boolean true unless presented as "str<true>". Does not work when using JSON notation.');
-		console.warn('Page: Pro Tip #2 -> Use "args<argument1,argument2,...>" (without the quotes, and no spaces between commas) if you want to feed in a comma separated list of values to a method as an argument outside of JSON notation. Can only be used properly on methods that accept only one argument as a parameter!');
-		console.warn('Page: Pro Tip #3 -> Use "number<num>" (without the quotes, replace num with your number) if you want to feed in a literal number into a method as an argument (doesn\'t work with JSON data). This is mainly for the number 0, which, in some browsers, is always interpreted as a string for some reason.');
+		console.log('Page: Pro Tip #1 -> Use "str<...>" (without the quotes, replace "..." with your string) if you want to feed in a literal string. An example would be the string "true". If typed normally, it\'d be intrepreted as the literal boolean true unless presented as "str<true>". Does not work when using JSON notation.');
+		console.log('Page: Pro Tip #2 -> Use "args<argument1,argument2,...>" (without the quotes, and no spaces between commas) if you want to feed in a comma separated list of values to a method as an argument outside of JSON notation. Can only be used properly on methods that accept only one argument as a parameter!');
+		console.log('Page: Pro Tip #3 -> Use "number<num>" (without the quotes, replace num with your number) if you want to feed in a literal number into a method as an argument (doesn\'t work with JSON data). This is mainly for the number 0, which, in some browsers, is always interpreted as a string for some reason.');
+		console.warn('Page: Warning! Sometimes the console incorrectly folds logs or warnings together or some other weird crap. This is unfortunately prevalent in my favorite browser, Google Chrome, in its most recently updated state. Clear the console or try firefox + firebug when you see this happening!');
 		console.log('');
 		console.log('---');
 		console.log('');
