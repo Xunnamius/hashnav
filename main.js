@@ -236,13 +236,19 @@ window.addEvent('domready', function()
 				URI[1]['pathString'] = lhsplit.join('&&');
 				URI[1]['pathParsed'] = PQS(URI[1]['pathString'], hashNav.options.queryMakeFalse);
 				
-				/* Trigger Logic from HashNav-0.88-FULL.js */
-				matches = function(e)
+				/* Trigger Logic from HashNav-0.9-FULL.js */
+				var matches = function(URI)
 				{
 					e = e[1];
-					if(!e) return false;
+					if(!e) return;
 					
 					var hist = this.history.get(-2),
+					/*
+					 * Basically if trackHistory is disabled or if history.get(-1) is null, returns -1.
+					 * Otherwise returns this.history.get(-2) if it is not null, otherwise returns -2
+					 * (this makes it so "page change only" triggers trigger only if the current hash
+					 * URI is legal and different from this.history.get(-2), whatever it may be)
+					*/
 					hist = this.options.trackHistory ? (hist ? hist : (this.history.get(-1) ? -2 : -1)) : -1, 
 					path = e.pathParsed, satisfied = false, strict = false, wildstrict = false;
 					
@@ -310,14 +316,24 @@ window.addEvent('domready', function()
 							// Qualifier logic
 							if(trigger.qualifiers)
 							{
-								if(trigger.qualifiers.exclusive && Object.getLength(trigger.params) !== Object.getLength(path)) return;
+								if(trigger.qualifiers.exclusive)
+								{
+									var params = Object.clone(trigger.params);
+									params = Object.filter(params, function(value, key)
+									{
+										if(key == '*' || value == '~') return false;
+										return true; 
+									});
+									
+									if(Object.getLength(params) !== Object.getLength(path)) return;
+								}
+								
 								// More coming soon
 							}
 							
-							return true;
+							if(scrlto) HashNav.scrlTo(scrlto);
+							fn.apply(bind, [this.getStoredHashData()].append(Array.from(args)));
 						}
-						
-						return false;
 					}
 				}.bind(hashNav);
 				
