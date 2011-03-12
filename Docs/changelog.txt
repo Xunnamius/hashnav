@@ -5,3 +5,4 @@ March 2011:
 	Version 0.80 (BETA) -- Fixed a few bugs, added to GitHub, entered BETA
 	Version 0.86 (BETA) -- Fixed some bugs, added getStoredHash(), added getStoredHashData(), still in BETA
 	Version 0.88 (BETA) -- Added getCurrent(), fixed a few minor bugs, still in BETA
+	Version 0.90 (BETA) -- Fixed a minor bug within the trigger logic, augmented history grabs, still in BETA
