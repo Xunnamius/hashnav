@@ -312,15 +312,15 @@ provides:
 					if(hist)
 					{
 						// Qualifier logic
-						if(trigger.qualifiers)
+						if(!satisfied && trigger.qualifiers)
 						{
 							if(trigger.qualifiers.exclusive)
 							{
 								var params = Object.clone(trigger.params);
 								params = Object.filter(params, function(value, key)
 								{
-									if(key == '*' || value == '~') return false;
-									return true; 
+									if(value == '~') return false;
+									return true;
 								});
 								
 								if(Object.getLength(params) !== Object.getLength(path)) return;

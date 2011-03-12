@@ -203,7 +203,7 @@ window.addEvent('domready', function()
 					new Element('li', { text: msg }).inject(results);
 				});
 				
-				if(trigger.qualifiers.exclusive) new Element('li', { text: 'Due to the "exclusive" qualifier, your trigger parameters must appear alone (meaning there are no other parameters present except those listed)' }).inject(results);
+				if(trigger.qualifiers && trigger.qualifiers.exclusive) new Element('li', { text: 'Due to the "exclusive" qualifier, your trigger parameters must appear alone (meaning there are no other parameters present except those listed)' }).inject(results);
 			}
 			
 			if(trigger.qualifiers)
@@ -227,8 +227,14 @@ window.addEvent('domready', function()
 					$('test-trigger-object').retrieve('undertext').flash();
 					return;
 				}
-			
-				console.log('Page: Testing the (hopefully) valid URI(', URI, ') against ', trigger, '...');
+				
+				if(!hashNav.isLegalHash(URI))
+				{
+					undertext.flash();
+					return;
+				}
+				
+				console.log('Page: Testing the valid URI(', URI, ') against ', trigger, '...');
 				
 				var lhsplit = URI.split('&&');
 				URI = [0, {page:'', pathString:'', pathParsed:''}];
@@ -237,10 +243,10 @@ window.addEvent('domready', function()
 				URI[1]['pathParsed'] = PQS(URI[1]['pathString'], hashNav.options.queryMakeFalse);
 				
 				/* Trigger Logic from HashNav-0.9-FULL.js */
-				var matches = function(URI)
+				var matches = function(e)
 				{
 					e = e[1];
-					if(!e) return;
+					if(!e) return false;
 					
 					var hist = this.history.get(-2),
 					/*
@@ -286,7 +292,7 @@ window.addEvent('domready', function()
 											 trigger.params['*'] = temp;
 											 return true;
 										 }
-									 
+									 	
 										trigger.params['*'] = temp;
 									}
 								}
@@ -314,27 +320,28 @@ window.addEvent('domready', function()
 						if(hist)
 						{
 							// Qualifier logic
-							if(trigger.qualifiers)
+							if(!satisfied && trigger.qualifiers)
 							{
 								if(trigger.qualifiers.exclusive)
 								{
 									var params = Object.clone(trigger.params);
 									params = Object.filter(params, function(value, key)
 									{
-										if(key == '*' || value == '~') return false;
-										return true; 
+										if(value == '~') return false;
+										return true;
 									});
 									
-									if(Object.getLength(params) !== Object.getLength(path)) return;
+									if(Object.getLength(params) !== Object.getLength(path)) return false;
 								}
 								
 								// More coming soon
 							}
 							
-							if(scrlto) HashNav.scrlTo(scrlto);
-							fn.apply(bind, [this.getStoredHashData()].append(Array.from(args)));
+							return true;
 						}
 					}
+					
+					return false;
 				}.bind(hashNav);
 				
 				console.log('Page: Result -> ', matches(URI));
