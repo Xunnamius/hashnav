@@ -55,6 +55,7 @@ Now, the final line, `hashNav.triggerEvent();`, is called so that our new observ
 More Examples
 -------------
 Loading data whenever the application's page/state designator changes:
+
 	hashNav.registerObserver(
 		'main',
 		
@@ -67,6 +68,7 @@ Loading data whenever the application's page/state designator changes:
 	);
 
 Load different home pages based on a custom "type" parameter:
+
 	hashNav.registerObserver(
 		'home_loader',
 		
@@ -79,6 +81,7 @@ Load different home pages based on a custom "type" parameter:
 	);
 
 Spawn a popunder box to warn a user not to leave the page or the data they typed will be lost. We'll be looking for the "composing" param to be present and orphaned, we're on the "emailer" page, and we'll pass their username in a "username" param. To top it all off, we want to see these parameters exclusively, meaning we only want to see what we listed in the params object and nothing else:
+	
 	hashNav.registerObserver(
 		'warning',
 		
@@ -92,7 +95,8 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 	);
 
 We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only. Here's an easy way for an observer to watch for a situation like the aforementioned:
-hashNav.registerObserver(
+
+	hashNav.registerObserver(
 		'test',
 		
 		{
@@ -104,7 +108,8 @@ hashNav.registerObserver(
 	);
 
 For some reason we want all the parameter values to be the same:
-hashNav.registerObserver(
+
+	hashNav.registerObserver(
 		'helloworld',
 		
 		{
