@@ -103,6 +103,12 @@ Do not remove this header.
 						<a href="#" title="Do it!">Run it!</a>
 					</p>
 				</li>
+				<li id="test-history.truncate">
+					<p class="test">
+						history.truncate( <input type="text" id="test-history.truncate-from" value="from (index)" />, <input type="text" id="test-history.truncate-to" value="to (index)" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
 				<li id="test-history.clear">
 					<p class="test">
 						history.clear( )
@@ -199,15 +205,27 @@ Do not remove this header.
 						<a href="#" title="Do it!">Run it!</a>
 					</p>
 				</li>
+				<li id="test-isNative">
+					<p class="test">
+						isNative( )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
+				<li id="test-isLegalHash">
+					<p class="test">
+						isLegalHash( <input type="text" id="test-isLegalHash-parameters" value="test hash" class="optional" /> )
+						<a href="#" title="Do it!">Run it!</a>
+					</p>
+				</li>
 				<li id="test-serialize">
 					<p class="test">
-						serialize( <input type="text" id="test-serialize-cookieName" value="cookieName" class="optional" /> )
+						serialize( <input type="text" id="test-serialize-cookieName" value="cookieName" class="optional" />, <input type="text" id="test-serialize-nowrite" value="nowrite" class="optional" /> )
 						<a href="#" title="Do it!">Run it!</a>
 					</p>
 				</li>
 				<li id="test-unserialize">
 					<p class="test">
-						unserialize(<input type="text" id="test-unserialize-restoreParadigm" value="restoreParadigm" class="optional" />, <input type="text" id="test-unserialize-fireEventOnNav" value="fireEventOnNav" class="optional" />, <input type="text" id="test-unserialize-cookieName" value="cookieName" class="optional" /> )
+						unserialize( <input type="text" id="test-unserialize-restoreParadigm" value="restoreParadigm" class="optional" />, <input type="text" id="test-unserialize-fireEventOnNav" value="fireEventOnNav" class="optional" />, <input type="text" id="test-unserialize-cookieName" value="cookieName" class="optional" />, <input type="text" id="test-unserialize-secure" value="secure" class="optional" />, <input type="text" id="test-unserialize-customdata" value="customdata" class="optional" /> )
 						<a href="#" title="Do it!">Run it!</a>
 					</p>
 				</li>
@@ -263,7 +281,7 @@ Do not remove this header.
 		<div>
 			<h3>Trigger Demystifier</h3>
 			<ul class="nobullets" id="trigger-demystify">
-				<li id="test-trigger"><input type="text" id="test-trigger-object" value="trigger object" />  <a href="#" title="Do it!">Decode it!</a></li>
+				<li id="test-trigger"><input type="text" id="test-trigger-object" value="trigger JSON object" />  <a href="#" title="Do it!">Decode it!</a></li>
 				<li>
 					<ul id="test-trigger-result">
 						<li>(empty)</li>
@@ -277,8 +295,8 @@ Do not remove this header.
 		
 		<script type="text/javascript" src="mootools/mootools-core-1.3-FULL.js"></script>
         <script type="text/javascript" src="mootools/mootools-more-1.3-FULL.js"></script>
-		<script type="text/javascript" src="UnderText.js"></script>
-		<script type="text/javascript" src="HashNav-0.9-FULL.js"></script>
+		<script type="text/javascript" src="UnderText-1.0-FULL.js"></script>
+		<script type="text/javascript" src="HashNav-0.97-FULL.js"></script>
 		<script type="text/javascript" src="main.js"></script>
 	</body>
 </html>

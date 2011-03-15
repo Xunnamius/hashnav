@@ -30,7 +30,7 @@ var UnderText = new Class(
 		this.originalColor = this.element.getStyle('color');
 		this.setOptions(options);
 		
-		if(!this.options.textOverride) this.options.textOverride = this.element.getProperty('value') || this.element.getProperty('alt') || this.element.getProperty('title') || 'undertext';
+		if(!this.options.textOverride) this.options.textOverride = this.element.getAttribute('value') || this.element.getProperty('alt') || this.element.getProperty('title') || 'undertext';
 		
 		this.element.addEvents({ focus: this.hide, blur: this.show });
 		this.element.setProperty('value', this.options.textOverride);
