@@ -16,15 +16,13 @@ Some of the nifty (and quite-frankly awesome) tools provided for developers incl
 * Supports the search-engine AJAX crawler routine a la "#!/"
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
+* Around 4KB when gzipped (using compressed version).
 * Quite a bit more is available for use, with [more on the way](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ComingSoon).
 
-Do note that this bad boy is **STILL IN BETA** and as such probably contains a few bugs that I have yet to find whilst testing the hell out of it these past few days. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
+Do note that this bad boy is **STILL IN BETA** (support for BETA releases will cease once HashNav advances to 1.0) and as such probably contains a few bugs that I have yet to find whilst testing the hell out of it these past few days. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
 
-Feel free to file an issue if you see any errors/typos/broken links in the README/Documentation files as well. Thanks!
-
-*Check the change log for more information on releases!*  
-For a fun little demo sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")  
-Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.
+Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
+For a fun little demo sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
 How to Use
 ----------
@@ -54,7 +52,70 @@ with arguments `[1, 2, 3, 4]` bound to the default namespace (denoted by `null`)
 
 Now, the final line, `hashNav.triggerEvent();`, is called so that our new observer is alerted to any potential change.
 
-For more information on how to use the glorious trigger or observer systems, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md).
+More Examples
+-------------
+Loading data whenever the application's page/state designator changes:
+	hashNav.registerObserver(
+		'main',
+		
+		{
+			page: true,
+			params: {}
+		},
+	
+		function(){ load.ajax.data(); }
+	);
+
+Load different home pages based on a custom "type" parameter:
+	hashNav.registerObserver(
+		'home_loader',
+		
+		{
+			page: true,
+			params: { type:'' } // The empty string in the trigger object's params sub-object means "if the parameter is present with any value". Check out the documentation!
+		},
+	
+		function(e){ load.a.custom.page(e[1].pathParsed['type']); }
+	);
+
+Spawn a popunder box to warn a user not to leave the page or the data they typed will be lost. We'll be looking for the "composing" param to be present and orphaned, we're on the "emailer" page, and we'll pass their username in a "username" param. To top it all off, we want to see these parameters exclusively, meaning we only want to see what we listed in the params object and nothing else:
+	hashNav.registerObserver(
+		'warning',
+		
+		{
+			page: 'emailer',
+			params: { composing: true, username:'' },
+			qualifiers: { exclusive: true }
+		},
+	
+		function(e){ warningPopup('Watch out ' + e[1].pathParsed['username'] + ', if you leave the page before saving, everything you just typed will be lost!'); }
+	);
+
+We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only. Here's an easy way for an observer to watch for a situation like the aforementioned:
+hashNav.registerObserver(
+		'test',
+		
+		{
+			page: '',
+			params: { *:'' }
+		},
+	
+		function(e){ store.this.data('Full Hash: ' + e[0]); }
+	);
+
+For some reason we want all the parameter values to be the same:
+hashNav.registerObserver(
+		'helloworld',
+		
+		{
+			page: 'somerandompage',
+			params: { *:'All params must equal this text!' }
+		},
+	
+		function(e){ store.this.data('Full Hash: ' + e[0]); }
+	);
+
+For more information on how to use the awesome trigger and/or observer systems, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers).
 
 Check out this GitHub page for a live demo of the *whole* class: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
