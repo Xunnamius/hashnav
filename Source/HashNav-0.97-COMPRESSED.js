@@ -8,8 +8,8 @@ authors:
 - Xunnamius
 
 requires:
-- core/1.3: [Class.Extras,Element.Event,Fx,Cookie,JSON]
-- more/1.3.0.1: [String.QueryString,Fx.Scroll]
+- core/1.3: [Class.Extras, Element.Event, Fx,Cookie, JSON]
+- more/1.3.0.1: [String.QueryString, Fx.Scroll]
 
 provides: [HashNav]
 ...
