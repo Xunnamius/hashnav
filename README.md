@@ -101,7 +101,7 @@ We want to store random data in both the key and value of a variable amount of p
 		
 		{
 			page: '',
-			params: { *:'' }
+			params: { '*':'' }
 		},
 	
 		function(e){ store.this.data('Full Hash: ' + e[0]); }
@@ -114,7 +114,7 @@ For some reason we want all the parameter values to be the same:
 		
 		{
 			page: 'somerandompage',
-			params: { *:'All params must equal this text!' }
+			params: { '*':'All params must equal this text!' }
 		},
 	
 		function(e){ store.this.data('Full Hash: ' + e[0]); }
