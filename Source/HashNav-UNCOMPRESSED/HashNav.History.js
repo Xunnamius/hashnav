@@ -24,7 +24,8 @@ provides: [HashNav.history]
 	{
 		get: function(entry)
 		{
-			if(entry == 'all') return Array.clone(history).each(function(item, i){ if(parseInt(item)+1) this[i] = this[item]; }); // Reversse the internal history optimization for the cloned history object
+			if(entry == 'all')
+				return Array.clone(history).each(function(item, i, a){ if(parseInt(item)+1) a[i] = a[item]; }); // Reverse the internal history optimization for the cloned history object
 			
 			entry = parseInt(entry),
 			negen = history.length + entry;

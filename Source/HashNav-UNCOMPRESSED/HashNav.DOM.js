@@ -17,6 +17,7 @@ provides: [Element.observe, Element.observing, Element.unobserve]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function() // Private
 {
+	HashNav.implement({ $_hidden_DOM_loaded: true });
 	Element.implement({
 						
 		observe: function(trigger, fn, args, scrollToElement)

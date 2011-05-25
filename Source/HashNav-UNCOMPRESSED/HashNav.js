@@ -24,7 +24,7 @@ provides: [HashNav]
 	/* Check the documentation for information on HashNav's public methods and options! */
 	this.HashNav = new Class({
 		
-		implements: [Options, Events],
+		Implements: [Options, Events],
 		
 		options:
 		{
@@ -86,7 +86,8 @@ provides: [HashNav]
 		poll: function()
 		{
 			var lhsplit, lochash = window.location.hash;
-			if(this.getStoredHashData()[0] != lochash)
+			
+			if(lochash && this.getStoredHashData()[0] != lochash)
 			{
 				state['storedHash'][0] = (lochash.length ? lochash : '#');
 				
@@ -101,7 +102,7 @@ provides: [HashNav]
 					else state['storedHash'][1]['pathParsed'] = state['storedHash'][1]['pathString'].parseQueryStringImproved(this.options.queryMakeFalse);
 					
 					// History optimization using a pointer system
-					if(this.$_hidden_history_loaded) this.history.push(this.getStoredHashData().clone());
+					if(this.$_hidden_history_loaded) this.push(this.getStoredHashData().clone());
 				}
 				
 				else
@@ -209,7 +210,7 @@ provides: [HashNav]
 							if(scan[2]) return;
 						}
 						
-						if(this.$_hidden_fx_loaded && scrlto) HashNav.Fx.scrlTo(scrlto);
+						if(this.$_hidden_fx_loaded && scrlto) this.Fx.scrlTo(scrlto);
 						fn.apply(bind, [this.getStoredHashData()].append(Array.from(args)));
 					}
 				}
@@ -313,7 +314,7 @@ provides: [HashNav]
 			return hash.substr(1, this.options.prefix.length) == this.options.prefix;
 		},
 		
-		triggerEvent: function(){ window.fireEvent('navchange', [this.getStoredHashData()]); }
+		triggerEvent: function(){ return (this.getStoredHashData()[0] ? window.fireEvent('navchange', [this.getStoredHashData()]) : false); }
 		
 	});
 })();

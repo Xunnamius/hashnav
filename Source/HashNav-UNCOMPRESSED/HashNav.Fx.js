@@ -19,14 +19,15 @@ provides: [HashNav.Fx]
 (function() // Private
 {
 	
-	HashNav.extend('Fx',
+	HashNav.implement('Fx',
 	{
+		
 		$_hidden_fx_loaded: true,
 		scrl: new Fx.Scroll(window),
 		scrlTo: function(elID)
 		{
 			elID = typeof(elID) == 'string' ? document.id(elID) : elID;
-			if(elID) HashNav.Fx.scrl.toElement(elID);
+			if(elID) this.scrl.toElement(elID);
 		}
 		
 	});

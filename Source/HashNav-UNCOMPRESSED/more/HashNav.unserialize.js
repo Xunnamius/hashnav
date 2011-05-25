@@ -53,7 +53,7 @@ provides: [HashNav.unserialize]
 					version = buffer.version.v;
 					this.setOptions(buffer.options);
 					state = buffer.state;
-					if(this.$_hidden_history_loaded) this.history.replace(buffer.history);
+					if(this.$_hidden_history_loaded) this.replace(buffer.history);
 					return this.navigateTo(-1, fireEventOnNav);
 					return true;
 				}

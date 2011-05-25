@@ -22,34 +22,28 @@ provides: [Logic]
 		$_hidden_wlogic_loaded: true,
 		$_hidden_wlogic_optimize: function(trigger)
 		{
-			/*Object.each(trigger.params, function(value, key)
+			var value = trigger.params['*'];
+			if(typeof(value) == 'boolean')
 			{
-				if(trigger.params['*'])
-				{*/
-					var value = trigger.params['*'];
-					if(typeof(value) == 'boolean')
-					{
-						var temp = trigger.params['*'];
-						delete trigger.params['*'];
-						if(!Object.contains(trigger.params, temp)) trigger.params['*'] = temp;
-					}
-					
-					else if(value === '~' && trigger.qualifiers)
-					{
-						delete trigger.qualifiers;
-						delete trigger.params;
-						trigger.params = {};
-						trigger.params['*'] = '~';
-					}
-					
-					else if(value === '' && Object.getLength(trigger.params) > 1) delete trigger.params['*'];
-					
-					else if(
-						(trigger.qualifiers && (typeof(trigger.qualifiers.minparams) != 'undefined' || typeof(trigger.qualifiers.maxparams) != 'undefined')) ||
-						(typeof(value) != 'boolean' && value !== '~' && value !== '' && trigger.qualifiers && trigger.qualifiers.exclusive))
-					  delete trigger.qualifiers.exclusive;
-				/*}
-			});*/
+				var temp = trigger.params['*'];
+				delete trigger.params['*'];
+				if(!Object.contains(trigger.params, temp)) trigger.params['*'] = temp;
+			}
+			
+			else if(value === '~' && trigger.qualifiers)
+			{
+				delete trigger.qualifiers;
+				delete trigger.params;
+				trigger.params = {};
+				trigger.params['*'] = '~';
+			}
+			
+			else if(value === '' && Object.getLength(trigger.params) > 1) delete trigger.params['*'];
+			
+			else if(
+				(trigger.qualifiers && (typeof(trigger.qualifiers.minparams) != 'undefined' || typeof(trigger.qualifiers.maxparams) != 'undefined')) ||
+				(typeof(value) != 'boolean' && value !== '~' && value !== '' && trigger.qualifiers && trigger.qualifiers.exclusive))
+			  delete trigger.qualifiers.exclusive;
 			
 			return trigger;
 		}.protect(),
