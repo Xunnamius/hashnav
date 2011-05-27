@@ -35,11 +35,17 @@ provides: [Logic]
 			if(trigger.qualifiers.exclusive && (trigger.qualifiers.minparams || trigger.qualifiers.maxparams)) delete trigger.qualifiers.exclusive;
 			if(trigger.qualifiers.exclusive && Object.every(trigger.params, function(item){ return item === '~'; }))
 			{
-				delete trigger.qualifiers;
-				delete trigger.params;
-				trigger.params = {};
-				trigger.params['*'] = '~';
+				var x = false;
+				trigger.params = { '*':'~' };
+				
+				if(trigger.qualifiers)
+				{
+					if(trigger.qualifiers.explicitChange) trigger.qualifiers = { explicitChange: true };
+					else delete trigger.qualifiers;
+				}
 			}
+			
+			if(!Object.getLength(trigger.qualifiers)) delete trigger.qualifiers;
 			
 			return trigger;
 		}.protect(),
@@ -52,11 +58,12 @@ provides: [Logic]
 			{
 				if(trigger.qualifiers.strict) map.strict = true;
 				if(trigger.qualifiers.wildstrict) map.wildstrict = true;
-				if(trigger.qualifiers.maxparams < Object.getLength(map.path) || trigger.qualifiers.minparams > Object.getLength(map.path)) returnval = true;
+				if(trigger.qualifiers.maxparams < Object.getLength(map.path) || trigger.qualifiers.minparams > Object.getLength(map.path))
+					returnval = true;
 			}
 			
 			return [trigger, map, returnval];
-		},
+		}.protect(),
 		
 		$_hidden_qlogic_closeScan: function(trigger, map)
 		{
@@ -65,22 +72,20 @@ provides: [Logic]
 			if(trigger.qualifiers.exclusive)
 			{
 				var params = Object.clone(trigger.params);
-				params = Object.filter(params, function(value, key)
-				{
-					if(value == '~') return false;
-					return true;
-				});
-				
+				params = Object.filter(params, function(value, key){ return value != '~'; });
 				if(Object.getLength(params) !== Object.getLength(map.path)) returnval = true;
 			}
 			
 			if(!returnval && trigger.qualifiers.explicitChange)
-				returnval = Object.compare(this.history.get(-2)[1]['pathParsed'], this.history.get(-1)[1]['pathParsed']);
+			{
+				var h1 = this.history.get(-1)[1], h2 = this.history.get(-2)[1];
+				returnval = Object.compare(h1?h1.pathParsed:null, h2?h2.pathParsed:null);
+			}
 			
 			// More coming soon
 			
 			return [trigger, map, returnval];
-		}
+		}.protect()
 		
 	});
 })();

@@ -125,8 +125,10 @@ provides: [HashNav]
 			else
 			{
 				/* Check documentation on the specifics of what's going on within each protected method */
+				if(!this.$_hidden_wlogic_loaded && trigger.params && typeof(trigger.params['*']) != 'undefined') delete trigger.params['*'];
 				if(trigger.qualifiers && this.$_hidden_qlogic_loaded) trigger = this.$_hidden_qlogic_optimize(trigger);
-				if(trigger.params['*'] && this.$_hidden_wlogic_loaded) trigger = this.$_hidden_wlogic_optimize(trigger);
+				else if(trigger.qualifiers) delete trigger.qualifiers;
+				if(typeof(trigger.params['*']) != 'undefined' && this.$_hidden_wlogic_loaded) trigger = this.$_hidden_wlogic_optimize(trigger);
 			}
 			
 			if(!observers[name]) observers[name] = [];
@@ -174,7 +176,7 @@ provides: [HashNav]
 					hist = Object.every(trigger.params, function(item, index) //the 'hist' namespace is being reused here
 					{
 						if(map.satisfied) return true;
-						else if(index === '*' && this.$_hidden_wlogic_loaded)
+						else if(index === '*')
 						{
 							var scan = this.$_hidden_wlogic_scan(trigger, map);
 							trigger = scan[0];
@@ -202,7 +204,7 @@ provides: [HashNav]
 					if(hist)
 					{
 						// Last-possible-second qualifier logic
-						if(!map.satisfied && trigger.qualifiers && this.$_hidden_qlogic_loaded)
+						if(trigger.qualifiers && this.$_hidden_qlogic_loaded)
 						{
 							var scan = this.$_hidden_qlogic_closeScan(trigger, map);
 							trigger = scan[0];

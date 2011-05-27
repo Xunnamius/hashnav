@@ -25,57 +25,69 @@ provides: [Logic]
 			var value = trigger.params['*'];
 			if(typeof(value) == 'boolean')
 			{
-				var temp = trigger.params['*'];
 				delete trigger.params['*'];
-				if(!Object.contains(trigger.params, temp)) trigger.params['*'] = temp;
+				if(!Object.contains(trigger.params, value)) trigger.params['*'] = value;
 			}
 			
-			else if(value === '~' && trigger.qualifiers)
+			else if(value === '~')
 			{
-				delete trigger.qualifiers;
-				delete trigger.params;
-				trigger.params = {};
-				trigger.params['*'] = '~';
+				var x = false;
+				trigger.params = { '*':'~' };
+				
+				if(trigger.qualifiers)
+				{
+					if(trigger.qualifiers.explicitChange) trigger.qualifiers = { explicitChange: true };
+					else delete trigger.qualifiers;
+				}
 			}
 			
-			else if(value === '' && Object.getLength(trigger.params) > 1) delete trigger.params['*'];
+			else if(value === '')
+				if(Object.getLength(Object.filter(trigger.params, function(item){ return item !== '~'; }))-1) delete trigger.params['*'];
 			
-			else if(
-				(trigger.qualifiers && (typeof(trigger.qualifiers.minparams) != 'undefined' || typeof(trigger.qualifiers.maxparams) != 'undefined')) ||
-				(typeof(value) != 'boolean' && value !== '~' && value !== '' && trigger.qualifiers && trigger.qualifiers.exclusive))
-			  delete trigger.qualifiers.exclusive;
+			else
+			{
+				if(trigger.qualifiers && trigger.qualifiers.exclusive) delete trigger.qualifiers.exclusive;
+				trigger.params = { '*':value };
+			}
 			
 			return trigger;
 		}.protect(),
 		
 		$_hidden_wlogic_scan: function(trigger, map)
 		{
-			var returnval = false;
+			var returnval = false, item = trigger.params['*'];
 			
-			if(item === '~' && (!map.path || Object.getLength(map.path) == 0)) returnval = map.satisfied = true;
+			if(item === '~')
+			{
+				if(!map.path || Object.getLength(map.path) == 0)
+					returnval = map.satisfied = true;
+			}
+			
 			else if(Object.getLength(map.path))
 			{
-				// Ninja Art: Empty Wildcard Parameter Plus Exclusive Qualifier Jutsu!
-				if(item === '' && ((trigger.qualifiers && trigger.qualifiers.exclusive && Object.getLength(map.path) == 1) || (!trigger.qualifiers && Object.getLength(map.path)))) returnval = map.satisfied = true;
+				delete trigger.params['*'];
+				
+				if(item === '')
+				{
+					// Ninja Art: Empty Wildcard Parameter Plus Exclusive Qualifier Jutsu!
+					if(trigger.qualifiers && trigger.qualifiers.exclusive && Object.getLength(map.path) != Object.getLength(Object.filter(trigger.params, function(item){ return item != '~'; })))
+						returnval = false;
+					else returnval = map.satisfied = true;
+				}
+				
 				else
 				{
-					var temp = trigger.params['*'];
-					delete trigger.params['*'];
-					
 					if((item === true  && Object.contains(map.path, true)) ||
-					 (item === false && Object.contains(map.path, (this.options.makeFalse ? false : ''))) ||
-					 (item !== '' && (Object.values(map.path).every(function(value){ returnval = (map.wildstrict ? value === item : value.toString() == item.toString()); }))))
-					 {
-						 trigger.params['*'] = temp;
+					   (item === false && Object.contains(map.path, (this.options.makeFalse ? false : ''))) ||
+					   (Object.values(map.path).every(function(value){ returnval = (map.wildstrict ? value === item : value.toString() == item.toString()); })))
 						 returnval = true;
-					 }
-				 
-					trigger.params['*'] = temp;
 				}
+				
+				trigger.params['*'] = item;
 			}
 			
 			return [trigger, map, returnval];
-		}
+		}.protect()
 		
 	});
 })();
