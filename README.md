@@ -4,32 +4,31 @@ HashNav is a powerful AJAX-esque hash navigation (or "HashNav") class made in Ja
 
 ![Screenshot](http://i.imgur.com/sWNmn.png)
 
-Some of the nifty (and quite-frankly awesome) tools provided for developers include:
+Some of the nifty tools provided for developers include:
 
 * One of the most unique and intuitive hash URI parsers around
 * Query, grab, and manipulate hash data in the URI in a succinct and efficient manner
 * Quickly and easily navigate through a local history "smart-repository"
-* Register and unregister powerful URI observer events (which can optionally be tied to DOM elements), capable of meeting all your needs
+* Register and unregister powerful URI observer events (which can be easily tied to DOM elements), capable of meeting all your needs
 * Serialize (take a snapshot of) the current hash session for later analysis, storage, or session sharing
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
 * Supports the search-engine AJAX crawler routine a la "#!/"
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
-* Around 4KB when gzipped (using compressed version).
-* Quite a bit more is available for use, with [more on the way](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ComingSoon).
-
-Do note that this bad boy is **STILL IN BETA** (support for BETA releases will cease once HashNav advances to 1.0) and as such probably contains a few bugs that I have yet to find whilst testing the hell out of it these past few days. I'll stomp them as I come across them, but if you happen across any yourself, **don't hesitate to file an issue** (or fork the project and stomp a few yourself) and I'll hop right on it.
+* Very small core file (6.05KB uncompressed, 2.02KB gzipped). 60% smaller than beta version.
+* New modularized class structure reduces HashNav's overall footprint by over 50% when compared to the beta version.
+* Tested against MooTools 1.3.x
 
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
-For a fun little demo sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
+For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
 How to Use
 ----------
 If you're in a hurry and just need some decent hash navigation (or a little crash course in observer-oriented hash navigation), you could do something like:
 
 	var hashNav = new HashNav(),
-	observerName = 'observer',
+	observerName = 'helloworld',
 	trigger = { page: true, params: {} },
 	callback = function(e){ console.log('event triggered:', e, arguments); },
 	arguments = [1, 2, 3, 4],
@@ -39,7 +38,7 @@ If you're in a hurry and just need some decent hash navigation (or a little cras
 	hashNav.registerObserver(observerName, trigger, callback, arguments, bind, elementToScrollTo);
 	hashNav.triggerEvent();
 
-What this does is register an observer named **observer** with the hashNav object, which handles all the nitty-gritty details of hash navigation for you.
+What this does is register an observer named **helloworld** with the hashNav object, which handles all the nitty-gritty details of hash navigation for you.
 
 This observer will watch the URI hash and call the callback function
 
@@ -50,9 +49,9 @@ with arguments `[1, 2, 3, 4]` bound to the default namespace (denoted by `null`)
 	#!/home -- changing to --> #!/about
 	#!/faq&&entry=1 -- changing to --> #!/faq&&entry=2
 
-Now, the final line, `hashNav.triggerEvent();`, is called so that our new observer is alerted to any potential change.
+Now, the final line, `hashNav.triggerEvent();`, is equivalent to the gun shot at the horse races. It's the signal to go!
 
-More Examples
+Advanced Examples
 -------------
 Loading data whenever the application's page/state designator changes:
 
@@ -91,10 +90,10 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 			qualifiers: { exclusive: true }
 		},
 	
-		function(e){ warningPopup('Watch out ' + e[1].pathParsed['username'] + ', if you leave the page before saving, everything you just typed will be lost!'); }
+		function(e){ warningPopup('Watch out ' + this.get('username') + ', if you leave the ' + this.getCurrent() + ' page before saving, everything you just typed will be lost!'); }
 	);
 
-We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only. Here's an easy way for an observer to watch for a situation like the aforementioned:
+We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only:
 
 	hashNav.registerObserver(
 		'test',
@@ -105,6 +104,20 @@ We want to store random data in both the key and value of a variable amount of p
 		},
 	
 		function(e){ store.this.data('Full Hash: ' + e[0]); }
+	);
+	
+Or we could do what we just did above, except add a limit to the amount of parameters:
+
+	hashNav.registerObserver(
+			'test',
+			
+			{
+				page: '',
+				params: { '*':'' },
+				qualifiers: { minparams: 3, maxparams: 10 }
+			},
+		
+			function(e){ store.this.data('Full Hash: ' + e[0]); }
 	);
 
 For some reason we want all the parameter values to be the same:
@@ -120,9 +133,7 @@ For some reason we want all the parameter values to be the same:
 		function(e){ store.this.data('Full Hash: ' + e[0]); }
 	);
 
-For more information on how to use the awesome trigger and/or observer systems, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers).
-
-Check out this GitHub page for a live demo of the *whole* class: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
+For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). You may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
 Syntax
 ------

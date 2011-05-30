@@ -8,15 +8,11 @@ Class: HashNav
 ##Requires
 * MooTools 1.3
 
-* [Conservative](#UsageModes "Jump to it!")
+* [HashNav](#UsageModes "Jump to it!")
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
-	* **More**: `More`, `String.QueryString`
-* \+ [Window Scrolling](#UsageModes "Jump to it!")
-	* **Core**: `Fx`
-	* **More**: `Fx.Scroll`
-* \+ [Serialization](#UsageModes "Jump to it!")
-	* **Core**: `Cookie`, `JSON`
-	* **More**: (none)
+	* *provided*: [String.QueryStringImproved.js]
+
+Note that each module that you would like to utilize the funcitonality of needs to be included within your page for the HashNav class to work as described. **Check out the comments included within each module file for more specific requirements.**
 
 ##Properties
 * Singleton
@@ -34,10 +30,6 @@ Class: HashNav
 * prefix - (`string`: defaults to **"!/"**) Determines the string that will be looked for after the pound/hash sign (#) in URIs. If the prefix is **not** found, the HashNav object will refuse to recognize the hash change as [legal](#HowHashesAreParsed "Jump to it!") and will ignore it, as will *most* observers (see [observer triggers](#ObserverTriggers "Jump to it!") below).
 
 * defaultHome - (`string`: defaults to **"home"**) Your website's "meta-homepage." When visitors navigate to your page using a [Relative Hash](#RelativeHashes "Jump to it!"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hashes](#RelativeHashes "Jump to it!") for more information on this integral setting.
-
-* trackHistory - (`boolean`: defaults to **true**) Enables [history tracking](#HistoryTracking "Jump to it!") and exposes HashNav's native [history.*](#PMI-history "Jump to it!") methods if set to `true`. Do not touch this unless you're perfectly sure you recognize the [various compounding implications](#vci "Jump to it!").
-
-* exposeObserverMethods - (`boolean`: defaults to **true**) Exposes the [observe()](#DMI-observe "Jump to it!") and [unobserve()](#DMI-unobserve "Jump to it!") methods to MooTools's [Element](http://mootools.net/docs/core/Element/Element "MooTools Core Documentation: Element") type (via [implementation](http://mootools.net/docs/core/Class/Class#Class:implement "MooTools Core Documentation: Implement")) if set to `true`, allowing [observe()](#DMI-observe "Jump to it!") to be called from any DOM element as opposed to tying the observer to an element (a somewhat arduous journey) using [registerObserver()](#PMI-registerObserver "Jump to it!").
 
 * cleanQueryString - (`boolean`: defaults to **false**) A **very** dangerous setting that will strip any nonconforming parameter entries and anything else MooTools's [String.cleanQueryString()](http://mootools.net/docs/more/Types/String.QueryString#String:cleanQueryString "MooTools More Documentation: cleanQueryString") method doesn't like if set to `true`. If set to `false`, a version of the [String.parseQueryString()]( http://mootools.net/docs/more/Types/String.QueryString#String:parseQueryString "MooTools More Documentation: String:parseQueryString") method is used instead (this is default). It is recommended you leave this off (`false`) unless you [know what you're doing](#HowHashesAreParsed "Jump to it!").
 
@@ -57,13 +49,13 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 ####Signature
 	onNavchange(storedHashData)
 ####Arguments
-1. storedHashData - (`object`) The hash data-object representing the most recent URI hash change.
+1. storedHashData - (`object`) The hash data-object representing the most recent URI hash change. Note that said object is structurally equivalent to the object returned when one calls [getStoredHashData()](#getStoredHashData "Jump to it!").
 
 ##Public Method Index
 
 <a name="PMI-history"></a>
 ###Public Method: <a name="PMI-history.get"></a>history.get
-Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history and returns it.
+Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history and returns it. Requires the HashNav.History module.
 
 ####Syntax
 	hashNav.history.get(entry);
@@ -76,18 +68,21 @@ Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history
 * (`array`) An array consisting of all the history objects.
 * (`boolean`) `false` when out of bounds or the history object does not otherwise exist.
 
+####Notes
+* history.get(-1) returns the most recent hash URI data, and is equivalent to calling [getStoredHashData()](#getStoredHashData "Jump to it!").
+
 ####See Also
 * [History Tracking](#HistoryTracking "Jump to it!")
 
 <br />
 ###Public Method: <a name="PMI-history.truncate"></a>history.truncate
-Truncates the history array (starting from the front [index 0] and working towards the back [index history.length-1]). Usually used before calling [serialize()](#PMI-serialize "Jump to it!").
+Truncates the history array (starting from the front [index 0] and working towards the back [index history.length-1]). Usually used before calling [serialize()](#PMI-serialize "Jump to it!"). Requires the HashNav.History module.
 
 ####Syntax
 	hashNav.history.truncate(count);
 
 ####Arguments
-1. count - (`integer`) How many history entries (starting from 0) to delete. Does not accept negative numbers. Specifying a number greater than the history array's current length will cause this function to clear said array.
+1. count - (`integer`) How many history entries (starting from [index 0]) to delete. Does not accept negative numbers. Specifying a number greater than the history array's current length will cause this function to clear said array.
 
 ####Returns
 * (`boolean`) `false` when nothing was truncated, otherwise `true`.
@@ -97,7 +92,7 @@ Truncates the history array (starting from the front [index 0] and working towar
 
 <br />
 ###Public Method: <a name="PMI-history.clear"></a>history.clear
-Clears the internal history array.
+Clears the internal history array. Requires the HashNav.History module.
 
 ####Syntax
 	hashNav.history.clear();
@@ -147,13 +142,13 @@ Registers an observer with the HashNav object by setting up a virtual "middle-ma
 
 ####Arguments
 1. name - (`string`) The observer's name. This value will be used to [unregister the observer](#PMI-unregisterObserver "Jump to it!") later. Without it, the observer cannot be [unregistered](#PMI-unregisterObserver "Jump to it!").
-	* Note that observers can in fact have the same name without conflict. This is useful for grouping related observers together under one name. Do note, however, that when [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") is called on a name that is tied to multiple observers, **all** of the observers that share the specified name will be [unregistered](#PMI-unregisterObserver "Jump to it!").
-2. trigger - (`object`) This object is as special as it is important. So important, in fact, that it gets its [own section](#ObserverTriggers) below.
+	* Note that observers can in fact have the same name without conflict. This is useful for grouping related observers together under one label. Do note, however, that when [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") is called on a name that is tied to multiple observers, **all** of the observers under that label will be [unregistered](#PMI-unregisterObserver "Jump to it!").
+2. trigger - (`object`) This object is important. So important, in fact, that it gets its [own section](#ObserverTriggers) below.
 3. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments.
 4. args - (`mixed`, optional) Custom arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments.
 	* **Warning:** If your single argument is an array, wrap it within another array literal to prevent incorrect processing.
-5. bind - (`object`, optional) Object or element to bind the `this` keyword to within the observer function.
-6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI.
+5. bind - (`object`, optional) Object or element to bind the `this` keyword to within the observer function. Defaults to the current `this`.
+6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI. Requires the HashNav.Fx module.
 
 ####Returns
 * (`boolean`) `true` if the observer was registered successfully, otherwise `false`.
@@ -164,14 +159,14 @@ An observer's trigger object is what is used to dictate if the observer should c
 
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
-An observer registered with the above trigger would call its observing function when the URI looked something like the following:
+An observer registered with the above trigger would call its observing function when the hash URI looked something like the following:
 	#!/home2&&object=1&object2=true&magic=happening
 
 <br />
 #####Trigger Syntax
-The syntax for trigger objects may seem esoteric at first, but it's actually quite easy (maybe even intuitive).
+The syntax for trigger objects may seem a little esoteric at first, but using them is actually quite easy (maybe even intuitive) when you get the hang of it.
 
-Taking our above example,
+Extending our above example,
 
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
@@ -180,15 +175,16 @@ we see that we have:
 * A `page` key, which maps to the page/state designator in a hash URI.
 	* `page: 'home2'` means the observer will only activate when the hash URI is on `home2`.
 * A `params` key, which maps to the hash URI's query string (everything after the && -- basically the object returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!")).
-	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2=true&magic=happening` contained somewhere in its query string (in any order).
+	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2=true&magic=happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
 
-Pretty simple, 'eh? Just remember that the `page` and `params` keys are *required* to exist within your trigger objects. If they are missing, your observer will crash. Now let's get serious.
+Pretty simple, 'eh? Just remember that the `page` key is *required* to exist within your trigger objects. If it is missing, your observer will crash. `params`, however, is not required. 
+Now let's get serious.
 
 <br />
 #####Advanced Trigger Syntax
 Now that we've got a grasp on simple triggers, let's spice things up a little.
 
-The `page` key accepts more than just a page/state designator string. You can also feed it:
+The `page` key accepts more than just a simple page/state designator string. You can also feed it:
 
 * A blank string `''`, which is interpreted to mean the `defaultHome` page.
 	* ex. `page:''`
@@ -217,7 +213,7 @@ Trigger objects also have an optional third key called `qualifiers`, which appli
 
 Those keys are as follows:
 
-* exclusive - (`boolean`, defaults to **false**) When `true`, the trigger will only activate its observing function when all of the parameters in the `params` object are present **exclusively**, meaning there are no other parameters present except those listed. Defaults to `false`.
+* exclusive - (`boolean`, defaults to **false**) When `true`, the trigger will only activate its observing function when all of the parameters in the `params` object are present **exclusively**, meaning there are no other parameters present except those listed.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { exclusive: true } }`
 
 * minparams - (`integer`, defaults to **0**) Specifies the minimum number of parameters necessary to catch the observer's attention. Cannot be used with the `exclusive` qualifier.
@@ -232,6 +228,9 @@ Those keys are as follows:
 * wildstrict - (`boolean`, defaults to **false**) When `true`, the trigger processes its `wildcard` parameters using strict (===) comparison as apposed to normal comparison (==).
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { wildstrict: true } }`
 
+* explicitChange - (`boolean`, defaults to **false**) Allows the trigger to differentiate between an actual change in parameter data and a typical hash change (where the underlying data may not have been altered) in the hash URI.
+	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { explicitChange: true } }`
+	
 (more qualifiers will be added as they become necessary)
 
 There are also these cool little things called `wildcards`, represented, of course, by the asterisk `*`, and can appear **as a parameter within the `params` object.** When present within the `params` object, a `wildcard` may take one of the following forms:
@@ -249,18 +248,11 @@ There are also these cool little things called `wildcards`, represented, of cour
 
 <br />
 #####Notes
+* **You must include HashNav_T-QualifierLogic.js and HashNav_T-WildcardLogic.js in your webpage to be able to use any advanced trigger functionality!**
 * Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would cause [registerObserver()](#PMI-registerObserver "Jump to it!") to behave in an `undefined` manner.
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':false, someparam1:1, somepara2:2 }` is logically and syntactically correct).
-* Trigger objects are optimized when created in the following ways:
-	* Trigger Folding (removing unnecessary parameters by "folding" them into each other)
-		* Folding is mostly applied to `'*':true` and `'*':false`, whenever there exist non-wildcard keys with the same boolean values (useless).
-		* Also applies to `'*':''` ("folds" itself out if there are other parameters present)
-		* Also "folds" "double-exclusive" triggers (triggers that specify some form of negation (`'~'`) along with the `exclusive` qualifier) by deleting the whole qualifiers sub-object if it exists and emptying the params sub-object.
-	* `maxparams` qualifier values less than or equal to 0 (or less than `minparams`) result in the deletion of everything within trigger.params and the `minparams` qualifier (if it exists). Replaces the `maxparams` qualifier with the `exclusive` qualifier.
-	* `minparams` qualifier values less than or equal to 0 will result in the deletion of the `minparams` qualifier.
-	* The `exclusive` qualifier is deleted when either `'*':(string)` is found within trigger.params (**IMPORTANT:** unlike `'*':''`, which is special and described below) or the `minparams`/`maxparams` qualifier(s) exists.
-	* Note that the behavior of [registerObserver()](#PMI-registerObserver "Jump to it!") becomes `undefined` if the number of parameters in trigger.params is greater than the number specified in `maxparams` (if the qualifier exists; excluding `wildcards`)
-* Do note that there exists a special combination (before the advent of `minparams` and `maxparams`) of wildcard and qualifier, a la `'*':''` + `exclusive`, which means any one (and only one) parameter is allowed. This is kept for backwards compatibility.
+* All trigger objects are optimized when created. Check out the demo page's "Trigger Demystifier" for an in-depth look at how this is done.
+* Trigger functions are automatically supplied with an "event" object that matches the sructure of [getStoredHashData()](#PMI-getStoredHashData "Jump to it!").
 
 Congratulations, you're now a trigger master!
 
@@ -268,10 +260,24 @@ Congratulations, you're now a trigger master!
 	// Grab the HashNav Class's instance
 	var hashNav = new HashNav();
 
-	// Register an Observer
+	// Register an observer
 	hashNav.registerObserver('observer', { page: 'page3', params: {} }, function(e){ if(e[0]) console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
 	
 	// The observer will be alerted when the hash URI looks something like   #!/page3   with any number of params!
+
+<br />
+####*SUPER* Advanced Trigger Syntax
+	// Grab the HashNav Class's instance
+	var hashNav = new HashNav();
+
+	// Register an observer
+	hashNav.registerObserver('superduper', { page: false, params: { test: ['data1', 'data2'] } }, function(e){ alert('hi!'); });
+	
+	// The observer will be alerted when the hash URI looks something like   #!/page99&&test=data1&test=data2   
+	// Do you see what I did there? No, it's not a typo! Even better:
+	
+	// Register another observer
+	hashNav.registerObserver('superduper', { page: false, params: { '*': ['data1', 'data2', false, 'data5', ''] } }, function(e){ alert('hi!'); }); // Woah!
 
 <br />
 ###Public Method: <a name="PMI-registeredObserver"></a>registeredObserver
@@ -314,7 +320,7 @@ Removes the specified observer from HashNav's internal observer stack, and remov
 
 <br />
 ###Public Method: <a name="PMI-unregisterObservers"></a>unregisterObservers
-[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers (and can utilize the `all` keyword).
+[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers (and can utilize the `all` keyword). Requires the HashNav.unregisterObservers module.
 
 ####Syntax
 	hashNav.unregisterObservers(name1[, name2[, name3[, ...]]]);
@@ -352,11 +358,13 @@ Navigates the browser to the specified URI or history entry.
 * Second Mode
 	1. page - (`string`) The page/state designator to navigate to. (ex. 'home')
 	2. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs. (ex. 'hello=world&hello2=2')
+	3. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
 
 * Third Mode
 	1. prefix - (`string`) The hash prefix to navigate to. (ex. '#')
 	2. page - (`string`) The page/state designator to navigate to. (ex. 'home')
 	3. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs.  (ex. 'hello=world&hello2=2')
+	4. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
 
 ####Returns
 * (`boolean`) `true` if navigation completed successfully or `false` on failure.
@@ -473,7 +481,7 @@ Grabs the value of a specified query parameter.
 
 <br />
 ###Public Method: <a name="PMI-set"></a>set
-Sets the value of the specified query parameter (merges current parameter object (a la [getStoredHash()](#PMI-getStoredHash "Jump to it!") with supplied input using [Object.merge()](http://mootools.net/docs/core/Types/Object#Object:Object-merge "MooTools Core Documentation: Object.merge")).
+Sets the value of the specified query parameter (merges [current parameter object](#PMI-getStoredHash "Jump to it!") with supplied input using [Object.merge()](http://mootools.net/docs/core/Types/Object#Object:Object-merge "MooTools Core Documentation: Object.merge")).
 
 ####Syntax
 	hashNav.set(parameter, value);
@@ -548,7 +556,7 @@ Checks if the specified hash (or the [internally stored hash](#PMI-getStoredHash
 
 <br />
 ###Public Method: <a name="PMI-serialize"></a>serialize
-Capture the current hash URI and correlated browser session data. Check the notes below for some important specifics.
+Capture the current hash URI and correlated browser session data. Check the notes below for some important specifics. Requires [deserialize()](#PMI-deserialize "Jump to it!") as well as the HashNav.serialize module.
 
 ####Syntax
 	hashNav.serialize([cookieName, [ nowrite]]);
@@ -575,7 +583,7 @@ Capture the current hash URI and correlated browser session data. Check the note
 
 <br />
 ###Public Method: <a name="PMI-unserialize"></a>unserialize
-Rebuild (unserialize) serialized HashNav session data.
+Rebuild (unserialize) serialized HashNav session data. Requires the HashNav.unserialize module.
 
 ####Syntax
 	hashNav.unserialize([restoreParadigm[, fireEventOnNav[, cookieName[, secure[, customdata]]]]]);
@@ -596,7 +604,7 @@ Rebuild (unserialize) serialized HashNav session data.
 
 <br />
 ###Public Method: <a name="PMI-deserialize"></a>deserialize
-Destroys any cookies created with [serialize()](#PMI-serialize "Jump to it!").
+Destroys any cookies created with [serialize()](#PMI-serialize "Jump to it!"). Requires [unserialize()](#PMI-unserialize "Jump to it!") as well as the HashNav.deserialize module.
 
 ####Syntax
 	hashNav.deserialize([cookieName]);
@@ -616,20 +624,25 @@ Destroys any cookies created with [serialize()](#PMI-serialize "Jump to it!").
 Triggers a `navchange` event on the window, which triggers any active observers. **Do not use `window.fireEvent('navchange')` directly or your observers may die.**
 
 ####Syntax
-	hashNav.triggerEvent();
+	hashNav.triggerEvent(customHashData);
+
+####Arguments
+1. customHashData - (`object`, optional) A custom data object that will be passed down to any interested observers without generating a registry within HashNav's history. The structure of your customHashData objects should match that of [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") **exactly** or you risk crashing your observers.
+
+####Returns
+* (`boolean`) `true` if the event fired successfully, else `false`.
 
 ####Notes
+* This method will refuse to run if the hash URI is completely empty.
 * Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you [register a new observer](#PMI-registerObserver "Jump to it") (or after you're finished registering all your observers or initializing a page -- much more efficient, an example is below). This is required because most modern browsers fire their native `onHashchange` event before the HashNav object is allowed to fully initialize. So when your visitors land on your site using a hash URI and you don't call [triggerEvent()](#PMI-triggerEvent "Jump to it!"), it'll be as if the hash never changed! To better understand the problem, try the below example code out on your own page.
-
 * This stipulation also applies to [DOM element observers](#DMI-observe "Jump to it!") as well.
-
 * **WARNING:** Calling [triggerEvent()](#PMI-triggerEvent "Jump to it!") is nothing to scoff at! In fact, it's pretty dangerous, and can lead to some serious bugs if used incorrectly (most often, it'll cause observers to fire multiple times -- even ones that wouldn't normally fire under the circumstances -- which you might or might not desire). Be careful!
 
 ####Examples
 	//First Time Visitor: URI = #!/home&&slideshow=slide5
 
-	hashNav.registerObserver('test1', { page: 'home', params: {} }, function(e){ console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
-	hashNav.registerObserver('test2', { page: '', params: {} }, function(e){ console.log('MatchDefaultHome!'); });
+	hashNav.registerObserver('test1', { page: 'home' }, function(e){ console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
+	hashNav.registerObserver('test2', { page: '' }, function(e){ console.log('MatchDefaultHome!'); });
 	
 	// NOTHING HAPPENS?!?!
 	
@@ -639,12 +652,12 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 	// Yay it worked! Try navigating to your page (from an external site or new tab) with the above line commented out, and see what happens.
 
 <br />
-###Public Property (utility): <a name="PMI-scrl"></a>scrl
-One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instance of the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's [scrl](#PMI-scrl "Jump to it!") property).
+###Public Property (supplied by the HashNav.Fx module): <a name="PMI-scrl"></a>scrl
+One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instance of the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's [scrl](#PMI-scrl "Jump to it!") property). Requires the HashNav.Fx module.
 
 <br />
-###Public Method (utility): <a name="PMI-scrlTo"></a>scrlTo
-Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toElement "MooTools More Documentation: Fx.Scroll:toElement()") on the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") instance housed within the [scrl](#PMI-scrl "Jump to it!") utility property.
+###Public Method (supplied by the HashNav.Fx module): <a name="PMI-scrlTo"></a>scrlTo
+Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toElement "MooTools More Documentation: Fx.Scroll:toElement()") on the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") instance housed within the [scrl](#PMI-scrl "Jump to it!") property. Requires the HashNav.Fx module.
 
 ####Syntax
 	hashNav.scrlTo(elementID);
@@ -656,7 +669,7 @@ Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toEleme
 ##DOM Method Index
 
 ###Element Method: <a name="DMI-observe"></a>observe
-Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#PMI-registerObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument.
+Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#PMI-registerObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the HashNav.DOM module.
 
 ####Syntax
 	myElement.observe(trigger, fn[, args[, scrollToElement]]);
@@ -666,7 +679,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 2. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments (the function is bound to the current DOM object).
 3. args - (`mixed`, optional) Custom arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments.
 	* **Warning:** If your single argument is an array, wrap it within another array literal to prevent incorrect processing.
-4. scrollToElement - (`mixed`, optional) An ID string/DOM object that will be scrolled to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead.
+4. scrollToElement - (`mixed`, optional) An ID string/DOM object that will be scrolled to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead. Requires the HashNav.Fx module.
 
 ####Returns
 * (`element`) The DOM element in question.
@@ -683,7 +696,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 
 <br />
 ###Element Method: <a name="DMI-unobserve"></a>unobserve
-Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observing DOM element. Note that this method passes [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument.
+Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observing DOM element. Note that this method passes [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the HashNav.DOM module.
 
 ####Syntax
 	myElement.unobserve();
@@ -706,7 +719,7 @@ Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observ
 
 <br />
 ###Element Method: <a name="DMI-observing"></a>observing
-Returns the DOM element's observer status.
+Returns the DOM element's observer status. Requires the HashNav.DOM module.
 
 ####Syntax
 	myElement.observing();
@@ -749,9 +762,9 @@ Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will 
 	* \#!/home`&&param=1&param2=2`
 	* **non-existent** in #!/home
 
-Basically: http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=something`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse=too`
+Basically: http://fakesite.com/`#!/``somepage``&&``someparam=something``&``somethingelse=too`
 
-Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So http://fakesite.com/&nbsp;&nbsp;`#!/`&nbsp;&nbsp;`somepage`&nbsp;&nbsp;`&&`&nbsp;&nbsp;`someparam=`&nbsp;&nbsp;`&`&nbsp;&nbsp;`somethingelse` is just as legal as its predecessor above.
+Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So http://fakesite.com/`#!/``somepage``&&``someparam=``&``somethingelse` is just as legal as its predecessor above.
 
 Now, the quintessential core facet of the HashNav object is its ability to parse a hash URI and store it in a logical and meaningful manner.
 
@@ -839,40 +852,27 @@ when the current page is unknown or the user is using a relative hash when first
 As you can see, relative hashes are certainly powerful, and definitely have their shining moments, but are dangerous when used willy-nilly. Watch out!
 
 ###History <a name="HistoryTracking"></a>Tracking
-When `trackHistory` is set to `true`, the [history object and its various methods](#PMI-history "Jump to it!") become available to you.
+To enable history tracking, make sure to include the HashNav.History module in your webpages.
 
-What history tracking actually does is take the current hash data object (via [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")) and pushes it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data object, except in the past tense. Using the [history methods](#PMI-history "Jump to it!") or [navigateTo()](#PMI-navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occurs that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
+What history tracking actually does is take the current hash data object (via [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")) and push it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data object, except in the past tense. Using the [history methods](#PMI-history "Jump to it!") or [navigateTo()](#PMI-navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occurs that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
 
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
-
-###Usage <a name="UsageModes"></a>Modes###
-At its most conservative, the HashNav class only requires a small subset of the MooTools Core library to function properly. In case you do not feel like scrolling up, that subset is as follows:
-
-> * Conservative
-> 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` *(dependency of `Element` & `DOMReady`)*, `Element` & `Element.Event`, `DOMReady`
-> 	* **More**: `More`, `String.QueryString`
-> * \+ Window Scrolling
-> 	* **Core**: `Fx`
-> 	* **More**: `Fx.Scroll`
-> * \+ Serialization
-> 	* **Core**: `Cookie`, `JSON`
-> 	* **More**: (none)
-
-As you can see, if you require the use of [Window Scrolling](#PMI-scrlTo "Jump to it!") (Conservative + [Window Scrolling](#PMI-scrlTo "Jump to it!")), then you'll need to make sure the [Fx](http://mootools.net/docs/core/Fx/Fx "MooTools Core Documentation: Fx") and [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") modules are available for use.
-If you would like to utilize the full power of the HashNav class (Vanilla HashNav; Conservative + [Window Scrolling](#PMI-scrlTo "Jump to it!") + [Serialization](#PMI-serialize "Jump to it!")) then you'll need to include the [Cookie](http://mootools.net/docs/core/Utilities/Cookie "MooTools Core Documentation: Cookie") and [JSON](http://mootools.net/docs/core/Utilities/JSON "MooTools Core Documentation: JSON") modules in your MooTools package as well.
 
 ##Pro Tips
 * **FOR THE LOVE OF GOD: REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
 * Query strings are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
-* The values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString").
-* Query params do not overwrite one another! In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
-* Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser. **Avoid the use of whitespace at all costs!**
-* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* your observers or initializing a page -- much more efficient, here's an [example](#PMI-triggerEvent "Jump to it!")).
+* The values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings.
+* **Query params do not overwrite one another!** In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
+* Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser.
+* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* of your observers or initializing a page. Here's an [example](#PMI-triggerEvent "Jump to it!")).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-triggerEvent "Jump to it!") after registering an observer or two! Ooh! Aah!
 
 ##Coming <a name="ComingSoon"></a>Soon
-* An `explicitChange` option, which will allow the HashNav class to differentiate between an actual "data change" in the hash and a typical hash change (where the underlying data may not have changed).
-* May build an HTML5-ready history/popstate manipulation class (along with native "forward()" and "back()" methods implemented into the history object) ontop of this class if it becomes necessary (but that's really moving away from "browser hash navigation" and heading towards "browser history management," which is not what this class was meant to do).
+* Nothing yet! Any ideas?
+
+##Documented Bugs
+* The `explicitChange` qualifier may not pay attention to data similarities when the hash URI is changed using "forced mode" in navigateTo() in some rare cases.
+* Support for `{ page: false, params: { '*':'' }, qualifiers: { exclusive: true } }`-esque triggers will return in version 1.1
 
 *Check the change log for more information on releases!*
