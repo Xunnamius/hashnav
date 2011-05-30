@@ -7,3 +7,4 @@ March 2011:
 	Version 0.88 (BETA) -- Added getCurrent(), fixed a few minor bugs, added isLegalHash(), still in BETA
 	Version 0.90 (BETA) -- Fixed a minor bug within the trigger logic, augmented history grabs, still in BETA
 	Version 0.97 (BETA) -- Fixed a few bugs, added history.truncate, added isNative(), agumented the serialization process, general performance enhancements, still in BETA -> last major release before version 1.0
+	Version 1.0  (BOS)  -- Fixed a myriad of bugs, modularized the HashNav class, perfected advanced trigger syntax, reduced file size by 60%, removed and/or modularized utilities, added explicitChange qualifier, removed useless options, removed immutable cookie limits, removed trigger.params dependency, remaved overall class logic and structure
