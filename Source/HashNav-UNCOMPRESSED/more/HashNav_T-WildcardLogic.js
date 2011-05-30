@@ -42,7 +42,9 @@ provides: [Logic]
 			}
 			
 			else if(value === '')
+			{
 				if(Object.getLength(Object.filter(trigger.params, function(item){ return item !== '~'; }))-1) delete trigger.params['*'];
+			}
 			
 			else
 			{

@@ -33,19 +33,28 @@ provides: [Logic]
 			
 			if(trigger.qualifiers.minparams <= 0 || trigger.qualifiers.maxparams < trigger.qualifiers.minparams) delete trigger.qualifiers.minparams;
 			if(trigger.qualifiers.exclusive && (trigger.qualifiers.minparams || trigger.qualifiers.maxparams)) delete trigger.qualifiers.exclusive;
-			if(trigger.qualifiers.exclusive && Object.every(trigger.params, function(item){ return item === '~'; }))
+			
+			if(trigger.qualifiers.exclusive)
 			{
-				var x = false;
-				trigger.params = { '*':'~' };
-				
-				if(trigger.qualifiers)
+				if(Object.every(trigger.params, function(item){ return item === '~'; }))
 				{
-					if(trigger.qualifiers.explicitChange) trigger.qualifiers = { explicitChange: true };
-					else delete trigger.qualifiers;
+					var x = false;
+					trigger.params = { '*':'~' };
+					
+					if(trigger.qualifiers)
+					{
+						if(trigger.qualifiers.explicitChange) trigger.qualifiers = { explicitChange: true };
+						else delete trigger.qualifiers;
+					}
 				}
+				
+				else Object.each(trigger.params, function(item, key)
+				{
+					if(item == '~' && key != '*') delete trigger.params[key];
+				});
 			}
 			
-			if(!Object.getLength(trigger.qualifiers)) delete trigger.qualifiers;
+			if(trigger.qualifiers && !Object.getLength(trigger.qualifiers)) delete trigger.qualifiers;
 			
 			return trigger;
 		}.protect(),

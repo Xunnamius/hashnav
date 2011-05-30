@@ -167,13 +167,13 @@ provides: [HashNav]
 				}
 				
 				// Main Trigger logic
-				if(trigger.page === false ||
-				(trigger.page 	=== true  && (hist == -2 || (hist != -1 && hist[1].page && e.page && e.page != hist[1].page))) ||
+				if(trigger.page === false || this.isLegalHash() &&
+				((trigger.page 	=== true  && (hist == -2 || (hist != -1 && hist[1].page && e.page && e.page != hist[1].page))) ||
 				(trigger.page 	=== '' 	  && e.page == this.options.defaultHome) ||
-				trigger.page	==  e.page)
+				trigger.page	==  e.page))
 				{
-					if(trigger.page === false) map.satisfied = true; // We don't negotiate with terrorists (or illegal hash URIs).
-					hist = Object.every(trigger.params, function(item, index) //the 'hist' namespace is being reused here
+					if(trigger.page === false && !this.isLegalHash()) map.satisfied = true; // We don't negotiate with terrorists (or illegal hash URIs).
+					hist = Object.every(trigger.params, function(item, index) // The 'hist' namespace is being reused here
 					{
 						if(map.satisfied) return true;
 						else if(index === '*')
@@ -218,6 +218,7 @@ provides: [HashNav]
 				}
 			}.bind(this), trigger, args, bind, scrlto]);
 			
+			if(this.$_hidden_unregisterObservers_loaded) this.updateRemote(Object.keys(observers));
 			window.addEvent('navchange', observers[name].getLast()[0]);
 			return true;
 		},
@@ -230,6 +231,7 @@ provides: [HashNav]
 			{
 				observers[name].each(function(item){ window.removeEvent('navchange', item[0]); });
 				delete observers[name];
+				if(this.$_hidden_unregisterObservers_loaded) this.updateRemote(Object.keys(observers));
 				return true;
 			}
 			
@@ -316,7 +318,11 @@ provides: [HashNav]
 			return hash.substr(1, this.options.prefix.length) == this.options.prefix;
 		},
 		
-		triggerEvent: function(){ return (this.getStoredHashData()[0] ? window.fireEvent('navchange', [this.getStoredHashData()]) : false); }
+		triggerEvent: function(customHashData)
+		{
+			var hashData = this.getStoredHashData(), hashData = (customHashData ? customHashData : (hashData ? hashData : false));
+			return (hashData[0] ? window.fireEvent('navchange', [this.getStoredHashData()]) : false);
+		}
 		
 	});
 })();
