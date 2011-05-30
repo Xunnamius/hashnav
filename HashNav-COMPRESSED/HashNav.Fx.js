@@ -1,0 +1,1 @@
+(function(){HashNav.implement("Fx",{$_hidden_fx_loaded:!0,scrl:new Fx.Scroll(window),scrlTo:function(a){(a=typeof a=="string"?document.id(a):a)&&this.scrl.toElement(a)}})})();
