@@ -23,7 +23,7 @@ provides: [HashNav.deserialize]
 		deserialize: function(cookieName)
 		{
 			var buffer = this.unserialize(false, false, cookieName, true, null), cookieName = cookieName || this.options.externalConstants[1], metadata;
-			
+
 			if(buffer && buffer.version && buffer.version.s)
 			{
 				metadata = buffer.version.s;

@@ -31,8 +31,9 @@ provides: [HashNav.unserialize]
 			if(customdata) Object.each(customdata, function(item, key){ buffer[key] = (key == 'version' ? item : JSON.decode(decodeURIComponent(item), secure)); });
 			else
 			{
-				buffer['version'] = JSON.decode(decodeURIComponent(Cookie.read(cookieName+'version')), secure);
-				metadata = buffer['version']['s'];
+				buffer.version = JSON.decode(decodeURIComponent(Cookie.read(cookieName+'version')), secure);
+				if(!buffer.version) return false;
+				metadata = buffer.version['s'];
 				
 				Object.each(metadata, function(value, key)
 				{
@@ -43,10 +44,12 @@ provides: [HashNav.unserialize]
 					}
 					
 					else buffer[key] = JSON.decode(decodeURIComponent(Cookie.read(cookieName+key)), secure);
+					
+					if(!buffer[key]) return false;
 				});
 			}
 			
-			if(!buffer['version'] || version.toString() != buffer['version']['v'].toString()) return false;
+			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) return false;
 			if(buffer.options.cookieOptions.document === null) buffer.options.cookieOptions.document = document;
 			
 			if(restoreParadigm)
