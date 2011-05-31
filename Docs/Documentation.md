@@ -747,7 +747,7 @@ Returns the DOM element's observer status. Requires the HashNav.DOM module.
 <br />
 ##Additional Features
 ###How Hashes <a name="HowHashesAreParsed"></a>Are Parsed
-Let's start off with a perfectly fine and "legal" example of a hash URI: http://fakesite.com/`#!/somepage&&someparam=something&somethingelse=too`
+Let's start off with a perfectly fine and "legal" example of a hash URI: `#!/somepage&&someparam=something&somethingelse=too`
 
 Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will recognize as legal, the URI will have to conform to these rules:
 
@@ -762,9 +762,9 @@ Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will 
 	* \#!/home`&&param=1&param2=2`
 	* **non-existent** in #!/home
 
-Basically: http://fakesite.com/`#!/``somepage``&&``someparam=something``&``somethingelse=too`
+Basically: `#!/` `somepage` `&&` `someparam=something` `&` `somethingelse=too`
 
-Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So http://fakesite.com/`#!/``somepage``&&``someparam=``&``somethingelse` is just as legal as its predecessor above.
+Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So `#!/` `somepage` `&&` `someparam=` `&` `somethingelse` is just as legal as its predecessor above.
 
 Now, the quintessential core facet of the HashNav object is its ability to parse a hash URI and store it in a logical and meaningful manner.
 
