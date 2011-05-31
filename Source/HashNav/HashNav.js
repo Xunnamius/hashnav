@@ -8,7 +8,7 @@ authors:
 - Xunnamius
 
 requires:
-- core/1.3: [Class.Extras, Element.Event]
+- core/1.3.2: [Class.Extras, Element.Event]
 - provided: [String.QueryStringImproved]
 
 provides: [HashNav]
