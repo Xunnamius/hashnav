@@ -8,7 +8,7 @@ authors:
 - Xunnamius
 
 requires:
-- more/1.3.0.1: [String.QueryString]
+- more/1.3: [String.QueryString]
 
 provides: [String.parseQueryStringImproved, String.parseObjectToQueryString]
 ...
