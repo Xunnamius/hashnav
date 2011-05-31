@@ -8,7 +8,7 @@ authors:
 - Xunnamius
 
 requires:
-- core/1.3.0.1
+- core/1.3.2
 
 provides: [Object.compare]
 ...
