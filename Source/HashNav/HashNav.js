@@ -18,7 +18,7 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function() // Private
 {
-	var instance = null, observers = {}, version = 1.0, // Singleton
+	var instance = null, observers = {}, version = 1.01, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
@@ -323,7 +323,19 @@ provides: [HashNav]
 		{
 			var hashData = this.getStoredHashData(), hashData = (customHashData ? customHashData : (hashData ? hashData : false));
 			return (hashData[0] ? window.fireEvent('navchange', [this.getStoredHashData()]) : false);
-		}
+		},
 		
+		// These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
+		//  yet cascade nicely when extending/implementing functionality
+		$_hidden_pseudoprivate_getState: function()
+		{
+			return [state, version];
+		},
+		
+		$_hidden_pseudoprivate_setState: function(stateobj, ver)
+		{
+			state = stateobj;
+			version = ver;
+		}
 	});
 })();

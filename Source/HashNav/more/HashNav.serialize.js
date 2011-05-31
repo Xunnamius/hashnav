@@ -8,6 +8,7 @@ authors:
 - Xunnamius
 
 requires:
+- core/1.3: [Cookie]
 - HashNav/core: [HashNav.deserialize]
 
 provides: [HashNav.serialize]
@@ -22,6 +23,9 @@ provides: [HashNav.serialize]
 		serialize: function(cookieName, nowrite)
 		{	
 			var cookie_BUFFER = { 'options':[], 'state':[] },
+			state = this.$_hidden_pseudoprivate_getState(),
+			version = state[1],
+			state = state[0],
 			cookieName = cookieName || this.options.externalConstants[1], cookies = 4,
 			
 			splitter = function(temp, datatype, recurse)
@@ -46,16 +50,29 @@ provides: [HashNav.serialize]
 				return true;
 			}.bind(this);
 			
-			this.deserialize(cookieName);
-			splitter(this.options, 'options');
-			splitter(state, 'state');
+			if(!nowrite) this.deserialize(cookieName);
+			if(this.options.cookieOptions.document === document) this.options.cookieOptions.document = null;
 			
-			if(this.$_hidden_history_loaded)
+			if(!nowrite)
 			{
-				cookie_BUFFER.history = [];
-				splitter(history, 'history');
+				splitter(this.options, 'options');
+				splitter(state, 'state');
+				
+				if(this.$_hidden_history_loaded)
+				{
+					cookie_BUFFER.history = [];
+					splitter(this.history.get('all'), 'history');
+				}
 			}
 			
+			else
+			{
+				cookie_BUFFER['options'] = encodeURIComponent(JSON.encode(this.options));
+				cookie_BUFFER['state'] = encodeURIComponent(JSON.encode(state));
+				if(this.$_hidden_history_loaded) cookie_BUFFER['history'] = encodeURIComponent(JSON.encode(this.history.get('all')));
+			}
+			
+			if(this.options.cookieOptions.document === null) this.options.cookieOptions.document = document;
 			if(cookies > this.options.cookieDataHardLimits[1]) return false;
 			
 			if(!nowrite)
@@ -74,7 +91,11 @@ provides: [HashNav.serialize]
 				return true;
 			}
 			
-			else return cookie_BUFFER;
+			else
+			{
+				cookie_BUFFER.version = { v: version };
+				return cookie_BUFFER;
+			}
 		}
 		
 	});

@@ -8,6 +8,7 @@ authors:
 - Xunnamius
 
 requires:
+- core/1.3: [Cookie]
 - HashNav/core: [HashNav.unserialize]
 
 provides: [HashNav.deserialize]
