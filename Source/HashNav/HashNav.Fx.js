@@ -8,7 +8,7 @@ authors:
 - Xunnamius
 
 requires:
-- more/1.3.0.1: [Fx.Scroll]
+- more/1.3: [Fx.Scroll]
 - HashNav/core
 
 provides: [HashNav.Fx]
