@@ -32,7 +32,7 @@ provides: [HashNav.unserialize]
 			else
 			{
 				buffer.version = JSON.decode(Cookie.read(cookieName+'version'), secure);
-				if(!buffer.version) return false;
+				if(!buffer.version) {console.error('actuallyhere');return false};
 				metadata = buffer.version['s'];
 				
 				Object.each(metadata, function(value, key)
@@ -45,7 +45,7 @@ provides: [HashNav.unserialize]
 					
 					else buffer[key] = JSON.decode(Cookie.read(cookieName+key), secure);
 					console.error('buffer', buffer[key], typeof(buffer[key]));
-					if(typeof(buffer[key]) == 'undefined') return false;
+					if(typeof(buffer[key]) == 'undefined') {console.error('overhere');return false};
 				});
 			}
 			
@@ -66,6 +66,7 @@ provides: [HashNav.unserialize]
 				return false;
 			}
 			
+			console.error('o.o');
 			return buffer;
 		}
 		
