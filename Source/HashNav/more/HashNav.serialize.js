@@ -30,7 +30,7 @@ provides: [HashNav.serialize]
 			
 			splitter = function(temp, datatype, recurse)
 			{
-				if(!recurse) temp = encodeURIComponent(JSON.encode(temp));
+				if(!recurse) temp = JSON.encode(temp);
 				
 				if(temp.length > this.options.cookieDataHardLimits[0])
 				{
@@ -67,9 +67,9 @@ provides: [HashNav.serialize]
 			
 			else
 			{
-				cookie_BUFFER['options'] = encodeURIComponent(JSON.encode(this.options));
-				cookie_BUFFER['state'] = encodeURIComponent(JSON.encode(state));
-				if(this.$_hidden_history_loaded) cookie_BUFFER['history'] = encodeURIComponent(JSON.encode(this.history.get('all')));
+				cookie_BUFFER['options'] = JSON.encode(this.options);
+				cookie_BUFFER['state'] = JSON.encode(state);
+				if(this.$_hidden_history_loaded) cookie_BUFFER['history'] = JSON.encode(this.history.get('all'));
 			}
 			
 			if(this.options.cookieOptions.document === null) this.options.cookieOptions.document = document;
@@ -78,9 +78,9 @@ provides: [HashNav.serialize]
 			if(!nowrite)
 			{
 				var c = { 'v': version, 's': { 'options': cookie_BUFFER.options.length, 'state': cookie_BUFFER.state.length } };
-				if(this.$_hidden_history_loaded) c.history = cookie_BUFFER.history.length;
+				if(this.$_hidden_history_loaded) c.s.history = cookie_BUFFER.history.length;
 				
-				Cookie.write(cookieName+'version', encodeURIComponent(JSON.encode(c)), this.options.cookieOptions);
+				Cookie.write(cookieName+'version', JSON.encode(c), this.options.cookieOptions);
 			
 				Object.each(cookie_BUFFER, function(value, key)
 				{
