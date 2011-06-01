@@ -27,11 +27,12 @@ provides: [HashNav.deserialize]
 			if(buffer && buffer.version && buffer.version.s && buffer.options)
 			{
 				metadata = buffer.version.s;
-				
+				console.error('meta', metadata);
 				Object.each(metadata, function(value, key)
 				{
+					console.error('here', key, value);
 					if(value > 1)
-						while(value--) {console.error(cookieName+key+value); Cookie.dispose(cookieName+key+value, buffer.options.cookieOptions);}
+						while(value--) {console.error('cook', cookieName+key+value); Cookie.dispose(cookieName+key+value, buffer.options.cookieOptions);}
 					else Cookie.dispose(cookieName+key, buffer.options.cookieOptions);
 				});
 				

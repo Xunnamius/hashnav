@@ -32,7 +32,7 @@ provides: [HashNav.unserialize]
 			else
 			{
 				buffer.version = JSON.decode(Cookie.read(cookieName+'version'), secure);
-				if(!buffer.version) {console.error('actuallyhere');return false};
+				if(!buffer.version) return false;
 				metadata = buffer.version['s'];
 				
 				Object.each(metadata, function(value, key)
@@ -44,12 +44,12 @@ provides: [HashNav.unserialize]
 					}
 					
 					else buffer[key] = JSON.decode(Cookie.read(cookieName+key), secure);
-					console.error('buffer', buffer[key], typeof(buffer[key]));
-					if(typeof(buffer[key]) == 'undefined') {console.error('overhere');return false};
+					
+					if(typeof(buffer[key]) == 'undefined') return false;
 				});
 			}
 			
-			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) { console.error('there'); return false };
+			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) return false;
 			if(buffer.options && buffer.options.cookieOptions && buffer.options.cookieOptions.document === null) buffer.options.cookieOptions.document = document;
 			
 			if(restoreParadigm)
@@ -58,15 +58,19 @@ provides: [HashNav.unserialize]
 				{
 					this.$_hidden_pseudoprivate_setState(buffer.state, buffer.version.v);
 					this.setOptions(buffer.options);
-					if(this.$_hidden_history_loaded) this.replace(buffer.history || []);
-					return this.navigateTo(-1, fireEventOnNav);
+					
+					if(this.$_hidden_history_loaded)
+					{
+						this.replace(buffer.history);
+						this.navigateTo(-1, fireEventOnNav);
+					}
+					
+					return true;
 				}
 				
-				console.error('here', Object.every(buffer, function(item, key){ console.warn(key, !!item); return !!item; }));
 				return false;
 			}
 			
-			console.error('o.o');
 			return buffer;
 		}
 		
