@@ -318,7 +318,7 @@ window.addEvent('domready', function()
 {
 	if(typeof(console) == 'undefined')
 	{
-		document.body.setStyle('opacity', '.05');
+		$$('body').setStyle('opacity', '.05');
 		alert("This browser either does not have a suitable JavaScript console or it has been disabled. Please enable it and refresh the page.");
 	}
 	
