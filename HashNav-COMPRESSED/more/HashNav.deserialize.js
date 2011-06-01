@@ -23,17 +23,18 @@ provides: [HashNav.deserialize]
 		deserialize: function(cookieName)
 		{
 			var buffer = this.unserialize(false, false, cookieName, true, null);
-			console.error('buf', buffer);
+			
 			if(buffer && buffer.version && buffer.version.s && buffer.options)
 			{
 				var cookieName = buffer.options.externalConstants[1] || this.options.externalConstants[1],
 				metadata = buffer.version.s;
-				console.error('meta', metadata, cookieName);
+				
+				if(!cookieName) return false;
+				
 				Object.each(metadata, function(value, key)
 				{
-					console.error('here', key, value);
 					if(value > 1)
-						while(value--) {console.error('cook', cookieName+key+value); Cookie.dispose(cookieName+key+value, buffer.options.cookieOptions);}
+						while(value--) Cookie.dispose(cookieName+key+value, buffer.options.cookieOptions);
 					else Cookie.dispose(cookieName+key, buffer.options.cookieOptions);
 				});
 				
