@@ -44,13 +44,13 @@ provides: [HashNav.unserialize]
 					}
 					
 					else buffer[key] = JSON.decode(Cookie.read(cookieName+key), secure);
-					
+					console.error('buffer', buffer[key], typeof(buffer[key]));
 					if(typeof(buffer[key]) == 'undefined') return false;
 				});
 			}
 			
-			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) return false;
-			if(buffer.options.cookieOptions.document === null) buffer.options.cookieOptions.document = document;
+			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) { console.error('there'); return false };
+			if(buffer.options && buffer.options.cookieOptions && buffer.options.cookieOptions.document === null) buffer.options.cookieOptions.document = document;
 			
 			if(restoreParadigm)
 			{
@@ -62,6 +62,7 @@ provides: [HashNav.unserialize]
 					return this.navigateTo(-1, fireEventOnNav);
 				}
 				
+				console.error('here', Object.every(buffer, function(item, key){ console.warn(key, !!item); return !!item; }));
 				return false;
 			}
 			
