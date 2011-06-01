@@ -22,12 +22,13 @@ provides: [HashNav.deserialize]
 		
 		deserialize: function(cookieName)
 		{
-			var buffer = this.unserialize(false, false, cookieName, true, null), cookieName = buffer.options.externalConstants[1] || this.options.externalConstants[1], metadata;
-			console.error('buf', buffer, cookieName);
-			if(buffer && buffer.version && buffer.version.s && buffer.options && cookieName)
+			var buffer = this.unserialize(false, false, cookieName, true, null);
+			console.error('buf', buffer);
+			if(buffer && buffer.version && buffer.version.s && buffer.options)
 			{
+				var cookieName = buffer.options.externalConstants[1] || this.options.externalConstants[1],
 				metadata = buffer.version.s;
-				console.error('meta', metadata);
+				console.error('meta', metadata, cookieName);
 				Object.each(metadata, function(value, key)
 				{
 					console.error('here', key, value);
