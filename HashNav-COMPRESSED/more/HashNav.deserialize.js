@@ -22,9 +22,9 @@ provides: [HashNav.deserialize]
 		
 		deserialize: function(cookieName)
 		{
-			var buffer = this.unserialize(false, false, cookieName, true, null), cookieName = cookieName || this.options.externalConstants[1], metadata;
-
-			if(buffer && buffer.version && buffer.version.s && buffer.options)
+			var buffer = this.unserialize(false, false, cookieName, true, null), cookieName = buffer.options.externalConstants[1] || this.options.externalConstants[1], metadata;
+			console.error('buf', buffer, cookieName);
+			if(buffer && buffer.version && buffer.version.s && buffer.options && cookieName)
 			{
 				metadata = buffer.version.s;
 				console.error('meta', metadata);
