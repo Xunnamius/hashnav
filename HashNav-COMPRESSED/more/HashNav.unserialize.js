@@ -28,11 +28,10 @@ provides: [HashNav.unserialize]
 			if(restoreParadigm !== false) restoreParadigm = true;
 			if(fireEventOnNav !== false) fireEventOnNav = true;
 			
-			if(customdata) Object.each(customdata, function(item, key){ buffer[key] = (key == 'version' ? item : JSON.decode(decodeURIComponent(item), secure)); });
+			if(customdata) Object.each(customdata, function(item, key){ buffer[key] = (key == 'version' ? item : JSON.decode(item, secure)); });
 			else
 			{
-				buffer.version = JSON.decode(decodeURIComponent(Cookie.read(cookieName+'version')), secure);
-				console.error('buffer', buffer, cookieName, metadata, version);
+				buffer.version = JSON.decode(Cookie.read(cookieName+'version'), secure);
 				if(!buffer.version) return false;
 				metadata = buffer.version['s'];
 				
@@ -41,17 +40,15 @@ provides: [HashNav.unserialize]
 					if(value > 1)
 					{
 						while(value--) buffer[key] = Cookie.read(cookieName+key+value) + (buffer[key] ? buffer[key] : '');
-						buffer[key] = JSON.decode(decodeURIComponent(buffer[key]), secure);
+						buffer[key] = JSON.decode(buffer[key], secure);
 					}
 					
-					else buffer[key] = JSON.decode(decodeURIComponent(Cookie.read(cookieName+key)), secure);
+					else buffer[key] = JSON.decode(Cookie.read(cookieName+key), secure);
 					
-					console.error('key', key, buffer[key]);
-					if(!buffer[key]) return false;
+					if(typeof(buffer[key]) == 'undefined') return false;
 				});
 			}
 			
-			console.error('version', buffer.version, version);
 			if(!buffer.version || !version || version.toString() != buffer.version['v'].toString()) return false;
 			if(buffer.options.cookieOptions.document === null) buffer.options.cookieOptions.document = document;
 			
@@ -65,7 +62,6 @@ provides: [HashNav.unserialize]
 					return this.navigateTo(-1, fireEventOnNav);
 				}
 				
-				console.error('enddeath', buffer);
 				return false;
 			}
 			

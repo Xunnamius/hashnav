@@ -24,14 +24,14 @@ provides: [HashNav.deserialize]
 		{
 			var buffer = this.unserialize(false, false, cookieName, true, null), cookieName = cookieName || this.options.externalConstants[1], metadata;
 
-			if(buffer && buffer.version && buffer.version.s)
+			if(buffer && buffer.version && buffer.version.s && buffer.options)
 			{
 				metadata = buffer.version.s;
 				
 				Object.each(metadata, function(value, key)
 				{
 					if(value > 1)
-						while(value--) Cookie.dispose(cookieName+key+metadata[0], buffer.options.cookieOptions);
+						while(value--) {console.error(cookieName+key+value); Cookie.dispose(cookieName+key+value, buffer.options.cookieOptions);}
 					else Cookie.dispose(cookieName+key, buffer.options.cookieOptions);
 				});
 				
