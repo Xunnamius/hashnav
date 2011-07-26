@@ -160,7 +160,7 @@ An observer's trigger object is what is used to dictate if the observer should c
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
 An observer registered with the above trigger would call its observing function when the hash URI looked something like the following:
-	#!/home2&&object=1&object2=true&magic=happening
+	#!/home2&&object=1&object2&magic=happening
 
 <br />
 #####Trigger Syntax
@@ -175,7 +175,7 @@ we see that we have:
 * A `page` key, which maps to the page/state designator in a hash URI.
 	* `page: 'home2'` means the observer will only activate when the hash URI is on `home2`.
 * A `params` key, which maps to the hash URI's query string (everything after the && -- basically the object returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!")).
-	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2=true&magic=happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
+	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2&magic=happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
 
 Pretty simple, 'eh? Just remember that the `page` key is *required* to exist within your trigger objects. If it is missing, your observer will crash. `params`, however, is not required. 
 Now let's get serious.
@@ -692,7 +692,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 	// Tell the element to observe the hash URI for our specific changes
 	$('myFirstElement').observe({ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }, function(e){ alert('Hello World!'); console.log(arguments); }, [1,2,3], true);
 	
-	// Will trigger when hash URI = #!/home2&&object=1&object2=true&magic=happening
+	// Will trigger when hash URI = #!/home2&&object=1&object2&magic=happening
 
 <br />
 ###Element Method: <a name="DMI-unobserve"></a>unobserve
@@ -712,7 +712,7 @@ Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observ
 	// Tell the element to observe the hash URI
 	$('myFirstElement').observe( ... );
 	
-	// Will trigger when hash URI = #!/home2&&object=1&object2=true&magic=happening
+	// Will trigger when hash URI = #!/home2&&object=1&object2&magic=happening
 	
 	// And finally, remove the observer, which will stop the element from observing hash URI changes!
 	$('myFirstElement').unobserve(); // Easy right?
