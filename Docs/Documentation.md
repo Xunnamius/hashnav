@@ -228,7 +228,7 @@ Those keys are as follows:
 * wildstrict - (`boolean`, defaults to **false**) When `true`, the trigger processes its `wildcard` parameters using strict (===) comparison as apposed to normal comparison (==).
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { wildstrict: true } }`
 
-* explicitChange - (`boolean`, defaults to **false**) Allows the trigger to differentiate between an actual change in parameter data and a typical hash change (where the underlying data may not have been altered) in the hash URI.
+* explicitChange - (`boolean`, defaults to **false**) Allows the trigger to differentiate between an actual change in parameter data and a typical hash change (where the underlying data may not have been altered, such as a reordering of parameters) in the hash URI.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { explicitChange: true } }`
 	
 (more qualifiers will be added as they become necessary)
@@ -252,7 +252,7 @@ There are also these cool little things called `wildcards`, represented, of cour
 * Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would cause [registerObserver()](#PMI-registerObserver "Jump to it!") to behave in an `undefined` manner.
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':false, someparam1:1, somepara2:2 }` is logically and syntactically correct).
 * All trigger objects are optimized when created. Check out the demo page's "Trigger Demystifier" for an in-depth look at how this is done.
-* Trigger functions are automatically supplied with an "event" object that matches the sructure of [getStoredHashData()](#PMI-getStoredHashData "Jump to it!").
+* Trigger functions are automatically supplied with an "event" object that matches the structure of [getStoredHashData()](#PMI-getStoredHashData "Jump to it!").
 
 Congratulations, you're now a trigger master!
 
