@@ -32,7 +32,7 @@ Object.extend({
 				if(script == 'all') $$('#modules ul li a').each(function(item){ HNMODS.load.module(item.getProperty('title')); }); // Another instance where recursion beats iteration
 				else
 				{
-					Asset.javascript((location.protocol == 'file:' ? 'C:\\Users\\Xunnamius\\.gitrepos\\HashNav\\Source\\HashNav\\' : 'HashNav-COMPRESSED/') + script + '.js',
+					Asset.javascript((location.protocol == 'file:' ? 'E:\\Shell Folders\\.gitrepos\\HashNav\\HashNav-COMPRESSED\\' : 'HashNav-COMPRESSED/') + script + '.js',
 					{
 						id: script,
 						onLoad: function()
