@@ -107,11 +107,11 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 			  }
 		
 		// You can use the event object that is passed to the function to achieve a *similar* effect
-		// function(e){ warningPopup('Watch out '+
+		/* function(e){ warningPopup('Watch out '+
 					     e[1].pathParsed['username']+
 					     ', if you leave the ' + e[0] +
 					     ' page before saving, everything you just typed will be lost!');
-			      }
+			      }*/
 	);
 
 We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only:
