@@ -98,7 +98,7 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 	
 		function(){ warningPopup('Watch out ' + this.get('username') + ', if you leave the ' + this.getCurrent() + ' page before saving, everything you just typed will be lost!'); }
 		
-		// You can use the event object that is passed to the function to achieve the same effect
+		// You can use the event object that is passed to the function to achieve a *similar* effect
 		// function(e){ warningPopup('Watch out ' + e[1].pathParsed['username'] + ', if you leave the ' + e[0] + ' page before saving, everything you just typed will be lost!'); }
 	);
 
