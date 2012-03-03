@@ -18,14 +18,14 @@ Some of the nifty tools provided for developers include:
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
 * Very small core file (6.05KB uncompressed, 2.02KB gzipped). 60% smaller than beta version.
 * New modularized class structure reduces HashNav's overall footprint by over 50% when compared to the beta version.
-* Tested against MooTools 1.3.x
+* Tested against MooTools 1.3.x and 1.4.0-5
 
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
 For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
 How to Use
 ----------
-If you're in a hurry and just need some decent hash navigation (or a little crash course in observer-oriented hash navigation), you could do something like:
+If you're in a hurry and just need some decent hash navigation (or a little crash course in observer-oriented hash navigation), you could do something (verbose) like:
 
 	var hashNav = new HashNav(),
 	observerName = 'helloworld',
@@ -56,6 +56,7 @@ Advanced Examples
 Loading data whenever the application's page/state designator changes:
 
 	hashNav.registerObserver(
+	
 		'main',
 		
 		{
@@ -69,19 +70,27 @@ Loading data whenever the application's page/state designator changes:
 Load different home pages based on a custom "type" parameter:
 
 	hashNav.registerObserver(
+	
 		'home_loader',
 		
 		{
 			page: true,
-			params: { type:'' } // The empty string in the trigger object's params sub-object means "if the parameter is present with any value". Check out the documentation!
+			
+			/* The empty string in the trigger object's params sub-object means if the
+			   "parameter is present with any value". Check out the documentation! */
+			params: { type:'' }
 		},
 	
-		function(e){ load.a.custom.page(e[1].pathParsed['type']); }
+		function(){ load.a.custom.page(this.get('type')); }
+	
+		// You can use the event object that is passed to the function to achieve the same effect
+		// function(e){ load.a.custom.page(e[1].pathParsed['type']); }
 	);
 
 Spawn a popunder box to warn a user not to leave the page or the data they typed will be lost. We'll be looking for the "composing" param to be present and orphaned, we're on the "emailer" page, and we'll pass their username in a "username" param. To top it all off, we want to see these parameters exclusively, meaning we only want to see what we listed in the params object and nothing else:
 	
 	hashNav.registerObserver(
+	
 		'warning',
 		
 		{
@@ -90,12 +99,25 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 			qualifiers: { exclusive: true }
 		},
 	
-		function(e){ warningPopup('Watch out ' + this.get('username') + ', if you leave the ' + this.getCurrent() + ' page before saving, everything you just typed will be lost!'); }
+		function(){ warningPopup('Watch out '+
+					 this.get('username')+
+					 ', if you leave the '+
+					 this.getCurrent()+
+					 ' page before saving, everything you just typed will be lost!');
+			  }
+		
+		// You can use the event object that is passed to the function to achieve a *similar* effect
+		// function(e){ warningPopup('Watch out '+
+					     e[1].pathParsed['username']+
+					     ', if you leave the ' + e[0] +
+					     ' page before saving, everything you just typed will be lost!');
+			      }
 	);
 
 We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only:
 
 	hashNav.registerObserver(
+	
 		'test',
 		
 		{
@@ -103,26 +125,31 @@ We want to store random data in both the key and value of a variable amount of p
 			params: { '*':'' }
 		},
 	
-		function(e){ store.this.data('Full Hash: ' + e[0]); }
+		function(e){ store.this.data('Full Hash: ' + this.getStoredHashData()[0]); }
+		
+		// You can use the event object that is passed to the function to achieve the same effect
+		// function(e){ store.this.data('Full Hash: ' + e[0]); }
 	);
 	
 Or we could do what we just did above, except add a limit to the amount of parameters:
 
 	hashNav.registerObserver(
-			'test',
-			
-			{
-				page: '',
-				params: { '*':'' },
-				qualifiers: { minparams: 3, maxparams: 10 }
-			},
+	
+		'test',
 		
-			function(e){ store.this.data('Full Hash: ' + e[0]); }
+		{
+			page: '',
+			params: { '*':'' },
+			qualifiers: { minparams: 3, maxparams: 10 }
+		},
+	
+		function(e){ store.this.data('Full Hash: ' + e[0]); }
 	);
 
 For some reason we want all the parameter values to be the same:
 
 	hashNav.registerObserver(
+	
 		'helloworld',
 		
 		{
@@ -130,14 +157,25 @@ For some reason we want all the parameter values to be the same:
 			params: { '*':'All params must equal this text!' }
 		},
 	
-		function(e){ store.this.data('Full Hash: ' + e[0]); }
+		function(e){ store.this.data('Full Hash: ' + this.getStoredHashData()[0]); }
+	);
+
+How about a general trigger that observes **every** page change and doesn't use a params object at all (perhaps you want to filter params yourself using [get()](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMI-get)):
+
+	hashNav.registerObserver(
+	
+		'foobartester',
+		
+		{ page: false },
+	
+		function(e){ console.log(e); }
 	);
 
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). You may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
 Syntax
 ------
-	var hashNav = new HashNav([options]);
+`var hashNav = new HashNav([options]);`
 
 Arguments
 ---------
