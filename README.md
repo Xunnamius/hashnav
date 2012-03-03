@@ -75,7 +75,10 @@ Load different home pages based on a custom "type" parameter:
 		
 		{
 			page: true,
-			params: { type:'' } // The empty string in the trigger object's params sub-object means "if the parameter is present with any value". Check out the documentation!
+			
+			/* The empty string in the trigger object's params sub-object means if the
+			   "parameter is present with any value". Check out the documentation! */
+			params: { type:'' }
 		},
 	
 		function(){ load.a.custom.page(this.get('type')); }
@@ -96,10 +99,19 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 			qualifiers: { exclusive: true }
 		},
 	
-		function(){ warningPopup('Watch out ' + this.get('username') + ', if you leave the ' + this.getCurrent() + ' page before saving, everything you just typed will be lost!'); }
+		function(){ warningPopup('Watch out '+
+					 this.get('username')+
+					 ', if you leave the '+
+					 this.getCurrent()+
+					 ' page before saving, everything you just typed will be lost!');
+			  }
 		
 		// You can use the event object that is passed to the function to achieve a *similar* effect
-		// function(e){ warningPopup('Watch out ' + e[1].pathParsed['username'] + ', if you leave the ' + e[0] + ' page before saving, everything you just typed will be lost!'); }
+		// function(e){ warningPopup('Watch out '+
+					     e[1].pathParsed['username']+
+					     ', if you leave the ' + e[0] +
+					     ' page before saving, everything you just typed will be lost!');
+			      }
 	);
 
 We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only:
