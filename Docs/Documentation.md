@@ -880,7 +880,7 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 ##Coming <a name="ComingSoon"></a>Soon
 * Nothing yet! Any ideas?
 
-##Documented Bugs
+##Documented Bugs##
 * All fixed! Did you find a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker")!
 
 *Check the change log for more information on releases!*
