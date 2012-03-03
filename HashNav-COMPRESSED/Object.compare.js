@@ -1,1 +1,0 @@
-Object.extend({compare:function(a,b,d){if(!a||!b||Object.getLength(a)!=Object.getLength(b))return!1;return Object.every(a,function(c,a){return typeof c=="object"?Object.compare(c,b[a],d):d?b[a]===c:b[a]==c},this)}});
