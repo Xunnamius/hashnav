@@ -160,6 +160,17 @@ For some reason we want all the parameter values to be the same:
 		function(e){ store.this.data('Full Hash: ' + this.getStoredHashData()[0]); }
 	);
 
+How about a general trigger that observes **every** page change and doesn't use a params object at all:
+
+	hashNav.registerObserver(
+	
+		'foobartester',
+		
+		{ page: false },
+	
+		function(e){ console.log(e); }
+	);
+
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). You may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
 
 Syntax
