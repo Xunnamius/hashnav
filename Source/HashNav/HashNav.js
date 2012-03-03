@@ -18,7 +18,7 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function() // Private
 {
-	var instance = null, observers = {}, version = 1.01, // Singleton
+	var instance = null, observers = {}, version = 1.2, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
@@ -34,16 +34,18 @@ provides: [HashNav]
 			cleanQueryString: false,
 			queryMakeFalse: false,
 			externalConstants: ['NAVOBJOBSDATA', 'NAVOBJSERDATA'],
-			cookieOptions: { path: '/', domain: false, duration: 365, secure: false, document: document, encode: false }, // Leave encoding off, HashNav uses its own internal encoding instead
+			
+			// Leave encoding off, HashNav uses its own internal encoding instead
+			cookieOptions: { path: '/', domain: false, duration: 365, secure: false, document: document, encode: false },
 			cookieDataHardLimits: [2000, 6],
+			
 			ignoreVersionCheck: false,
 			explicitHashChange: true
 		},
 		
 		initialize: function(options)
 		{
-			if(instance) return instance;
-			else
+			if(!instance)
 			{
 				this.setOptions(options);
 				
@@ -58,6 +60,8 @@ provides: [HashNav]
 				else this.startPolling();
 				instance = this;
 			}
+			
+			return instance;
 		},
 		
 		startPolling: function()
@@ -87,7 +91,7 @@ provides: [HashNav]
 		{
 			var lhsplit, lochash = window.location.hash;
 			
-			if(lochash && this.getStoredHashData()[0] != lochash)
+			if(this.getStoredHashData()[0] != lochash)
 			{
 				state['storedHash'][0] = (lochash.length ? lochash : '#');
 				
@@ -174,7 +178,7 @@ provides: [HashNav]
 				trigger.page	==  e.page))
 				{
 					if(trigger.page === false && !this.isLegalHash()) map.satisfied = true; // We don't negotiate with terrorists (or illegal hash URIs).
-					hist = Object.every(trigger.params, function(item, index) // The 'hist' namespace is being reused here
+					hist = Object.every(trigger.params, function(item, index) // The 'hist' variable is being recycled here
 					{
 						if(map.satisfied) return true;
 						else if(index === '*')
@@ -207,7 +211,7 @@ provides: [HashNav]
 						// Last-possible-second qualifier logic
 						if(trigger.qualifiers && this.$_hidden_qlogic_loaded)
 						{
-							var scan = this.$_hidden_qlogic_closeScan(trigger, map);
+							scan = this.$_hidden_qlogic_closeScan(trigger, map);
 							trigger = scan[0];
 							map = scan[1];
 							if(scan[2]) return;
@@ -250,8 +254,10 @@ provides: [HashNav]
 				delete arguments[arguments.length];
 			}
 			
-			if(typeof(arguments[0]) == 'string' && arguments[1] && !arguments[2]) wlh = this.options.prefix + arguments[0] + '&&' + (typeof(arguments[1]) == 'object' ? Object.parseObjectToQueryString(arguments[1]) : arguments[1]);
-			else if(typeof(arguments[0]) == 'string' && typeof(arguments[1]) == 'string' && arguments[2]) wlh = arguments[0] + arguments[1] + '&&' + (typeof(arguments[2]) == 'object' ? Object.parseObjectToQueryString(arguments[2]) : arguments[2]);
+			if(typeof(arguments[0]) == 'string' && arguments[1] && !arguments[2])
+				wlh = this.options.prefix + arguments[0] + '&&' + (typeof(arguments[1]) == 'object' ? Object.parseObjectToQueryString(arguments[1]) : arguments[1]);
+			else if(typeof(arguments[0]) == 'string' && typeof(arguments[1]) == 'string' && arguments[2])
+				wlh = arguments[0] + arguments[1] + '&&' + (typeof(arguments[2]) == 'object' ? Object.parseObjectToQueryString(arguments[2]) : arguments[2]);
 			
 			else if(typeof(loc) == 'number' && this.$_hidden_history_loaded)
 			{
@@ -283,7 +289,7 @@ provides: [HashNav]
 		
 		get: function()
 		{
-			if(arguments[0] == 'all') return this.getStoredHash();
+			if(arguments[0] == 'all' || !arguments.length) return this.getStoredHash();
 			var result = {}, get = this.getStoredHash();
 			Object.each(arguments, function(item){ if(item in get) result[item] = get[item]; }, this);
 			return Object.getLength(result) ? (arguments.length == 1 ? result[arguments[0]] : result) : (arguments.length == 1 ? null : {});
@@ -292,7 +298,8 @@ provides: [HashNav]
 		set: function()
 		{
 			var data = {};
-			if(typeof(arguments[0]) == 'string' && arguments.length >= 2) data[arguments[0]] = arguments[1];
+			if(typeof(arguments[0]) == 'string' && arguments.length >= 2)
+				data[arguments[0]] = arguments[1];
 			else data = arguments[0];
 			Object.merge(this.getStoredHash(), data);
 			this.navigateTo(this.getStoredHash());
@@ -300,7 +307,7 @@ provides: [HashNav]
 		
 		unset: function()
 		{
-			if(arguments[0] == 'all') Object.each(this.getStoredHash(), function(item, key){ delete state.storedHash[1].pathParsed[key]; }, this);
+			if(arguments[0] == 'all') Object.each(this.getStoredHash(), function(){ delete state.storedHash[1].pathParsed[arguments[1]]; }, this);
 			else Object.each(arguments, function(item){ delete state.storedHash[1].pathParsed[item]; }, this);
 			this.navigateTo(this.getStoredHash());
 		},
@@ -321,21 +328,27 @@ provides: [HashNav]
 		
 		triggerEvent: function(customHashData)
 		{
-			var hashData = this.getStoredHashData(), hashData = (customHashData ? customHashData : (hashData ? hashData : false));
-			return (hashData[0] ? window.fireEvent('navchange', [this.getStoredHashData()]) : false);
+			var hashData = this.getStoredHashData(),
+				hashData = (customHashData ? customHashData : (hashData ? hashData : false));
+			return (hashData[0] ? !!window.fireEvent('navchange', [this.getStoredHashData()]) : false);
 		},
 		
-		// These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
-		//  yet cascade nicely when extending/implementing functionality
+		toString: function()
+		{
+			return this.getStoredHashData()[0];
+		},
+		
+		/* XXX: These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
+		        yet cascade nicely when extending/implementing functionality. Perhaps in 1.2 I'll just redefine the HashNav class with every module. */
 		$_hidden_pseudoprivate_getState: function()
 		{
 			return [state, version];
-		},
+		}.protect(),
 		
 		$_hidden_pseudoprivate_setState: function(stateobj, ver)
 		{
 			state = stateobj;
 			version = ver;
-		}
+		}.protect()
 	});
 })();

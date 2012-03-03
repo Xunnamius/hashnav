@@ -26,7 +26,7 @@ provides: [HashNav.deserialize]
 			
 			if(buffer && buffer.version && buffer.version.s && buffer.options)
 			{
-				var cookieName = buffer.options.externalConstants[1] || this.options.externalConstants[1],
+				cookieName = cookieName || buffer.options.externalConstants[1] || this.options.externalConstants[1],
 				metadata = buffer.version.s;
 				
 				if(!cookieName) return false;

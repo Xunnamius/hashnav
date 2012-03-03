@@ -57,9 +57,9 @@ provides: [String.parseQueryStringImproved, String.parseObjectToQueryString]
 	
 	Object.extend({
 		
-		parseObjectToQueryString: function() // Parse (JSON-like) Object To Query String
+		parseObjectToQueryString: function(obj) // Parse (JSON-like) Object To Query String
 		{
-			var qs = '', obj = this;
+			var qs = '';
 			
 			Object.each(obj, function(item, index)
 			{

@@ -41,14 +41,17 @@ provides: [HashNav.history]
 		
 		truncate: function(count)
 		{
-			if(count >= history.length) return instance.history.clear();
+			if(!history.length)
+				return false;
+			else if(count >= history.length)
+				return this.history.clear();
 			else if(count > 0)
 			{
 				history.splice(0, count);
 				return true;
 			}
 			
-			else return false;
+			return false;
 		},
 		
 		clear: function()
