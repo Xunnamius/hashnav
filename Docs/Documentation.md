@@ -1,6 +1,8 @@
 Class: HashNav
 ==============
 
+[Click here](#PMIX "Jump to it!") to jump to the method index.
+
 ##Implements
 * [Options](http://mootools.net/docs/core/Class/Class.Extras#Options "MooTools Core Documentation: Options")
 * [Events](http://mootools.net/docs/core/Class/Class.Extras#Events "MooTools Core Documentation: Events")
@@ -51,9 +53,7 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 ####Arguments
 1. storedHashData - (`object`) The hash data-object representing the most recent URI hash change. Note that said object is structurally equivalent to the object returned when one calls [getStoredHashData()](#getStoredHashData "Jump to it!").
 
-##Public Method Index
-
----
+##Public Method <a name="PMIX"></a>Index
 
 [history.get](#PMI-history.get "Jump to it!"), [history.truncate](#PMI-history.truncate "Jump to it!"), [history.clear](#PMI-history.clear "Jump to it!")
 
