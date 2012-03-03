@@ -502,7 +502,7 @@ Sets the value of the specified query parameter (merges [current parameter objec
 
 ####Notes
 * Calling [set()](#PMI-set "Jump to it!") changes the hash URI and as such will trigger a `navchange` event (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
-* You can use array literal notation to give a single parameter multiple values (stored within an array). ex. `{ param1: 1, param2: [1, 2, 3, 4] }`
+* [Although it isn't recommended](#ProTips "Jump to it!"), you can use array literal notation to give a single parameter multiple values (stored within an array). ex. `{ param1: 1, param2: [1, 2, 3, 4] }`
 
 <br />
 ###Public Method: <a name="PMI-unset"></a>unset
