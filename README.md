@@ -25,6 +25,9 @@ For a fun little HashNav sandbox to frolic around in, check out this GitHub page
 
 How to Use
 ----------
+
+[Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") to jump to HashNav's method index.
+
 If you're in a hurry and just need some decent hash navigation (or a little crash course in observer-oriented hash navigation), you could do something (verbose) like:
 
 	var hashNav = new HashNav(),
@@ -173,7 +176,7 @@ How about a general trigger that observes **every** page change (even illegal on
 		function(e){ console.log('Catch all:', e); }
 	);
 
-For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
+For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav). [Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") if you would like to view HashNav's method index.
 
 Syntax
 ------
