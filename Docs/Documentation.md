@@ -6,7 +6,7 @@ Class: HashNav
 * [Events](http://mootools.net/docs/core/Class/Class.Extras#Events "MooTools Core Documentation: Events")
 
 ##Requires
-* MooTools 1.3
+* MooTools 1.3 (or higher; successfully tested again: MooTools 1.4.0-4)
 
 * [HashNav](#UsageModes "Jump to it!")
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
@@ -177,7 +177,8 @@ we see that we have:
 * A `params` key, which maps to the hash URI's query string (everything after the && -- basically the object returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!")).
 	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2&magic=happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
 
-Pretty simple, 'eh? Just remember that the `page` key is *required* to exist within your trigger objects. If it is missing, your observer will crash. `params`, however, is not required. 
+Pretty simple, 'eh? Just remember that the `page` key is *required* to exist within your trigger objects. If it is missing, your observer will crash. `params`, however, is not required. This means you don't have to use "trigger params" if you don't want to :)
+
 Now let's get serious.
 
 <br />
@@ -248,7 +249,7 @@ There are also these cool little things called `wildcards`, represented, of cour
 
 <br />
 #####Notes
-* **You must include HashNav_T-QualifierLogic.js and HashNav_T-WildcardLogic.js in your webpage to be able to use any advanced trigger functionality!**
+* **You must include HashNav_T-QualifierLogic.js and HashNav_T-WildcardLogic.js in your webpage if you plan on using any advanced trigger functionality!**
 * Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would cause [registerObserver()](#PMI-registerObserver "Jump to it!") to behave in an `undefined` manner.
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':false, someparam1:1, somepara2:2 }` is logically and syntactically correct).
 * All trigger objects are optimized when created. Check out the demo page's "Trigger Demystifier" for an in-depth look at how this is done.
@@ -343,6 +344,7 @@ Navigates the browser to the specified URI or history entry.
 	hashNav.navigateTo(location[, forced]);
 	hashNav.navigateTo(page, params[, forced]);
 	hashNav.navigateTo(prefix, page, params[, forced]);
+	hashNav.navigateTo(historyIndex);
 
 ####Arguments
 * First Mode
@@ -365,6 +367,9 @@ Navigates the browser to the specified URI or history entry.
 	2. page - (`string`) The page/state designator to navigate to. (ex. 'home')
 	3. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs.  (ex. 'hello=world&hello2=2')
 	4. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
+
+* Fourth Mode
+	1. historyIndex - (`integer`) The history index to navigate to, if the history module is loaded. Works exactly the same as `history.get(historyIndex)`, hence the negative index support.
 
 ####Returns
 * (`boolean`) `true` if navigation completed successfully or `false` on failure.
@@ -813,6 +818,7 @@ An example of a real `storedHash` object in action:
 ####Notes
 * If `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of an empty string
 * When a URI is recognized as *illegal* and a [trigger](#ObserverTriggers "Jump to it!") is set to `{ page: false }`, parameters within that trigger are ignored.
+* Although it is generally a hallmark of bad design, nesting parameters inside of other parameters and parameter-array notation (e.g. `param1[0]=foo&param1[1]=bar`) is [partially supported](#ProTips "Jump to it!") by HashNav.
 
 ###Relative <a name="RelativeHashes"></a>Hashes
 Assuming you've read [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!") above, relative hashes are basically fully realized hash URIs that are missing their page/state designator. For example:
@@ -842,7 +848,7 @@ becomes:
 
 	#!/home&&param=1
 
-when the current page is unknown or the user is using a relative hash when first landing on your site. This carries with it some heavy implications!
+when the current page is unknown or the user is using a relative hash when first landing on your site. This carries with it some heavy implications:
 
 * Use relative hashes sparingly *or not at all* outside of your `defaultHome` page (simply "home" by default).
 	* If you do, prepare for the certainty that some user somewhere will use your relative hash somewhere *other than that one page*.
@@ -858,8 +864,8 @@ What history tracking actually does is take the current hash data object (via [g
 
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
 
-##Pro Tips
-* **FOR THE LOVE OF GOD: REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
+##Pro <a name="ProTips"></a> Tips
+* **REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
 * Query strings are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
 * The values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings.
@@ -867,6 +873,8 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 * Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser.
 * Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* of your observers or initializing a page. Here's an [example](#PMI-triggerEvent "Jump to it!")).
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-triggerEvent "Jump to it!") after registering an observer or two! Ooh! Aah!
+* It is generally unwise to nest parameters inside of other parameters, even though it is partially supported ([set()](#PMI-set "Jump to it!") does not support parameter-array notation). Serializing whole objects using the page's URI is an even worse idea. Instead of nesting parameters/objects, just use separate parameters (or store the data in a variable/session/server-side)!
+* Sometimes IE<9 misbehaves if it is in quirks mode. Make sure to use PROPER LEGAL doctypes if you want HashNav to function at its full capability.
 
 ##Coming <a name="ComingSoon"></a>Soon
 * Nothing yet! Any ideas?
