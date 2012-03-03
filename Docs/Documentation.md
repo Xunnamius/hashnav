@@ -6,13 +6,13 @@ Class: HashNav
 * [Events](http://mootools.net/docs/core/Class/Class.Extras#Events "MooTools Core Documentation: Events")
 
 ##Requires
-* MooTools 1.3
+* MooTools 1.3 - 1.4
 
-* [HashNav](#UsageModes "Jump to it!")
+* HashNav
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
-	* *provided*: [String.QueryStringImproved.js]
+	* *provided*: [String.QueryStringImproved.js, Object.compare.js]
 
-Note that each module that you would like to utilize the funcitonality of needs to be included within your page for the HashNav class to work as described. **Check out the comments included within each module file for more specific requirements.**
+Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic :D), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as HashNav.History) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
 
 ##Properties
 * Singleton
@@ -556,7 +556,7 @@ Checks if the specified hash (or the [internally stored hash](#PMI-getStoredHash
 
 <br />
 ###Public Method: <a name="PMI-serialize"></a>serialize
-Capture the current hash URI and correlated browser session data. Check the notes below for some important specifics. Requires [deserialize()](#PMI-deserialize "Jump to it!") as well as the HashNav.serialize module.
+Capture the current hash URI and related browser session data. Check the notes below for some important specifics. Requires [deserialize()](#PMI-deserialize "Jump to it!") as well as the HashNav.serialize module.
 
 ####Syntax
 	hashNav.serialize([cookieName, [ nowrite]]);
@@ -566,7 +566,8 @@ Capture the current hash URI and correlated browser session data. Check the note
 2. nowrite - (`boolean`, optional: defaults to **false**) If `true`, this method will return the serialized data within a JSON object instead of writing the data to cookies.
 
 ####Returns
-* (`boolean`) `true` if the whole serialization process succeeded and all cookies were written (if `nowrite` is not `true`), else `false`.
+* (`boolean`) `true` if the whole serialization process succeeded and all cookies were written (if `nowrite` is `false`), else `false`.
+* (`object`) if `nowrite` is `true`, JSON object representing the serialized data.
 
 ####Notes
 * [Serialize()](#PMI-serialize "Jump to it!") stores a variable amount of cookies ([up to a specific limit](#options "Jump to it!")) on your visitor's local machine: '\_history', '\_options', '\_state', and '\_version' (all prefixed by `externalConstants[1]`).
@@ -859,14 +860,15 @@ What history tracking actually does is take the current hash data object (via [g
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
 
 ##Pro Tips
-* **FOR THE LOVE OF GOD: REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
+* **FOR THE LOVE OF (deity): REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
 * Query strings are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
 * The values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings.
 * **Query params do not overwrite one another!** In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
 * Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser.
-* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* of your observers or initializing a page. Here's an [example](#PMI-triggerEvent "Jump to it!")).
+* Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* of your observers or initializing a page.) Here's an [example](#PMI-triggerEvent "Jump to it!").
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-triggerEvent "Jump to it!") after registering an observer or two! Ooh! Aah!
+* Make sure your page is in standards-compliance mode (and **NOT** quirks mode). This can be done by including a proper doctype.
 
 ##Coming <a name="ComingSoon"></a>Soon
 * Nothing yet! Any ideas?

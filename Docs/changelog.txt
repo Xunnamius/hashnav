@@ -11,4 +11,4 @@ March 2011:
 May 2011:	
 
         Version 1.0  (BOS)  -- Tuned up the code quite a bit, modularized the HashNav class, perfected advanced trigger syntax, reduced file size by 60%, removed and/or modularized utilities, added explicitChange qualifier, removed useless options, removed immutable cookie limits, removed trigger.params dependency, revamped overall class logic and structure, fixed de/un/serialization bugs, updated documentation and readme to be a bit more coherent
-	Version 1.1  	    -- Coming after a few months of testing and general availability (the project will leave Branches of Sin (BOS) status at that point in time)
+	Version 1.1  	    -- Added support for "empty" illegal hashes (hashes that only consist of #), updated documentation, created a comprehensive (non-interactive) test suite, fixed a few bugs with get()/set()/unset()/has(), readded esoteric syntax support for triggers, hopefully fixed the "forced" bug when using the explicitChange qualifier
