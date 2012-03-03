@@ -127,7 +127,7 @@ We want to store random data in both the key and value of a variable amount of p
 			params: { '*':'' }
 		},
 	
-		function(e){ store.this.data('Full Hash: ' + this.getStoredHashData()[0]); }
+		function(e){ store.that.data('Full Hash: ' + this.getStoredHashData()[0]); }
 		
 		// You can use the event object that is passed to the function to achieve the same effect
 		// function(e){ store.this.data('Full Hash: ' + e[0]); }
@@ -145,7 +145,7 @@ Or we could do what we just did above, except add a limit to the amount of param
 			qualifiers: { minparams: 3, maxparams: 10 }
 		},
 	
-		function(e){ store.this.data('Full Hash: ' + e[0]); }
+		function(e){ store.that.data('Full Hash: ' + e[0]); }
 	);
 
 For some reason we want all the parameter values to be the same:
@@ -159,7 +159,7 @@ For some reason we want all the parameter values to be the same:
 			params: { '*':'All params must equal this text!' }
 		},
 	
-		function(e){ store.this.data('Full Hash: ' + this.getStoredHashData()[0]); }
+		function(e){ store.that.data('Full Hash: ' + this.getStoredHashData()[0]); }
 	);
 
 How about a general trigger that observes **every** page change and doesn't use a params object at all (perhaps you want to filter params yourself using [get()](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMI-get)):
