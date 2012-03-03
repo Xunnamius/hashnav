@@ -18,7 +18,7 @@ Some of the nifty tools provided for developers include:
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
 * Very small core file (6.05KB uncompressed, 2.02KB gzipped). 60% smaller than beta version.
 * New modularized class structure reduces HashNav's overall footprint by over 50% when compared to the beta version.
-* Tested against MooTools 1.3.x
+* Tested against MooTools 1.3.x and 1.4.0-5
 
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
 For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
