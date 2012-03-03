@@ -1,6 +1,6 @@
 /*
 ---
-description: An AJAX-esque hash navigation class made in JavaScript using MooTools 1.3
+description: An AJAX-esque hash navigation class written in JavaScript using the MooTools Framework version 1.3.x and up
 
 license: MIT-style license
 
