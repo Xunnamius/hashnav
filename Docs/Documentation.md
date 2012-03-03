@@ -217,10 +217,10 @@ Those keys are as follows:
 * exclusive - (`boolean`, defaults to **false**) When `true`, the trigger will only activate its observing function when all of the parameters in the `params` object are present **exclusively**, meaning there are no other parameters present except those listed.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { exclusive: true } }`
 
-* minparams - (`integer`, defaults to **0**) Specifies the minimum number of parameters necessary to catch the observer's attention. Cannot be used with the `exclusive` qualifier.
+* minparams - (`integer`, defaults to **0**) Specifies the minimum (inclusive) number of parameters necessary to catch the observer's attention. Cannot be used with the `exclusive` qualifier.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { minparams: 5 } }`
 
-* maxparams - (`integer`, defaults to **Infinity**) Specifies the maximum number of parameters allowed before an observer ignores a hash URI change. Cannot be used with the `exclusive` qualifier.
+* maxparams - (`integer`, defaults to **Infinity**) Specifies the maximum (inclusive) number of parameters allowed before an observer ignores a hash URI change. Cannot be used with the `exclusive` qualifier.
 	* ex. `{ page: 'somepage', params: { someparam: somevalue }, qualifiers: { wildstrict: true } }`
 
 * strict - (`boolean`, defaults to **false**) When `true`, the trigger processes its parameters using strict (===) comparison as apposed to normal comparison (==).
