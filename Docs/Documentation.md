@@ -882,6 +882,7 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 * Nothing yet! Any ideas?
 
 ##Documented Bugs
-* All fixed! Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
+* deserialize and unserialize do NOT work in Opera at the moment (for some Opera reason)
+Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
 
 *Check the change log for more information on releases!*
