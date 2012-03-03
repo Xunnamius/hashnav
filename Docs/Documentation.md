@@ -6,7 +6,7 @@ Class: HashNav
 * [Events](http://mootools.net/docs/core/Class/Class.Extras#Events "MooTools Core Documentation: Events")
 
 ##Requires
-* MooTools 1.3 (or higher; successfully tested again: MooTools 1.4.0-4)
+* MooTools 1.3 (or higher; successfully tested again: MooTools 1.4.0-5)
 
 * [HashNav](#UsageModes "Jump to it!")
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
