@@ -53,6 +53,30 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 ##Public Method Index
 
+---
+
+[history.get](#PMI-history.get "Jump to it!"), [history.truncate](#PMI-history.truncate "Jump to it!"), [history.clear](#PMI-history.clear "Jump to it!")
+
+startPolling, stopPolling, poll
+
+registerObserver, registeredObserver, unregisterObserver, unregisterObservers
+
+getCurrent, getStoredHash, getStoredHashData
+
+get, set, unset, has
+
+isNative, isLegalHash
+
+navigateTo, triggerEvent
+
+serialize, unserialize, deserialize
+
+Element.observe, Element.observing, Element.unobserve
+
+HashNav.Fx.scrl, HashNav.Fx.scrlTo
+
+---
+
 <a name="PMI-history"></a>
 ###Public Method: <a name="PMI-history.get"></a>history.get
 Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history and returns it. Requires the HashNav.History module.
