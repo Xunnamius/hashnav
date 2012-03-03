@@ -881,6 +881,6 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 * Nothing yet! Any ideas?
 
 ##Documented Bugs
-* The `explicitChange` qualifier may not pay attention to data similarities when the hash URI is changed using "forced mode" in navigateTo() in some rare cases.
+* All fixed! Did you find a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker")!
 
 *Check the change log for more information on releases!*
