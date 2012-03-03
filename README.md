@@ -162,7 +162,7 @@ For some reason we want all the parameter values to be the same:
 		function(e){ store.that.data('Full Hash (helloworld): ' + this.getStoredHashData()[0]); }
 	);
 
-How about a general trigger that observes **every** page change and doesn't use a params object at all (perhaps you want to filter params yourself using [get()](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMI-get)):
+How about a general trigger that observes **every** page change (even illegal ones) and doesn't use a params object at all (perhaps you want to filter params yourself using [get()](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMI-get)):
 
 	hashNav.registerObserver(
 	
