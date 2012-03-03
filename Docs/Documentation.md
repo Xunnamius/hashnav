@@ -442,7 +442,7 @@ Returns an object containing pertinent data on the currently [recognized](#HowHa
 * (`object`) The entire internal `storedHash` object.
 
 ####Examples
-	//URI = #!/home&&param=1&amp;param2=&amp;param3&amp;param4=4&amp;param4=5&amp;6=7
+	//URI = #!/home&&param=1&param2=&param3&param4=4&param4=5&6=7
 
 	hashNav.getStoredHashData();
 
