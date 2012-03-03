@@ -57,23 +57,23 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 [history.get](#PMI-history.get "Jump to it!"), [history.truncate](#PMI-history.truncate "Jump to it!"), [history.clear](#PMI-history.clear "Jump to it!")
 
-startPolling, stopPolling, poll
+[startPolling](#PMI-startPolling "Jump to it!"), [stopPolling](#PMI-stopPolling "Jump to it!"), [poll](#PMI-poll "Jump to it!")
 
-registerObserver, registeredObserver, unregisterObserver, unregisterObservers
+[registerObserver](#PMI-registerObserver "Jump to it!"), [registeredObserver](#PMI-registeredObserver "Jump to it!"), [unregisterObserver](#PMI-unregisterObserver "Jump to it!"), [unregisterObservers](#PMI-unregisterObservers "Jump to it!")
 
-getCurrent, getStoredHash, getStoredHashData
+[getCurrent](#PMI-getCurrent "Jump to it!"), [getStoredHash](#PMI-getStoredHash "Jump to it!"), [getStoredHashData](#PMI-getStoredHashData "Jump to it!")
 
-get, set, unset, has
+[get](#PMI-get "Jump to it!"), [set](#PMI-set "Jump to it!"), [unset](#PMI-unset "Jump to it!"), [has](#PMI-has "Jump to it!")
 
-isNative, isLegalHash
+[isNative](#PMI-isNative "Jump to it!"), [isLegalHash](#PMI-isLegalHash "Jump to it!")
 
-navigateTo, triggerEvent
+[navigateTo](#PMI-navigateTo "Jump to it!"), [triggerEvent](#PMI-triggerEvent "Jump to it!")
 
-serialize, unserialize, deserialize
+[serialize](#PMI-serialize "Jump to it!"), [unserialize](#PMI-unserialize "Jump to it!"), [deserialize](#PMI-deserialize "Jump to it!")
 
-Element.observe, Element.observing, Element.unobserve
+[Element.observe](#DMI-observe "Jump to it!"), [Element.observing](#DMI-observing "Jump to it!"), [Element.unobserve](#DMI-unobserve "Jump to it!")
 
-HashNav.Fx.scrl, HashNav.Fx.scrlTo
+[Fx.scrl](#PMI-scrl "Jump to it!"), [Fx.scrlTo](#PMI-scrlTo "Jump to it!")
 
 ---
 
