@@ -170,7 +170,7 @@ How about a general trigger that observes **every** page change and doesn't use 
 		
 		{ page: false },
 	
-		function(e){ console.log(e); }
+		function(e){ console.log('Catch all:', e); }
 	);
 
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav).
