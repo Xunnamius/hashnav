@@ -254,6 +254,7 @@ There are also these cool little things called `wildcards`, represented, of cour
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':false, someparam1:1, somepara2:2 }` is logically and syntactically correct).
 * All trigger objects are optimized when created. Check out the demo page's "Trigger Demystifier" for an in-depth look at how this is done.
 * Trigger functions are automatically supplied with an "event" object that matches the structure of [getStoredHashData()](#PMI-getStoredHashData "Jump to it!").
+* Esoteric syntax `{ page: false, params: { '*':'' }, qualifiers: { exclusive: true } }` has been deprecated. Use minparams and maxparams instead.
 
 Congratulations, you're now a trigger master!
 
@@ -881,6 +882,5 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 
 ##Documented Bugs
 * The `explicitChange` qualifier may not pay attention to data similarities when the hash URI is changed using "forced mode" in navigateTo() in some rare cases.
-* Support for `{ page: false, params: { '*':'' }, qualifiers: { exclusive: true } }`-esque triggers will return in version 1.1
 
 *Check the change log for more information on releases!*
