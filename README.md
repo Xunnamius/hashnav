@@ -130,7 +130,7 @@ We want to store random data in both the key and value of a variable amount of p
 		function(e){ store.that.data('Full Hash: ' + this.getStoredHashData()[0]); }
 		
 		// You can use the event object that is passed to the function to achieve the same effect
-		// function(e){ store.this.data('Full Hash: ' + e[0]); }
+		// function(e){ store.that.data('Full Hash: ' + e[0]); }
 	);
 	
 Or we could do what we just did above, except add a limit to the amount of parameters:
