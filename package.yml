@@ -2,6 +2,6 @@ name: HashNav
 author: Xunnamius
 category: Utilities
 current: 1.2
-tags: [hash, navigation, ajax, browser, utility, dynamic, module]
+tags: [hash, navigation, ajax, browser, utility, dynamic, module, hashchange, router, url, uri]
 docs: https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md
 demo: http://xunnamius.github.com/HashNav/
