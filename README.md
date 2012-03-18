@@ -261,11 +261,13 @@ Zend Framework-style Hash URI's using the Slash parser
 ------
 New in version 1.3, along with the ability to create custom Hash parsers, is the "Slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
 
-To use it, you must initialize HashNav with the correct parser, provided via options array. All available parsers are stored in the `HashNav.parsers` object.
+To use it, you must initialize HashNav with the correct parser, provided via the options array, like so:
 
 	var hashnav = new HashNav({ parser: new HashNav.parsers.slash() });
 
-That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the documentation.
+That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the [documentation](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#SlashParser "Jump to it!").
+
+Know that all available parsers are stored under `HashNav.parsers`.
 
 Here's one of the above examples using slashes instead of ampersands:
 
