@@ -17,7 +17,7 @@ Class: HashNav
 Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic :D), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as HashNav.History) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
 
 ##Properties
-* Singleton
+* Singleton (cannot be reinitialized)
 * Modular
 
 ##Syntax
@@ -184,6 +184,8 @@ An observer's trigger object is what is used to dictate if the observer should c
 An observer registered with the above trigger would call its observing function when the hash URI looked something like the following:
 	#!/home2&&object=1&object2&magic=happening
 
+Note: if you're here for the slash parser URIs, [click here](#SlashParser "Jump to it!").
+
 <br />
 #####Trigger Syntax
 The syntax for trigger objects may seem a little esoteric at first, but using them is actually quite easy (maybe even intuitive) when you get the hang of it.
@@ -211,7 +213,7 @@ The `page` key accepts more than just a simple page/state designator string. You
 
 * A blank string `''`, which is interpreted to mean the `defaultHome` page.
 	* ex. `page:''`
-* The boolean literal `true`, which is interpreted as "match any change to the page/state designator"
+* The boolean literal `true`, which is interpreted as "match any change to the page/state designator." Note that changes to the page's params will NOT activate these types of triggers unless the designator itself also changes.
 	* ex. `page:true`
 * The boolean literal `false`, which is interpreted as "match any change to the hash URI"
 	* ex. `page:false`
@@ -893,6 +895,94 @@ What history tracking actually does is take the current hash data object (via [g
 
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
 
+###HashNav URI <a name="SlashParser"></a> Parsers
+New in version 1.3, along with the ability to create custom Hash parsers, is the "Slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar), etc.
+
+To use it, you must initialize HashNav with the correct parser, provided via the options array, like so:
+
+	var hashnav = new HashNav({ parser: new HashNav.parsers.slash() });
+
+That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the [documentation](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#SlashParser "Jump to it!").
+
+Know that all available parsers are stored under `HashNav.parsers`.
+
+####Using The Slash Parser
+Using the slash parser over the default parser comes with a few caveats, mainly:
+* Relative URIs `#!//look/like/this`
+* Nested objects are IN NO WAY SUPPORTED (and will be turned into strings by way of toString())
+* Orphaned parameters need to be followed by "true" (e.g. `#!/IAmAn/orphan/true`)
+* Empty parameters need to be followed by "false" (e.g. `#!/IAm/empty/false`)
+* This, of course, means you must use the strings "true" and "false" carefully
+* options.queryMakeFalse still applies. If it is true, any blank parameters (ones that appear on the end when params.length is odd) will be evaluated as `false`
+
+While the slash parser can be found at `HashNav.parsers.slash`, the default parser that comes with HashNav can be found at `HashNav.parsers.default`.
+
+To load a parser after another parser has been loaded, or the page has finished loading (yes, parsers can be loaded onto your HashNav instance dynamically at runtime!), you would execute the following code:
+
+	var hashnav = new HashNav();
+	hashnav.options.parser = new HashNav.parsers.slash('/');   // '/' is optional
+	hashnav.parsers.parser.setInstance(hashnav);
+
+**PRO TIP:** you may supply the slash and default parsers with a string (defaults to `'/'` and `'&&'` respectively) that they will use as their symbols.
+
+####Creating Your Own Parser
+If you ever find yourself in need of an alternate URI scheme for your project, you're always free to write your own!
+
+Don't worry, it's actually quite easy (I wrote the slash parser in a few minutes).
+
+#####Step 1: Come up with your URI scheme
+Since everything is stored internally as key-value pairs, you'll have to base your parser around this.
+
+The slash parser's scheme goes a little like this: `<prefix><state><symbol><params>` where `<param>` is equivalent to a virtually infinite amount of `<key><symbol><value>` pairs. If the number of key-value pairs is odd, then the last param (always evaluated as a key in this case) will be considered to have an empty string as its value.
+
+So my scheme is basically that of a file system or regular basic URL, if my `<symbol>` is `'/'`.
+
+#####Step 2: Extend the `HashNav.parsers.GeneralHashURIParser` abstract class
+Check out the `parser.slash.js` file to see an example of this.
+
+#####Final Step: Redefine the appropriate methods
+Again, check out the `parser.slash.js` file (or `HashNav.js`'s `HashNav.parsers.default`) to see an example of this in action.
+
+The following are brief descriptions of the methods you can use.
+
+These two methods **MUST** be redefined:
+
+	// Called to parse the raw window.location.hash (sans prefix)
+	//  into data that HashNav can understand. Note that this method
+	//  should NOT alter the original URI, nor its correlating objects
+	//  in memory. The only function of parse is to PARSE, therefore,
+	//  the only thing that can deviate from our hash URI is the
+	//  pathparse. Check the parser.slash.js file for an example.
+	public object parse(uri)
+	
+	// Parse (JSON-like) Object To Query String
+	public string parseObjectToQueryString(obj)
+
+The remaining methods may be optionally redefined:
+
+	// Gives us a link back to the HashNav class
+	public void setInstance(HashNav instance)
+	
+	// Used by navigateTo and the like for creating "First Mode" hash URIs
+	//  Check the documentation for the navigateTo() method for more info.
+	public string createURIMode1History(data)	// data will be a number
+	public string createURIMode1Object(data)	// data will be an object
+	public string createURIMode1String(data)	// data will be a string
+	
+	// Used by navigateTo and the like for creating "Second Mode" hash URIs
+	//  Check the documentation for the navigateTo() method for more info.
+	// data will be in the form of: [string, mixed]
+	public string createURIMode2(data)
+	
+	// Used by navigateTo and the like for creating "Third Mode" hash URIs
+	//  Check the documentation for the navigateTo() method for more info.
+	// data will be in the form of: [string, string, mixed]
+	public string createURIMode3(data)
+
+Your parser should live with the other parsers under the `HashNav.parsers` namespace. Moreover, know that `setInstance` gives you access to a complete HashNav instance. Therefore, any "options" should be obeyed by your parser (most specifically: [options.queryMakeFalse](#options "Jump to it!")).
+
+Once you're done, you can load it up and use it just like any other parser!
+
 ##Pro <a name="ProTips"></a> Tips
 * **REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
@@ -909,7 +999,7 @@ Do <a name="vci"></a>note that History Tracking allows some of the more powerful
 * Nothing yet! Any ideas?
 
 ##Documented Bugs
-* deserialize and unserialize do NOT work in Opera at the moment (for some Opera reason)
+* deserialize and unserialize do NOT work in a few versions of Opera at the moment (for some Opera reason)
 
 Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
 
