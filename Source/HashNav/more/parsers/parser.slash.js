@@ -28,7 +28,17 @@ HashNav.parsers.slash = new Class({
 		this.pathparse = {};
 		
 		while(this.parsed.length)
-			this.pathparse[this.parsed.shift()] = (this.parsed.shift() || '');
+		{
+			var key = this.parsed.shift(),
+				item = this.parsed.shift() || '';
+			
+			if(item === 'true')
+				item = true;
+			else if(item === 'false' || (item === '' && this.instance.options.queryMakeFalse))
+				item = false;
+			
+			this.pathparse[key] = (item);
+		}
 		
 		return { page: this.pagestr, pathString: this.pathstr, pathParsed: this.pathparse };
 	},
@@ -44,6 +54,12 @@ HashNav.parsers.slash = new Class({
 	
 	parseObjectToQueryString: function(obj)
 	{
+		Object.each(obj, function(item, index)
+		{
+			if(typeof(item) == 'object')
+				obj[index] = item.toString();
+		});
+		
 		return Object.toQueryString(obj).replace(/=|&/gi, this.symbol);
 	}
 });
