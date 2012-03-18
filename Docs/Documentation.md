@@ -364,10 +364,16 @@ Removes the specified observer from HashNav's internal observer stack, and remov
 Navigates the browser to the specified URI or history entry.
 
 ####Syntax
+	// mode 1
 	hashNav.navigateTo(location[, forced]);
+	hashNav.navigateTo(historyIndex[, forced]);
+	hashNav.navigateTo(params[, forced]);
+	
+	// mode 2
 	hashNav.navigateTo(page, params[, forced]);
+	
+	// mode 3
 	hashNav.navigateTo(prefix, page, params[, forced]);
-	hashNav.navigateTo(historyIndex);
 
 ####Arguments
 * First Mode
@@ -390,9 +396,6 @@ Navigates the browser to the specified URI or history entry.
 	2. page - (`string`) The page/state designator to navigate to. (ex. 'home')
 	3. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs.  (ex. 'hello=world&hello2=2')
 	4. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
-
-* Fourth Mode
-	1. historyIndex - (`integer`) The history index to navigate to, if the history module is loaded. Works exactly the same as `history.get(historyIndex)`, hence the negative index support.
 
 ####Returns
 * (`boolean`) `true` if navigation completed successfully or `false` on failure.
