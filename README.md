@@ -297,7 +297,7 @@ Here's one of the above examples using slashes instead of ampersands:
      		}*/
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/composing/username/Xunnamius`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/username/Xunnamius/composing`
 
 Note: if you want to test this out in the playground, be sure to read the initialization text and associated tips.
 
