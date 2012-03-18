@@ -199,7 +199,7 @@ We want to store random data in both the key and value of a variable amount of p
 		// function(e){ store.that.data('Full Hash: ' + e[0]); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/&&var1=5&var2=6&var3=3rav&var4&var5=`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home&&var1=5&var2=6&var3=3rav&var4&var5=`
 <br />
 <br />
 <br />
@@ -218,7 +218,7 @@ Or we could do what we just did above, except add a limit to the amount of param
 		function(e){ store.that.data('Full Hash (test-limit): ' + e[0]); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/&&var1=5&var2=6&var3=3rav&var4&var5=`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home&&var1=5&var2=6&var3=3rav&var4&var5=`
 <br />
 <br />
 <br />
@@ -297,7 +297,7 @@ Here's one of the above examples using slashes instead of ampersands:
      		}*/
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/username/Xunnamius/composing`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/username/Xunnamius/composing/true`
 
 Note: if you want to test this out in the playground, be sure to read the initialization text and associated tips.
 
