@@ -23,6 +23,37 @@ Some of the nifty tools provided for developers include:
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
 For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
+Setting Up Your Page
+-------------
+To use HashNav in its most conservative state, the HTML would look similar to the following:
+
+	<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
+	<script type="text/javascript" src="mootools/mootools-more-1.4.0.1.js"></script>
+	<script type="text/javascript" src="HashNav/String.QueryStringImproved.js"></script>
+	<script type="text/javascript" src="HashNav/Object.compare.js"></script>
+	<script type="text/javascript" src="HashNav/HashNav.js"></script>
+	<script type="text/javascript" src="myMainExternalScript.js"></script>
+
+While a more holistic application of the HashNav library would require more or all of the modules to be imported (**after HashNav.js is included in your document**):
+	
+	<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
+	<script type="text/javascript" src="mootools/mootools-more-1.4.0.1.js"></script>
+	<script type="text/javascript" src="HashNav/String.QueryStringImproved.js"></script>
+	<script type="text/javascript" src="HashNav/Object.compare.js"></script>
+	<script type="text/javascript" src="HashNav/HashNav.js"></script>
+	<script src="HashNav/HashNav.DOM.js" type="text/javascript"></script>
+	<script src="HashNav/HashNav.Fx.js" type="text/javascript"></script>
+	<script src="HashNav/HashNav.History.js" type="text/javascript"></script>
+	<script src="HashNav/more/HashNav.serialize.js" type="text/javascript"></script>
+	<script src="HashNav/more/HashNav.deserialize.js" type="text/javascript"></script>
+	<script src="HashNav/more/HashNav.unserialize.js" type="text/javascript"></script>
+	<script src="HashNav/more/HashNav.unregisterObservers.js" type="text/javascript" ></script>
+	<script src="HashNav/more/HashNav_T-QualifierLogic.js" type="text/javascript"></script>
+	<script src="HashNav/more/HashNav_T-WildcardLogic.js" type="text/javascript"></script>
+	<script type="text/javascript" src="myMainExternalScript.js"></script>
+
+Of course, to save http requests, one could combine the various module files he or she wishes to use into one.
+
 How to Use
 ----------
 
