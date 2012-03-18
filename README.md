@@ -23,7 +23,14 @@ Some of the nifty tools provided for developers include:
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
 For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
 
-Setting Up Your Page
+What's New in 1.3
+-------------
+* Minor optimizations
+* Updated README and documentation
+* Modularized the URI parser methods, allowing for others to easily create custom URI parser classes for HashNav
+* Added a URI parser that allows for URIs to be structured in a similar fashion to Zend Framework URIs (using slashes instead of ampersands)
+
+Setting up Your Page
 -------------
 To use HashNav in its most conservative state, the HTML would look similar to the following:
 
@@ -87,7 +94,7 @@ Now, the final line, `hashNav.triggerEvent();`, is equivalent to the gun shot at
 
 Advanced Examples
 -------------
-Note that you can copy and paste all of these examples into a browser's JS console in [HashNav's sandbox](http://xunnamius.github.com/HashNav)!
+Note that you can copy and paste all of the following examples into your browser's JS console in [HashNav's sandbox](http://xunnamius.github.com/HashNav). Don't forget to load the appropriate modules.
 
 Loading data whenever the application's page/state designator changes:
 
@@ -103,6 +110,10 @@ Loading data whenever the application's page/state designator changes:
 		function(){ load.ajax.data(); }
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home2`
+<br />
+<br />
+<br />
 Load different home pages based on a custom "type" parameter:
 
 	hashNav.registerObserver(
@@ -112,8 +123,8 @@ Load different home pages based on a custom "type" parameter:
 		{
 			page: true,
 			
-			/* The empty string in the trigger object's params sub-object means if the
-			   "parameter is present with any value". Check out the documentation! */
+			/* The empty string in the params object roughly translates to "if the
+			   parameter is present with any value". Check out the documentation! */
 			params: { type:'' }
 		},
 	
@@ -123,6 +134,10 @@ Load different home pages based on a custom "type" parameter:
 		// function(e){ load.a.custom.page(e[1].pathParsed['type']); }
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home3&&type=5`
+<br />
+<br />
+<br />
 Spawn a popunder box to warn a user not to leave the page or the data they typed will be lost. We'll be looking for the "composing" param to be present and orphaned, we're on the "emailer" page, and we'll pass their username in a "username" param. To top it all off, we want to see these parameters exclusively, meaning we only want to see what we listed in the params object and nothing else:
 	
 	hashNav.registerObserver(
@@ -150,6 +165,10 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 			      }*/
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/emailer&&composing&username=Xunnamius`
+<br />
+<br />
+<br />
 We want to store random data in both the key and value of a variable amount of parameters on the [defaultHome](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options) page only:
 
 	hashNav.registerObserver(
@@ -166,7 +185,11 @@ We want to store random data in both the key and value of a variable amount of p
 		// You can use the event object that is passed to the function to achieve the same effect
 		// function(e){ store.that.data('Full Hash: ' + e[0]); }
 	);
-	
+
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/&&var1=5&var2=6&var3=3rav&var4&var5=`
+<br />
+<br />
+<br />
 Or we could do what we just did above, except add a limit to the amount of parameters:
 
 	hashNav.registerObserver(
@@ -182,6 +205,10 @@ Or we could do what we just did above, except add a limit to the amount of param
 		function(e){ store.that.data('Full Hash (test-limit): ' + e[0]); }
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/&&var1=5&var2=6&var3=3rav&var4&var5=`
+<br />
+<br />
+<br />
 For some reason we want all the parameter values to be the same:
 
 	hashNav.registerObserver(
@@ -196,6 +223,10 @@ For some reason we want all the parameter values to be the same:
 		function(e){ store.that.data('Full Hash (helloworld): ' + this.getStoredHashData()[0]); }
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/somerandompage&&var1=All params must equal this text!&var2=All params must equal this text!`
+<br />
+<br />
+<br />
 How about a general trigger that observes **every** page change (even illegal ones) and doesn't use a params object at all (perhaps you want to filter params yourself using [get()](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMI-get)):
 
 	hashNav.registerObserver(
@@ -207,6 +238,10 @@ How about a general trigger that observes **every** page change (even illegal on
 		function(e){ console.log('Catch all:', e); }
 	);
 
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/foobartester&&catch=all`
+<br />
+<br />
+<br />
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav). [Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") if you would like to view HashNav's method index.
 
 Syntax
