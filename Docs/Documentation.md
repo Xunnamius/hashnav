@@ -364,15 +364,15 @@ Removes the specified observer from HashNav's internal observer stack, and remov
 Navigates the browser to the specified URI or history entry.
 
 ####Syntax
-	// mode 1
+	// First Mode
 	hashNav.navigateTo(location[, forced]);
 	hashNav.navigateTo(historyIndex[, forced]);
 	hashNav.navigateTo(params[, forced]);
 	
-	// mode 2
+	// Second Mode
 	hashNav.navigateTo(page, params[, forced]);
 	
-	// mode 3
+	// Third Mode
 	hashNav.navigateTo(prefix, page, params[, forced]);
 
 ####Arguments
@@ -402,6 +402,7 @@ Navigates the browser to the specified URI or history entry.
 
 ####Notes
 * The only time you'd need to use `forced` would be if you were navigating to the same unchanging hash URI again and again, and wanted your observers to take note.
+* In an attempt to mimic the way browser history naturally works, using `forced` will NOT create a new history entry! It only calls [history.triggerEvent()](#PMI-triggerEvent "Jump to it!").
 * Just because you can navigate to it doesn't make it a [legal](#HowHashesAreParsed "Jump to it!") hash URI!
 
 ####Examples
@@ -423,6 +424,7 @@ Navigates the browser to the specified URI or history entry.
 
 ####See Also
 * [history.get()](#PMI-history.get "Jump to it!")
+* [history.triggerEvent()](#PMI-triggerEvent "Jump to it!")
 
 <br />
 ###Public Method: <a name="PMI-getCurrent"></a>getCurrent
