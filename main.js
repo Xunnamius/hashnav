@@ -1,6 +1,5 @@
 var HASHNAV_LOCATION = 'HashNav',
 	warningPopup = alert,
-	hashNav = new HashNav(),
 	load = {a:{custom:{page:function(f){console.log('loading a custom page of type "'+f+'"');}}},ajax:{data:function(){ console.log('loading ajax data...')}}},
 	store = {that:{data:function(f){console.log('Stored.\n', f);}}};
 	
@@ -62,6 +61,7 @@ Object.extend({
 			{
 				$(script).dispose();
 				console.info('Page: Disposed of module '+script+'!');
+				loaded.erase(script);
 			}
 		}
 	};
@@ -656,6 +656,7 @@ window.addEvent('domready', function()
 			console.log('Page: Pro Tip #1 -> Use "str<...>" (without the quotes, replace "..." with your string) if you want to feed in a literal string. An example would be the string "true". If typed normally, it\'d be intrepreted as the literal boolean true unless presented as "str<true>". Does not work when using JSON notation.');
 			console.log('Page: Pro Tip #2 -> Use "args<argument1,argument2,...>" (without the quotes, and no spaces between commas) if you want to feed in a comma separated list of values to a method as an argument outside of JSON notation. Can only be used properly on methods that accept only one argument as a parameter!');
 			console.log('Page: Pro Tip #3 -> Use "number<num>" (without the quotes, replace num with your number) if you want to feed in a literal number into a method as an argument (doesn\'t work with JSON data). This is mainly for the number 0, which, in some browsers, is always interpreted as a string for some reason.');
+			console.log('Page: Pro Tip #4 -> To switch URI parsers AFTER HashNav has been initialized, just change HashNav\'s parser to the one you want ( e.g. hashnav.options.parser = new HashNav.parsers.slash(); ) followed by a call to setInstance ( e.g. hashnav.options.parser.setInstance(hashnav); ). When used outside of this playground, you\'d set the parser as you would any other option when first initializing the HashNav class. Reinitialization will NOT work.');
 			console.warn('Page: Warning! Sometimes the console incorrectly folds logs or warnings together or some other weird crap (usually seen when registering a new observer). This is unfortunately prevalent in my favorite browser, Google Chrome, in its most recently updated state. Use navigateTo() to manipulate the hash URI or try firefox + firebug if you see this happening!\n \n ');
 			console.groupEnd('Tips');
 			console.groupEnd('HashNav Initialization');
