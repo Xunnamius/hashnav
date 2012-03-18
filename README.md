@@ -255,6 +255,18 @@ How about a general trigger that observes **every** page change (even illegal on
 <br />
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav). [Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") if you would like to view HashNav's method index.
 
+Zend Framework-style Hash URI's using the Slash parser
+------
+New in version 1.3, along with the ability to create custom Hash parsers, is the "Slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
+
+To use it, you must initialize HashNav with the correct parser, provided via options array. All available parsers are stored in the HashNav.parsers object.
+
+	var hashnav = new HashNav({ parser: new HashNav.parser.slash() });
+
+That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the documentation.
+
+Here's one of the above examples using slashes instead of ampersands:
+
 Syntax
 ------
 `var hashNav = new HashNav([options]);`
