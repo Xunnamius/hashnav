@@ -1,6 +1,6 @@
 /*
 ---
-description: An AJAX-esque hash navigation class written in JavaScript using the MooTools Framework version 1.3.x and up
+description: An AJAX-esque hash navigation class made in JavaScript using MooTools 1.3
 
 license: MIT-style license
 
@@ -18,7 +18,7 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function() // Private
 {
-	var instance = null, observers = {}, version = 1.2, // Singleton
+	var instance = null, observers = {}, version = 1.3, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
@@ -31,7 +31,6 @@ provides: [HashNav]
 			interval: 200,
 			prefix: '!/',
 			defaultHome: 'home',
-			cleanQueryString: false,
 			queryMakeFalse: false,
 			externalConstants: ['NAVOBJOBSDATA', 'NAVOBJSERDATA'],
 			
@@ -40,7 +39,7 @@ provides: [HashNav]
 			cookieDataHardLimits: [2000, 6],
 			
 			ignoreVersionCheck: false,
-			explicitHashChange: true
+			parser: null
 		},
 		
 		initialize: function(options)
@@ -48,6 +47,12 @@ provides: [HashNav]
 			if(!instance)
 			{
 				this.setOptions(options);
+				
+				// If one plans on dynamically shifting parsers during run-time,
+				//  be sure to call setInstance on the parser classes!
+				if(!this.options.parser)
+					this.options.parser = new HashNav.parsers.default();
+				this.options.parser.setInstance(this);
 				
 				// Does this browser have support for the hashchange event?
 				if(!Browser.ie7 && 'onhashchange' in window)
@@ -89,7 +94,7 @@ provides: [HashNav]
 		
 		poll: function()
 		{
-			var lhsplit, lochash = window.location.hash;
+			var lochash = window.location.hash;
 			
 			if(this.getStoredHashData()[0] != lochash)
 			{
@@ -97,13 +102,14 @@ provides: [HashNav]
 				
 				if(this.isLegalHash())
 				{
-					lhsplit = lochash.split('&&');
-					state['storedHash'][1]['page'] = lhsplit.shift().substr(this.options.prefix.length+1).clean() || this.getCurrent() || this.options.defaultHome;
-					state.current = state['storedHash'][1]['page'];
-					state['storedHash'][1]['pathString'] = lhsplit.join('&&');
-				
-					if(this.options.cleanQueryString) state['storedHash'][1]['pathParsed'] = state['storedHash'][1]['pathString'].cleanQueryString();
-					else state['storedHash'][1]['pathParsed'] = state['storedHash'][1]['pathString'].parseQueryStringImproved(this.options.queryMakeFalse);
+					// Just in case the prefix occurs other places in the string
+					var parsed = lochash.split(this.options.prefix);
+					parsed.shift();
+					parsed = this.options.parser.parse(parsed.join(this.options.prefix));
+					
+					state.current = state['storedHash'][1]['page'] = parsed.page.clean() || this.getCurrent() || this.options.defaultHome;
+					state['storedHash'][1]['pathString'] = parsed.pathString;
+					state['storedHash'][1]['pathParsed'] = parsed.pathParsed;
 					
 					// History optimization using a pointer system
 					if(this.$_hidden_history_loaded) this.push(this.getStoredHashData().clone());
@@ -111,8 +117,7 @@ provides: [HashNav]
 				
 				else
 				{
-					state['storedHash'][1]['page'] = '';
-					state.current = '';
+					state.current = state['storedHash'][1]['page'] = '';
 					state['storedHash'][1]['pathString'] = '';
 					state['storedHash'][1]['pathParsed'] = null;
 				}
@@ -254,28 +259,29 @@ provides: [HashNav]
 				delete arguments[arguments.length];
 			}
 			
-			if(typeof(arguments[0]) == 'string' && arguments[1] && !arguments[2])
-				wlh = this.options.prefix + arguments[0] + '&&' + (typeof(arguments[1]) == 'object' ? Object.parseObjectToQueryString(arguments[1]) : arguments[1]);
-			else if(typeof(arguments[0]) == 'string' && typeof(arguments[1]) == 'string' && arguments[2])
-				wlh = arguments[0] + arguments[1] + '&&' + (typeof(arguments[2]) == 'object' ? Object.parseObjectToQueryString(arguments[2]) : arguments[2]);
+			// Page+params (mode 2)
+			if(typeof(arguments[0]) == 'string' && arguments[1] && typeof(arguments[2]) == 'undefined')
+			{ wlh = this.options.parser.createURIMode2(Array.from(arguments)); }
 			
+			// Prefix+page+params (mode 3)
+			else if(typeof(arguments[0]) == 'string' && typeof(arguments[1]) == 'string' && typeof(arguments[2]) != 'undefined')
+			{ wlh = this.options.parser.createURIMode3(Array.from(arguments)); }
+			
+			// History (mode 1)
 			else if(typeof(loc) == 'number' && this.$_hidden_history_loaded)
-			{
-				var hist = (this.history.get(loc) || [null])[0];
-				if(hist) wlh = hist;
-				else return false;
-			}
+			{ wlh = this.options.parser.createURIMode1History(loc); }
 			
-			else if(typeof(loc) == 'object') wlh = this.options.prefix + this.getCurrent() + '&&' + Object.parseObjectToQueryString(loc);
+			// Params (mode 1)
+			else if(typeof(loc) == 'object')
+			{ wlh = this.options.parser.createURIMode1Object(loc); }
 			
+			// URI (mode 1)
 			else if(typeof(loc) == 'string')
-			{
-				if(loc.substr(0, 1) == '#') wlh = loc;
-				else if(loc.substr(0, 1) == '&' && loc.substr(1, 1) != '&') wlh += (this.has('all') ? loc : (wlh.contains('&&') ? loc.substr(1) : '&'+loc));
-				else wlh = this.options.prefix + loc;
-			}
+			{ wlh = this.options.parser.createURIMode1String(loc); }
 			
+			// Unknown
 			else return false;
+			if(wlh === false) return false;
 			
 			window.location.hash = wlh;
 			if(triggerEvent) this.triggerEvent();
@@ -339,7 +345,7 @@ provides: [HashNav]
 		},
 		
 		/* XXX: These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
-		        yet cascade nicely when extending/implementing functionality. Perhaps in 1.2 I'll just redefine the HashNav class with every module. */
+		        yet cascade nicely when extending/implementing functionality. */
 		$_hidden_pseudoprivate_getState: function()
 		{
 			return [state, version];
@@ -351,4 +357,94 @@ provides: [HashNav]
 			version = ver;
 		}.protect()
 	});
+	
+	var GeneralHashURIParser = new Class({
+		parsed: null,
+		pagestr: null,
+		pathstr: null,
+		pathparse: null,
+		instance: null,
+		symbol: '',
+		
+		initialize: function()
+		{ throw "TypeError: Class 'GeneralHashURIParser' is abstract and should not be instantiated directly."; },
+			
+		setInstance: function(instance)
+		{ this.instance = instance; },
+		
+		parse: function(uri)
+		{ throw "TypeError: Object '"+this+"' has no proper method 'parse'"; },
+		
+		createURIMode1History: function(data)
+		{
+			var hist = (this.instance.history.get(data) || [null])[0];
+			if(hist) return hist;
+			else return false; // Bad params
+		},
+		
+		createURIMode1Object: function(data)
+		{
+			return this.instance.options.prefix +
+				   this.instance.getCurrent() +
+				   this.symbol +
+				   this.parseObjectToQueryString(data);
+		},
+		
+		createURIMode1String: function(data)
+		{ return data; },
+		
+		createURIMode2: function(data)
+		{
+			return this.instance.options.prefix +
+				   data[0] + this.symbol +
+				   (typeof(data[1]) == 'object' ?
+				   		this.parseObjectToQueryString(data[1]) :
+						data[1]);
+		},
+		
+		createURIMode3: function(data)
+		{
+			return data[0] +
+				   data[1] +
+				   this.symbol +
+				   (typeof(data[2]) == 'object' ?
+				   		this.parseObjectToQueryString(data[2]) :
+						data[2]);
+		},
+		
+		parseObjectToQueryString: function(obj)
+		{ throw "TypeError: Object '"+this+"' has no proper method 'parseObjectToQueryString'"; }
+	});
+	
+	this.HashNav.parsers = { GeneralHashURIParser: GeneralHashURIParser };
+	
+	var DefaultHashURIParser = new Class({
+		Extends: HashNav.parsers.GeneralHashURIParser,
+	
+		initialize: function(symbol)
+		{ this.symbol = symbol || '&&'; },
+		
+		parse: function(uri)
+		{
+			this.parsed = uri.split(this.symbol);
+			this.pagestr = this.parsed.shift();
+			this.pathstr = this.parsed.join(this.symbol);
+			this.pathparse = this.pathstr.parseQueryStringImproved(this.instance.options.queryMakeFalse);
+			return { page: this.pagestr, pathString: this.pathstr, pathParsed: this.pathparse };
+		},
+		
+		createURIMode1String: function(data)
+		{
+			if(data.charAt(0) == '#') wlh = data;
+			else if(data.charAt(0) == '&' && data.charAt(1) != '&') wlh += (this.instance.has('all') ? data : (wlh.contains('&&') ? data.substr(1) : '&'+data));
+			else wlh = this.instance.options.prefix + data;
+		},
+		
+		parseObjectToQueryString: function(obj)
+		{
+			return Object.parseObjectToQueryString(obj);
+		}
+	});
+	
+	this.HashNav.parsers['default'] = DefaultHashURIParser;
 })();
