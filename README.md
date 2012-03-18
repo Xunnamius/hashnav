@@ -14,9 +14,11 @@ Some of the nifty tools provided for developers include:
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
 * Supports the search-engine AJAX crawler routine a la "#!/"
+* Supports custom URI parsers that allow for URIs #!/that/look/like/this or #!/that&&look=like&this
+* Developers can write their own URI parsers quickly and easily to style hash URIs in any imaginable way.
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
-* Very small core file (6.05KB uncompressed, 2.02KB gzipped). 60% smaller than beta version.
+* Very small core file (~6.05KB uncompressed, ~2.02KB gzipped @ v1.2). 60% smaller than beta version.
 * New modularized class structure reduces HashNav's overall footprint by over 50% when compared to the beta version.
 * Tested against MooTools 1.3.x and 1.4.0-5
 
@@ -41,25 +43,34 @@ To use HashNav in its most conservative state, the HTML would look similar to th
 	<script type="text/javascript" src="HashNav/HashNav.js"></script>
 	<script type="text/javascript" src="myMainExternalScript.js"></script>
 
-While a more holistic application of the HashNav library would require more or all of the modules to be imported (**after HashNav.js is included in your document**):
+While a more holistic application of the HashNav library would require more or all of the modules to be imported (**after HashNav.js is included in your document**). That would look a little something like this:
 	
 	<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
 	<script type="text/javascript" src="mootools/mootools-more-1.4.0.1.js"></script>
+	
 	<script type="text/javascript" src="HashNav/String.QueryStringImproved.js"></script>
 	<script type="text/javascript" src="HashNav/Object.compare.js"></script>
+	
 	<script type="text/javascript" src="HashNav/HashNav.js"></script>
+	
+	<script type="text/javascript" src="HashNav/more/parsers/parser.slash.js"></script>
+	
 	<script src="HashNav/HashNav.DOM.js" type="text/javascript"></script>
 	<script src="HashNav/HashNav.Fx.js" type="text/javascript"></script>
 	<script src="HashNav/HashNav.History.js" type="text/javascript"></script>
+	
 	<script src="HashNav/more/HashNav.serialize.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav.deserialize.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav.unserialize.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav.unregisterObservers.js" type="text/javascript" ></script>
 	<script src="HashNav/more/HashNav_T-QualifierLogic.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav_T-WildcardLogic.js" type="text/javascript"></script>
+	
 	<script type="text/javascript" src="myMainExternalScript.js"></script>
 
-Of course, to save http requests, one could combine the various module files he or she wishes to use into one.
+Note the general order. Scripts that come before the HashNav core (HashNav.js) should always come before, while scripts that come after should almost always come after.
+
+Of course, to save http requests, one could consolidate the various module files he or she wishes to use into one javascript file.
 
 How to Use
 ----------
