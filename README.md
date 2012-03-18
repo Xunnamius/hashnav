@@ -175,7 +175,7 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
 		     		e[1].pathParsed['username']+
 		     		', if you leave the ' + e[0] +
 		     		' page before saving, everything you just typed will be lost!');
-	      	}*/
+     		}*/
 	);
 
 [Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/emailer&&composing&username=Xunnamius`
@@ -294,7 +294,7 @@ Here's one of the above examples using slashes instead of ampersands:
 		     		e[1].pathParsed['username']+
 		     		', if you leave the ' + e[0] +
 		     		' page before saving, everything you just typed will be lost!');
-	      	}*/
+     		}*/
 	);
 
 [Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/composing/username/Xunnamius`
