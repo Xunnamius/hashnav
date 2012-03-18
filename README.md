@@ -14,7 +14,7 @@ Some of the nifty tools provided for developers include:
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
 * Supports the search-engine AJAX crawler routine a la "#!/"
-* Supports custom URI parsers that allow for URIs #!/that/look/like/this or #!/that&&look=like&this
+* Supports custom URI parsers that allow for URIs `#!/that/look/like/this` or `#!/that&&look=like&this`
 * Developers can write their own URI parsers quickly and easily to style hash URIs in any imaginable way.
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
@@ -259,13 +259,42 @@ Zend Framework-style Hash URI's using the Slash parser
 ------
 New in version 1.3, along with the ability to create custom Hash parsers, is the "Slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
 
-To use it, you must initialize HashNav with the correct parser, provided via options array. All available parsers are stored in the HashNav.parsers object.
+To use it, you must initialize HashNav with the correct parser, provided via options array. All available parsers are stored in the `HashNav.parsers` object.
 
-	var hashnav = new HashNav({ parser: new HashNav.parser.slash() });
+	var hashnav = new HashNav({ parser: new HashNav.parsers.slash() });
 
 That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the documentation.
 
 Here's one of the above examples using slashes instead of ampersands:
+
+	// Yep, none of your code changes. Cool, eh?!
+	hashNav.registerObserver(
+	
+		'warning',
+		
+		{
+			page: 'emailer',
+			params: { composing: true, username:'' },
+			qualifiers: { exclusive: true }
+		},
+	
+		function(){ warningPopup('Watch out '+
+					 this.get('username')+
+					 ', if you leave the '+
+					 this.getCurrent()+
+					 ' page before saving, everything you just typed will be lost!');
+			  }
+		
+		// You can use the event object that is passed to the function to achieve a *similar* effect
+		/* function(e){ warningPopup('Watch out '+
+					     e[1].pathParsed['username']+
+					     ', if you leave the ' + e[0] +
+					     ' page before saving, everything you just typed will be lost!');
+			      }*/
+	);
+
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/composing/username/Xunnamius`
+Note: if you want to test this out in the playground, be sure to read the initialization text and associated tips.
 
 Syntax
 ------
