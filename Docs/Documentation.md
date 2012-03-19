@@ -914,15 +914,15 @@ Using the slash parser over the default parser comes with a few caveats, mainly:
 * Orphaned parameters need to be followed by "true" (e.g. `#!/IAmAn/orphan/true`)
 * Empty parameters need to be followed by "false" (e.g. `#!/IAm/empty/false`)
 * This, of course, means you must use the strings "true" and "false" carefully
-* options.queryMakeFalse still applies. If it is true, any blank parameters (ones that appear on the end when params.length is odd) will be evaluated as `false`
+* `options.queryMakeFalse` still applies. If it is `true`, any blank parameters (ones that appear on the end when `params.length` is odd) will be evaluated as `false`
 
 While the slash parser can be found at `HashNav.parsers.slash`, the default parser that comes with HashNav can be found at `HashNav.parsers.default`.
 
-To load a parser after another parser has been loaded, or the page has finished loading (yes, parsers can be loaded onto your HashNav instance dynamically at runtime!), you would execute the following code:
+To load a parser after another parser has already been loaded, or the page has finished loading (yes, parsers can be loaded onto your HashNav instance dynamically at runtime!), you could do something like the following:
 
 	var hashnav = new HashNav();
 	hashnav.options.parser = new HashNav.parsers.slash('/');   // '/' is optional
-	hashnav.parsers.parser.setInstance(hashnav);
+	hashnav.options.parser.setInstance(hashnav);
 
 **PRO TIP:** you may supply the slash and default parsers with a string (defaults to `'/'` and `'&&'` respectively) that they will use as their symbols.
 
