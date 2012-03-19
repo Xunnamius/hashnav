@@ -259,7 +259,7 @@ For more information on how to use the observer/trigger system, read the [docume
 
 Zend Framework-style Hash URI's using the Slash parser
 ------
-New in version 1.3, along with the ability to create custom Hash parsers, is the "Slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
+New in version 1.3, along with the ability to create custom hash parsers, is the "slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
 
 To use it, you must initialize HashNav with the correct parser, provided via the options array, like so:
 
