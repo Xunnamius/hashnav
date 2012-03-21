@@ -1,5 +1,6 @@
 var HASHNAV_LOCATION = 'HashNav',
 	warningPopup = alert,
+	hashNav = new HashNav(),
 	load = {a:{custom:{page:function(f){console.log('loading a custom page of type "'+f+'"');}}},ajax:{data:function(){ console.log('loading ajax data...')}}},
 	store = {that:{data:function(f){console.log('Stored.\n', f);}}};
 	
