@@ -997,10 +997,11 @@ Once you're done, you can load it up and use it just like any other parser!
 * Sometimes IE<9 misbehaves if it is in quirks mode. Make sure to use PROPER LEGAL doctypes if you want HashNav to function at its full capability.
 
 ##Coming <a name="ComingSoon"></a> Soon
-* Nothing yet! Any ideas?
+* Make the slash parser the default parser, and the ampersand parser a separate module
 
 ##Documented Bugs
 * deserialize and unserialize do NOT work in a few versions of Opera at the moment (for some Opera reason)
+* a few IE8 bugs with the demo page code
 
 Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
 
