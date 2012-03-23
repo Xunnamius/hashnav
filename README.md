@@ -22,10 +22,10 @@ Some of the nifty tools provided for developers include:
 * New modularized class structure reduces HashNav's overall footprint by over 50% when compared to the beta version.
 * Tested against MooTools 1.3.x and 1.4.0-5
 
-Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It's really cool :D") to understand the *full power* of this class.  
-For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It's really cool :D")
+Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It is really cool :D") to understand the *full power* of this class.  
+For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It is really cool :D")
 
-What's New in 1.3
+What is New in 1.3
 -------------
 * Minor optimizations
 * Updated README and documentation
@@ -34,6 +34,8 @@ What's New in 1.3
 
 Setting up Your Page
 -------------
+Note that, to save on http requests, one could consolidate the various module files shown below into one javascript file. This would probably be best for most people.
+
 To use HashNav in its most conservative state, the HTML would look similar to the following:
 
 	<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
@@ -43,7 +45,7 @@ To use HashNav in its most conservative state, the HTML would look similar to th
 	<script type="text/javascript" src="HashNav/HashNav.js"></script>
 	<script type="text/javascript" src="myMainExternalScript.js"></script>
 
-While a more holistic application of the HashNav library would require more or all of the modules to be imported (**after HashNav.js is included in your document**). That would look a little something like this:
+While a more holistic application of the HashNav library would require more or all of the modules to be imported **after HashNav.js is included in your document**. That would look a little something like this (with helpful newlines):
 	
 	<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
 	<script type="text/javascript" src="mootools/mootools-more-1.4.0.1.js"></script>
@@ -69,8 +71,6 @@ While a more holistic application of the HashNav library would require more or a
 	<script type="text/javascript" src="myMainExternalScript.js"></script>
 
 Note the general order. Scripts that come before the HashNav core (HashNav.js) should always come before, while scripts that come after should almost always come after.
-
-Of course, to save http requests, one could consolidate the various module files he or she wishes to use into one javascript file.
 
 How to Use
 ----------
@@ -257,7 +257,7 @@ How about a general trigger that observes **every** page change (even illegal on
 <br />
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav). [Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") if you would like to view HashNav's method index.
 
-Zend Framework-style Hash URI's using the Slash parser
+Zend Framework-style Hash URIs using the Slash parser
 ------
 New in version 1.3, along with the ability to create custom hash parsers, is the "slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
 
