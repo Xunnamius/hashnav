@@ -435,9 +435,9 @@ provides: [HashNav]
 		
 		createURIMode1String: function(data)
 		{
-			if(data.charAt(0) == '#') wlh = data;
-			else if(data.charAt(0) == '&' && data.charAt(1) != '&') wlh += (this.instance.has('all') ? data : (wlh.contains('&&') ? data.substr(1) : '&'+data));
-			else wlh = this.instance.options.prefix + data;
+			if(data.charAt(0) == '#') return data;
+			else if(data.charAt(0) == '&' && data.charAt(1) != '&') return data += (this.instance.has('all') ? data : (wlh.contains('&&') ? data.substr(1) : '&'+data));
+			else return this.instance.options.prefix + data;
 		},
 		
 		parseObjectToQueryString: function(obj)
