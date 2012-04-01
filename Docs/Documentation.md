@@ -1005,4 +1005,7 @@ Once you're done, you can load it up and use it just like any other parser!
 
 Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
 
+##License
+This work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although welcomed :D).
+
 *Check the change log for more information on releases!*
