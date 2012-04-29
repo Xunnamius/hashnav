@@ -326,7 +326,7 @@ var $optimize = function(trigger)
 
 window.addEvent('domready', function()
 {
-	if(typeof(console) == 'undefined' && false)
+	if(typeof(console) == 'undefined')
 	{
 		$$('body').setStyle('opacity', '.05');
 		alert("This browser either does not have a suitable JavaScript console or it has been disabled. Please enable it and refresh the page.");
@@ -334,7 +334,6 @@ window.addEvent('domready', function()
 	
 	else
 	{
-		console = { log: Function.from(), warn: Function.from(), error: Function.from(), info: Function.from() };
 		console.group = console.group || Function.from();
 		console.groupCollapsed = console.groupCollapsed || Function.from();
 		console.groupEnd = console.groupEnd || Function.from();
