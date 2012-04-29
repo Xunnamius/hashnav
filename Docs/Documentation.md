@@ -8,16 +8,16 @@ Class: HashNav
 * [Events](http://mootools.net/docs/core/Class/Class.Extras#Events "MooTools Core Documentation: Events")
 
 ##Requires
-* MooTools 1.3 (or higher; successfully tested again: MooTools 1.4.0-5)
+* MooTools 1.3 (or higher; successfully tested against: MooTools 1.4.0-5)
 
 * HashNav
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
 	* *provided*: [String.QueryStringImproved.js, Object.compare.js]
 
-Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic :D), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as HashNav.History) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
+Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as HashNav.History) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
 
 ##Properties
-* Singleton (cannot be reinitialized)
+* Singleton (can be reinstantiated, cannot be reinitialized)
 * Modular
 
 ##Syntax
@@ -997,13 +997,13 @@ Once you're done, you can load it up and use it just like any other parser!
 * Sometimes IE<9 misbehaves if it is in quirks mode. Make sure to use PROPER LEGAL doctypes if you want HashNav to function at its full capability.
 
 ##Coming <a name="ComingSoon"></a> Soon
-* Make the slash parser the default parser, and the ampersand parser a separate module
+* Revamp the playground with Bootstrap (yeah, I know the current version is ugly to look at)
+* Add a "tutorial" prompt to the playground, to walk people through how to use parts of HashNav
 
 ##Documented Bugs
-* deserialize and unserialize do NOT work in a few versions of Opera at the moment (for some Opera reason)
-* a few IE8 bugs with the demo page code
+(none yet, woot!)
 
-Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
+Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first.
 
 ##License
 This work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although welcomed :D).

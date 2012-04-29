@@ -16,3 +16,6 @@ May 2011:
 March 2012:
 	Version 1.2	    -- Fixed every remaining reported issue/bug found, updated the documentation and the README.md examples, general performance enhancements, left Branches of Sin (BOS) status
 	Version 1.3	    -- Minor optimizations, removed useless options, updated README, modularized URI parser, and added slash module under more/parsers
+
+April 2012:
+	Version 1.4	    -- Minor optimizations, fixed a few minor slash parser and IE-related bugs, updated README and Documentation to shed some light on the following: slash parser is now default parser, the old ampersand parser can be referenced from HashNav.parsers.ampersand; new "URI builder"'s for JS and PHP are available under Source/Builders.
