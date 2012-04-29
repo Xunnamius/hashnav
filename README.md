@@ -9,7 +9,7 @@ Some of the nifty tools provided for developers include:
 * One of the most unique and intuitive hash URI parsers around
 * Query, grab, and manipulate hash data in the URI in a succinct and efficient manner
 * Quickly and easily navigate through a local history "smart-repository"
-* Register and unregister powerful URI observer events (which can be easily tied to DOM elements), capable of meeting all your needs
+* Register and unregister powerful URI observer events (which can be easily tied to the DOM), capable of meeting all your needs
 * Serialize (take a snapshot of) the current hash session for later analysis, storage, or session sharing
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
