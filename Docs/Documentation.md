@@ -1033,7 +1033,8 @@ Once you're done, you can load it up and use it just like any other parser!
 * Going to write a "HashNav builder"/"script element generator" (similar to MooTools's Core/More builders) to hopefully cut down on the documentation a bit
 * Unit test suite to easily perform rigorous and exhaustive tests on all of HashNav's components (should severly cut into the amount of bugs that may/might/could exist)
 * It has been suggested that the [explicitChange](#ObserverTriggers "Jump to it!") quantifier default to `true` instead of `false` when `HashNav_T-WildcardLogic.js` is available. I am leaning towards this.
-* In the spirit of maximum clarity: there will be a general consolidation of the terminology used in these docs. e.g. "query params" <-> "parameters" <-> "params" <-> "hash URI parameters" <-> etc.
+* In the spirit of maximum clarity: there will be a general consolidation of the terminology used in these docs.
+	* e.g. "query params" <-> "parameters" <-> "params" <-> "hash URI parameters" <-> etc.
 
 ##Documented Bugs
 * None yet, woot!
@@ -1041,6 +1042,6 @@ Once you're done, you can load it up and use it just like any other parser!
 Did you discover a new bug? An inconsistency in the docs somewhere? Typo in the code? Please [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first.
 
 ##License
-This code ships with the same lisence as the [MooTools framework](http://mootools.net "http://mootools.net"). Basically: this work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although *very* welcomed). Still, if you fix any bugs or add anything interesting, I'd like know ;).
+This code ships with the same lisence as the [MooTools framework](http://mootools.net "http://mootools.net"). Basically: this work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although *very* welcomed). Still, if you fix any bugs or add anything interesting, I'd like know ;)
 
 *Check the change log for more information on releases!*
