@@ -18,7 +18,7 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function()
 {
-	var instance = null, observers = {}, version = 1.4, // Singleton
+	var instance = null, observers = {}, version = 1.4, navigateTo = true, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
@@ -250,7 +250,9 @@ provides: [HashNav]
 		
 		navigateTo: function(loc)
 		{
-			var wlh = window.location.hash, triggerEvent = false;
+			var wlh = window.location.hash,
+				triggerEvent = false,
+				arguments = Array.from(arguments);
 			
 			// Polymorphism at work!
 			if(typeof(arguments[arguments.length-1]) == 'boolean')
@@ -281,12 +283,25 @@ provides: [HashNav]
 			
 			// Unknown
 			else return false;
-			if(wlh === false) return false;
+			if(wlh === false) return navigateTo ? false : null;
 			
-			window.location.hash = wlh;
-			if(triggerEvent) this.triggerEvent();
-			else this.poll();
-			return true;
+			if(navigateTo)
+			{
+				window.location.hash = wlh;
+				if(triggerEvent) this.triggerEvent();
+				else this.poll();
+				return true;
+			}
+			
+			else return '#'+wlh;
+		},
+		
+		buildURI: function()
+		{
+			navigateTo = false;
+			var result = this.navigateTo.apply(this, Array.from(arguments));
+			navigateTo = true;
+			return result;
 		},
 		
 		getCurrent: function(){ return state.current; },
