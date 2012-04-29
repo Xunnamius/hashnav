@@ -451,7 +451,6 @@ window.addEvent('domready', function()
 						}
 						
 						else console.warn('HashNav Class: The module that supports the method '+method+'() has NOT been loaded yet!');
-						
 					}
 				});
 			});
@@ -491,13 +490,14 @@ window.addEvent('domready', function()
 			});
 			
 			console.log('Page: Setting up dummy URIs...');
-			$$('div.first p a').each(function(item)
+			$$('div.first p a[data-link]').each(function(item)
 			{
-				var s = hashNav.options.parser.separators;
-				item.set('href', item.get('href').
-					replace('+', s.main).
-					replace(/\*/g, s.pair).
-					replace(/=/g, s.field));
+				item.addEvent('click', function(e)
+				{
+					var data = JSON.decode(this.get('data-link'));
+					if(data) data = hashNav.buildURI(data.state||'', data.params||'');
+					if(data) this.set('href', data);
+				});
 			});
 			
 			console.log('Page: Setting up Trigger Demystifier...');
