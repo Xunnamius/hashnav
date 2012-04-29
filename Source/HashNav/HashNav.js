@@ -351,8 +351,6 @@ provides: [HashNav]
 			return this.getStoredHashData()[0];
 		},
 		
-		/* XXX: These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
-		        yet cascade nicely when extending/implementing functionality. */
 		$_hidden_pseudoprivate_getState: function()
 		{
 			return [state, version];

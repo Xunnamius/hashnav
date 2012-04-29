@@ -81,7 +81,7 @@ provides: [Logic]
 				{
 					if((item === true  && Object.contains(map.path, true)) ||
 					   (item === false && Object.contains(map.path, (this.options.makeFalse ? false : ''))) ||
-					   (Object.values(map.path).every(function(value){ returnval = (map.wildstrict ? value === item : value.toString() == item.toString()); })))
+					   (Object.values(map.path).every(function(value){ return (map.wildstrict ? value === item : value.toString() == item.toString()); })))
 						 returnval = true;
 				}
 				
