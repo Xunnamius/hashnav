@@ -8,7 +8,7 @@ authors:
 - Xunnamius
 
 requires:
-- core/1.3.2: [Class.Extras, Element.Event]
+- core/1.3+: [Class.Extras, Element.Event]
 - provided: [String.QueryStringImproved]
 
 provides: [HashNav]
@@ -16,9 +16,9 @@ provides: [HashNav]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function()
 {
-	var instance = null, observers = {}, version = 1.3, // Singleton
+	var instance = null, observers = {}, version = 1.4, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
@@ -51,7 +51,7 @@ provides: [HashNav]
 				// If one plans on dynamically shifting parsers during run-time,
 				//  be sure to call setInstance on the parser classes!
 				if(!this.options.parser)
-					this.options.parser = new HashNav.parsers.default();
+					this.options.parser = new HashNav.parsers.slash();
 				this.options.parser.setInstance(this);
 				
 				// Does this browser have support for the hashchange event?
@@ -298,15 +298,20 @@ provides: [HashNav]
 			if(arguments[0] == 'all' || !arguments.length) return this.getStoredHash();
 			var result = {}, get = this.getStoredHash();
 			Object.each(arguments, function(item){ if(item in get) result[item] = get[item]; }, this);
-			return Object.getLength(result) ? (arguments.length == 1 ? result[arguments[0]] : result) : (arguments.length == 1 ? null : {});
+			return Object.getLength(result) ?
+				(arguments.length == 1 ? result[arguments[0]] : result) :
+				(arguments.length == 1 ? null : {});
 		},
 		
 		set: function()
 		{
 			var data = {};
-			if(typeof(arguments[0]) == 'string' && arguments.length >= 2)
+			
+			if(typeof(arguments[0]) == 'object') // 1.4
+				data = arguments[0];
+			else if(arguments.length > 1)
 				data[arguments[0]] = arguments[1];
-			else data = arguments[0];
+			
 			Object.merge(this.getStoredHash(), data);
 			this.navigateTo(this.getStoredHash());
 		},
@@ -322,7 +327,9 @@ provides: [HashNav]
 		{
 			if(arguments[0] == 'all') return !!Object.getLength(this.getStoredHash());
 			var result = Object.filter(arguments, function(item){ return item in this.getStoredHash(); }.bind(this));
-			return  Object.getLength(arguments) == 1 ? (Object.getLength(result) == 1 ? true : false) : Object.values(result);
+			return  Object.getLength(arguments) == 1 ?
+				(Object.getLength(result) == 1 ? true : false) :
+				(Object.values(result));
 		},
 		
 		isNative: function(){ return state['native']; },
@@ -344,8 +351,6 @@ provides: [HashNav]
 			return this.getStoredHashData()[0];
 		},
 		
-		/* XXX: These abominations against the JS gods will be phased out when MooTools officially supports private/protected variables that don't suck
-		        yet cascade nicely when extending/implementing functionality. */
 		$_hidden_pseudoprivate_getState: function()
 		{
 			return [state, version];
@@ -364,7 +369,7 @@ provides: [HashNav]
 		pathstr: null,
 		pathparse: null,
 		instance: null,
-		symbol: '',
+		separators: { main: null, pair: null, field: null },
 		
 		initialize: function()
 		{ throw "TypeError: Class 'GeneralHashURIParser' is abstract and should not be instantiated directly."; },
@@ -386,7 +391,7 @@ provides: [HashNav]
 		{
 			return this.instance.options.prefix +
 				   this.instance.getCurrent() +
-				   this.symbol +
+				   this.separators.main +
 				   this.parseObjectToQueryString(data);
 		},
 		
@@ -396,7 +401,7 @@ provides: [HashNav]
 		createURIMode2: function(data)
 		{
 			return this.instance.options.prefix +
-				   data[0] + this.symbol +
+				   data[0] + this.separators.main +
 				   (typeof(data[1]) == 'object' ?
 				   		this.parseObjectToQueryString(data[1]) :
 						data[1]);
@@ -406,7 +411,7 @@ provides: [HashNav]
 		{
 			return data[0] +
 				   data[1] +
-				   this.symbol +
+				   this.separators.main +
 				   (typeof(data[2]) == 'object' ?
 				   		this.parseObjectToQueryString(data[2]) :
 						data[2]);
@@ -418,33 +423,56 @@ provides: [HashNav]
 	
 	this.HashNav.parsers = { GeneralHashURIParser: GeneralHashURIParser };
 	
-	var DefaultHashURIParser = new Class({
+	this.HashNav.parsers.slash = new Class({
 		Extends: HashNav.parsers.GeneralHashURIParser,
-	
-		initialize: function(symbol)
-		{ this.symbol = symbol || '&&'; },
+		
+		initialize: function(separator)
+		{
+			var sep = (separator || '/').toString();
+			this.separators = { main: sep, pair: sep, field: sep };
+		},
 		
 		parse: function(uri)
 		{
-			this.parsed = uri.split(this.symbol);
+			this.parsed = uri.split(this.separators.main);
 			this.pagestr = this.parsed.shift();
-			this.pathstr = this.parsed.join(this.symbol);
-			this.pathparse = this.pathstr.parseQueryStringImproved(this.instance.options.queryMakeFalse);
+			this.pathstr = this.parsed.join(this.separators.main);
+			this.pathparse = {};
+			
+			while(this.parsed.length)
+			{
+				var key = this.parsed.shift(),
+					item = this.parsed.shift() || '';
+				
+				if(item === 'true')
+					item = true;
+				else if(item === 'false' || (item === '' && this.instance.options.queryMakeFalse))
+					item = false;
+				
+				this.pathparse[key] = (item);
+			}
+			
 			return { page: this.pagestr, pathString: this.pathstr, pathParsed: this.pathparse };
 		},
 		
 		createURIMode1String: function(data)
 		{
 			if(data.charAt(0) == '#') return data;
-			else if(data.charAt(0) == '&' && data.charAt(1) != '&') return data += (this.instance.has('all') ? data : (wlh.contains('&&') ? data.substr(1) : '&'+data));
-			else return this.instance.options.prefix + data;
+			
+			// Keeping with linux-style absolube vs. relative URI notation
+			else if(data.charAt(0) == this.separators.main) return this.instance.options.prefix + data.substr(1);
+			else return this.instance.options.prefix + this.instance.getCurrent() + this.separators.main + data;
 		},
 		
 		parseObjectToQueryString: function(obj)
 		{
-			return Object.parseObjectToQueryString(obj);
+			Object.each(obj, function(item, index)
+			{
+				if(typeof(item) == 'object')
+					obj[index] = item.toString();
+			});
+			
+			return Object.toQueryString(obj).replace(/=|&/gi, this.separators.main);
 		}
 	});
-	
-	this.HashNav.parsers['default'] = DefaultHashURIParser;
 })();
