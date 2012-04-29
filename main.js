@@ -1,7 +1,8 @@
-var HASHNAV_LOCATION = 'HashNav',
+var HASHNAV_LOCATION = 'Source/HashNav',
 	warningPopup = alert,
 	hashNav = new HashNav(),
-	load = {a:{custom:{page:function(f){console.log('loading a custom page of type "'+f+'"');}}},ajax:{data:function(){ console.log('loading ajax data...')}}},
+	h = hashNav,
+	load = {a:{custom:{page:function(f){console.log('loading a custom page of type "'+f+'"');}}},ajax:{data:function(){console.log('loading ajax data...');}}},
 	store = {that:{data:function(f){console.log('Stored.\n', f);}}};
 	
 
@@ -39,7 +40,7 @@ Object.extend({
 				if(script == 'all') $$('#modules ul li a').each(function(item){ HNMODS.load.module(item.getProperty('title')); }); // Another instance where recursion beats iteration
 				else
 				{
-					Asset.javascript((location.protocol == 'file:' ? 'E:\\Shell Folders\\.gitrepos\\HashNav\\'+HASHNAV_LOCATION+'\\' : HASHNAV_LOCATION+'/') + script + '.js',
+					Asset.javascript(HASHNAV_LOCATION+'/'+script+'.js',
 					{
 						id: script,
 						onLoad: function()
@@ -325,7 +326,7 @@ var $optimize = function(trigger)
 
 window.addEvent('domready', function()
 {
-	if(typeof(console) == 'undefined')
+	if(typeof(console) == 'undefined' && false)
 	{
 		$$('body').setStyle('opacity', '.05');
 		alert("This browser either does not have a suitable JavaScript console or it has been disabled. Please enable it and refresh the page.");
@@ -333,6 +334,7 @@ window.addEvent('domready', function()
 	
 	else
 	{
+		console = { log: Function.from(), warn: Function.from(), error: Function.from(), info: Function.from() };
 		console.group = console.group || Function.from();
 		console.groupCollapsed = console.groupCollapsed || Function.from();
 		console.groupEnd = console.groupEnd || Function.from();
@@ -487,6 +489,16 @@ window.addEvent('domready', function()
 				}
 				
 				else undertext.flash();
+			});
+			
+			console.log('Page: Setting up dummy URIs...');
+			$$('div.first p a').each(function(item)
+			{
+				var s = hashNav.options.parser.separators;
+				item.set('href', item.get('href').
+					replace('+', s.main).
+					replace(/\*/g, s.pair).
+					replace(/=/g, s.field));
 			});
 			
 			console.log('Page: Setting up Trigger Demystifier...');
@@ -657,7 +669,7 @@ window.addEvent('domready', function()
 			console.log('Page: Pro Tip #1 -> Use "str<...>" (without the quotes, replace "..." with your string) if you want to feed in a literal string. An example would be the string "true". If typed normally, it\'d be intrepreted as the literal boolean true unless presented as "str<true>". Does not work when using JSON notation.');
 			console.log('Page: Pro Tip #2 -> Use "args<argument1,argument2,...>" (without the quotes, and no spaces between commas) if you want to feed in a comma separated list of values to a method as an argument outside of JSON notation. Can only be used properly on methods that accept only one argument as a parameter!');
 			console.log('Page: Pro Tip #3 -> Use "number<num>" (without the quotes, replace num with your number) if you want to feed in a literal number into a method as an argument (doesn\'t work with JSON data). This is mainly for the number 0, which, in some browsers, is always interpreted as a string for some reason.');
-			console.log('Page: Pro Tip #4 -> To switch URI parsers AFTER HashNav has been initialized, just change HashNav\'s parser to the one you want ( e.g. hashnav.options.parser = new HashNav.parsers.slash(); ) followed by a call to setInstance ( e.g. hashnav.options.parser.setInstance(hashnav); ). When used outside of this playground, you\'d set the parser as you would any other option when first initializing the HashNav class. Reinitialization will NOT work.');
+			console.log('Page: Pro Tip #4 -> To switch URI parsers AFTER HashNav has been initialized, just change HashNav\'s parser to the one you want ( e.g. hashnav.options.parser = new HashNav.parsers.ampersand(); ) followed by a call to setInstance ( e.g. hashnav.options.parser.setInstance(hashnav); ). When used outside of this playground, you\'d set the parser as you would any other option when first initializing the HashNav class. Reinitialization will NOT work.');
 			console.warn('Page: Warning! Sometimes the console incorrectly folds logs or warnings together or some other weird crap (usually seen when registering a new observer). This is unfortunately prevalent in my favorite browser, Google Chrome, in its most recently updated state. Use navigateTo() to manipulate the hash URI or try firefox + firebug if you see this happening!\n \n ');
 			console.groupEnd('Tips');
 			console.groupEnd('HashNav Initialization');

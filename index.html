@@ -107,10 +107,10 @@ Do not remove this header.
 			<h3>Previous Hash URI: <span id="previous-hash">(loading...)</span></h3>
 			<p>Try an <a href="#Illegal Hash!" title="Try it!">Illegal Hash URI!</a></p>
 			<p>Try a <a href="#!/home2" title="Try it!">Simple Hash URI</a></p>
-			<p>Try a <a href="#!/&&param=1" title="Try it!">Relative Hash URI</a></p>
-			<p>Try a <a href="#!/&&param=1&param=2&param=3&param=4&param=false&param=true" title="Try it!">Hash URI w/ Folding Parameters</a></p>
-			<p>Try a <a href="#!/page3&&param=2&param3&param4=magic&param5=" title="Try it!">Complex Hash URI</a></p>
-			<p>Try a <a href="#!/&&param=1&param=2&param=true&param2=&param3=&param4&param5&param6=false&param7=hello&8&9=9&t3n=HashNav%20is%20the%20greatest" title="Try it!">Super Complex Hash URI</a></p>
+			<p>Try a <a href="#!/+param=1" title="Try it!">Relative Hash URI</a></p>
+			<p>Try a <a href="#!/+param=1*param=2*param=3*param=4*param=false*param=true" title="Try it!">Hash URI w/ Folding Parameters</a></p>
+			<p>Try a <a href="#!/page3+param=2*param3*param4=magic*param5=" title="Try it!">Complex Hash URI</a></p>
+			<p>Try a <a href="#!/+param=1*param=2*param=true*param2=*param3=*param4*param5*param6=false*param7=hello*8*9=9*t3n=HashNav%20is%20the%20greatest" title="Try it!">Super Complex Hash URI</a></p>
 		</div>
         <div id="modules">
 			<h3>Load A Module<span> (or <a href="#">load them all</a>)</span></h3>
@@ -131,7 +131,7 @@ Do not remove this header.
             </ul>
             <ul>
            		<li>Parser Modules (must initialize correctly to use; check console Tips section [tip #4])</li>
-                <li><a href="#" title="more/parsers/parser.slash">Load more/parsers/parser.slash</a></li>
+                <li><a href="#" title="more/parsers/parser.ampersand">Load more/parsers/parser.ampersand</a></li>
             </ul>
 		</div>
 		<div>
@@ -333,7 +333,7 @@ Do not remove this header.
 						<li>(empty)</li>
 					</ul>
 				</li>
-				<li id="test-URI">Test against a URI: <input type="text" id="test-URI-trigger" value="legal hash URI (ex. #!/home&&param=1)" style="width: 500px;" />  <a href="#" title="Do it!">Test it!</a></li>
+				<li id="test-URI">Test against a URI: <input type="text" id="test-URI-trigger" value="legal hash URI (ex. #!/home/param/1)" style="width: 500px;" />  <a href="#" title="Do it!">Test it!</a></li>
 			</ul>
 		</div>
 		
@@ -342,9 +342,9 @@ Do not remove this header.
 		<script type="text/javascript" src="mootools/mootools-core-1.4.5.js"></script>
         <script type="text/javascript" src="mootools/mootools-more-1.4.0.1.js"></script>
 		<script type="text/javascript" src="UnderText-1.0-FULL.js"></script>
-        <script type="text/javascript" src="HashNav/String.QueryStringImproved.js"></script>
-        <script type="text/javascript" src="HashNav/Object.compare.js"></script>
-		<script type="text/javascript" src="HashNav/HashNav.js"></script>
+        <script type="text/javascript" src="Source/HashNav/String.QueryStringImproved.js"></script>
+        <script type="text/javascript" src="Source/HashNav/Object.compare.js"></script>
+		<script type="text/javascript" src="Source/HashNav/HashNav.js"></script>
 		<script type="text/javascript" src="main.js"></script>
 	</body>
 </html>
