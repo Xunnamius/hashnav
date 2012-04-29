@@ -821,7 +821,11 @@ Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will 
 
 Basically: `#!/` `somepage` `/` `someparam/something` `/` `somethingelse/too`
 
-Do note that **empty parameters** (`param=`/`param/false`, depending on the parser) and **orphan parameters** (`param` with no `=` following it/`param/true`, depending on the parser) are also legal, allowed, and encouraged. So `#!/` `somepage/true` `/` `someparam/false` `/` `somethingelse/true` is just as legal as its predecessor above. **Note how `true` and `false` are interpreted as *literals* by the [slash parser](#Parsers "Jump to it!").**
+Do note that **empty parameters** (`param=` / `param/false`, depending on the parser) and **orphan parameters** (`param` with no `=` following it / `param/true`, depending on the parser) are also legal, allowed, and encouraged.
+
+Ergo, `#!/` `somepage/true` `/` `someparam/false` `/` `somethingelse/true` is just as legal as its predecessor above.
+
+**Note how `true` and `false` are interpreted as *literals* by the [slash parser](#Parsers "Jump to it!").**
 
 Now, the quintessential core facet of the HashNav object is its ability to parse a hash URI and store it in a logical and meaningful manner.
 
@@ -851,10 +855,10 @@ An example of a real `storedHash` object in action (using the [ampersand parser]
 
 <pre><code>storedHash:
 [
-   '#!/home&&param&1&param2=&param3&param4=4&param4=5&6=7',
+   '#!/home&&param=1&param2=&param3&param4=4&param4=5&6=7',
    {
       page: 'home',
-      pathString: 'param&1&param2=&param3&param4=4&param4=5&6=7',
+      pathString: 'param=1&param2=&param3&param4=4&param4=5&6=7',
       pathParsed:
       {
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6: '7',
@@ -912,7 +916,7 @@ As you can see, relative hashes are certainly powerful, and definitely have thei
 ###History <a name="HistoryTracking"></a>Tracking
 To enable history tracking, make sure to include the `HashNav.History` module in your webpages.
 
-What history tracking actually does is take the current hash data object (via [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")) and push it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data object, except in the past tense. Using the [history methods](#PMI-history "Jump to it!") or [navigateTo()](#PMI-navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occurs that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
+When enabled, HashNav will take the current hash data object (via [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")) and push it onto a private "history" array. This means all history entries are really just stored hash data objects representing mini "snapshots" in time. Using the [history methods](#PMI-history "Jump to it!") or [navigateTo()](#PMI-navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occurs that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
 
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
 
@@ -1020,6 +1024,7 @@ Once you're done, you can load it up and use it just like any other parser!
 * It is generally unwise to nest parameters inside of other parameters, even though it is partially supported ([set()](#PMI-set "Jump to it!") does not support parameter-array notation). Serializing whole objects using the page's URI is an even worse idea. Instead of nesting parameters/objects, just use separate parameters (or store the data in a variable/session/server-side)!
 * Sometimes IE<9 misbehaves if it is in quirks mode. Make sure to use PROPER LEGAL doctypes if you want HashNav to function at its full capability.
 * **WARNING**: Switching parsers in the middle of a session could have disasterous effects when combined with `HashNav.History` module! Parsers do NOT know how to read each other's history entries, nor should they.
+* It is generally a good idea to use the [explicitChange](#ObserverTriggers "Jump to it!") quantifier whenever possible, especially when using relative hashes. This will cut down on your overall page processing time since "different" hashes that evaluate to the same data will not trigger any observers.
 
 ##Coming <a name="ComingSoon"></a> Soon
 * Total rebuild of the playground (ground up) -- for one, changing parsers via GUI will be super easy
@@ -1027,13 +1032,15 @@ Once you're done, you can load it up and use it just like any other parser!
 * Going to add an in-browser "console" to the playground (for you, IE)
 * Going to write a "HashNav builder"/"script element generator" (similar to MooTools's Core/More builders) to hopefully cut down on the documentation a bit
 * Unit test suite to easily perform rigorous and exhaustive tests on all of HashNav's components (should severly cut into the amount of bugs that may/might/could exist)
+* It has been suggested that the [explicitChange](#ObserverTriggers "Jump to it!") quantifier default to `true` instead of `false` when `HashNav_T-WildcardLogic.js` is available. I am leaning towards this.
+* In the spirit of maximum clarity: there will be a general consolidation of the terminology used in these docs. e.g. "query params" <-> "parameters" <-> "params" <-> "hash URI parameters" <-> etc.
 
 ##Documented Bugs
 * None yet, woot!
 
-Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first.
+Did you discover a new bug? An inconsistency in the docs somewhere? Typo in the code? Please [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first.
 
 ##License
-This work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although welcomed :D).
+This code ships with the same lisence as the [MooTools framework](http://mootools.net "http://mootools.net"). Basically: this work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although *very* welcomed). Still, if you fix any bugs or add anything interesting, I'd like know ;).
 
 *Check the change log for more information on releases!*
