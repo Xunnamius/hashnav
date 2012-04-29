@@ -270,7 +270,7 @@ provides: [HashNav]
 			{ wlh = this.options.parser.createURIMode3(Array.from(arguments)); }
 			
 			// History (mode 1)
-			else if(typeof(loc) == 'number' && this.$_hidden_history_loaded)
+			else if(typeof(loc) == 'number' && this.$_hidden_history_loaded && navigateTo)
 			{ wlh = this.options.parser.createURIMode1History(loc); }
 			
 			// Params (mode 1)
