@@ -2,7 +2,7 @@ Hash Navigation Made Easy With HashNav!
 =======================================
 HashNav is a powerful AJAX-esque hash navigation (or "HashNav") class made in JavaScript. It is compatible with MooTools versions 1.3 and up.
 
-![Screenshot](http://i.imgur.com/sWNmn.png)
+![Screenshot](http://i.imgur.com/d2atY.png)
 
 Some of the nifty tools provided for developers include:
 

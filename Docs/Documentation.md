@@ -439,7 +439,7 @@ Navigates the browser to the specified URI or history entry.
 
 <br />
 ###Public Method: <a name="PMI-buildURI"></a>buildURI
-Used to generate HashNav-compatible URIs. Accepts the exact same input (yes, all the modes) as [navigateTo()](#PMI-navigateTo "Jump to it!").
+Used to generate HashNav-compatible URIs. Accepts the *exact* same input as [navigateTo()](#PMI-navigateTo "Jump to it!"), sans mode 1 history indexes.
 
 ####Syntax
 	hashNav.buildURI( ... );
