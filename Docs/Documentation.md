@@ -1035,6 +1035,7 @@ Once you're done, you can load it up and use it just like any other parser!
 * It has been suggested that the [explicitChange](#ObserverTriggers "Jump to it!") quantifier default to `true` instead of `false` when `HashNav_T-WildcardLogic.js` is available. I am leaning towards this.
 * In the spirit of maximum clarity: there will be a general consolidation of the terminology used in these docs.
 	* e.g. "query params" <-> "parameters" <-> "params" <-> "hash URI parameters" <-> etc.
+* Make it so that [startPolling](#PMI-startPolling "Jump to it!") and [stopPolling](#PMI-stopPolling "Jump to it!") behave the same (cannot be called) when native `onhashchange` functionality is detected within the browser.
 
 ##Documented Bugs
 * None yet, woot!
