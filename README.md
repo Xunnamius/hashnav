@@ -14,7 +14,7 @@ Some of the nifty tools provided for developers include:
 * Unserialize and fully restore a saved hash session as if the user never left!
 * Supports custom hash prefixes other than the traditional hash (#).
 * Supports the search-engine AJAX crawler routine a la "#!/"
-* Supports custom URI parsers that allow for URIs `#!/that/look/like/this` or `#!/that&&look=like&this`
+* Supports custom URI parsers that allow for URIs `#!/that/look/like/this` (default) or `#!/that&&look=like&this`
 * Developers can write their own URI parsers quickly and easily to style hash URIs in any imaginable way.
 * Accounts for native "hashchange" support and adjusts accordingly.
 * Only requires a small subset of the MooTools Core library to function properly (at its most conservative).
@@ -25,12 +25,14 @@ Some of the nifty tools provided for developers include:
 Be sure to read the [full documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md "It is really cool :D") to understand the *full power* of this class.  
 For a fun little HashNav sandbox to frolic around in, check out this GitHub page: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav "It is really cool :D")
 
-What is New in 1.3
+(playground is going to get a facelift soon, as well as a tutorial page)
+
+What is new in 1.4
 -------------
-* Minor optimizations
-* Updated README and documentation
-* Modularized the URI parser methods, allowing for others to easily create custom URI parser classes for HashNav
-* Added a URI parser that allows for URIs to be structured in a similar fashion to Zend Framework URIs (using slashes instead of ampersands)
+* Slash parser is now the default parser
+* Added buildURI()
+* Updated HashNav's image
+* Stomped all the bugs!
 
 Setting up Your Page
 -------------
@@ -55,7 +57,7 @@ While a more holistic application of the HashNav library would require more or a
 	
 	<script type="text/javascript" src="HashNav/HashNav.js"></script>
 	
-	<script type="text/javascript" src="HashNav/more/parsers/parser.slash.js"></script>
+	<script type="text/javascript" src="HashNav/more/parsers/parser.ampersand.js"></script>
 	
 	<script src="HashNav/HashNav.DOM.js" type="text/javascript"></script>
 	<script src="HashNav/HashNav.Fx.js" type="text/javascript"></script>
@@ -64,13 +66,13 @@ While a more holistic application of the HashNav library would require more or a
 	<script src="HashNav/more/HashNav.serialize.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav.deserialize.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav.unserialize.js" type="text/javascript"></script>
-	<script src="HashNav/more/HashNav.unregisterObservers.js" type="text/javascript" ></script>
+	<script src="HashNav/more/HashNav.unregisterObservers.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav_T-QualifierLogic.js" type="text/javascript"></script>
 	<script src="HashNav/more/HashNav_T-WildcardLogic.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" src="myMainExternalScript.js"></script>
 
-Note the general order. Scripts that come before the HashNav core (HashNav.js) should always come before, while scripts that come after should almost always come after.
+Note the general order. Scripts that come before the HashNav core (HashNav.js) should always come before, while scripts that come after should always come after.
 
 How to Use
 ----------
@@ -99,7 +101,7 @@ This observer will watch the URI hash and call the callback function
 with arguments `[1, 2, 3, 4]` bound to the default namespace (denoted by `null`) whenever it observes any [legal](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#HowHashesAreParsed "Jump to it!") hash URI page/state designator change that satisfies its [trigger object](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers "Jump to it!"). For example:
 
 	#!/home -- changing to --> #!/about
-	#!/faq&&entry=1 -- changing to --> #!/faq&&entry=2
+	#!/faq/entry/1 -- changing to --> #!/faq/entry/2
 
 Now, the final line, `hashNav.triggerEvent();`, is equivalent to the gun shot at the horse races. It's the signal to go!
 
@@ -145,7 +147,7 @@ Load different home pages based on a custom "type" parameter:
 		// function(e){ load.a.custom.page(e[1].pathParsed['type']); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home3&&type=5`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home3/type/5`
 <br />
 <br />
 <br />
@@ -178,7 +180,7 @@ Spawn a popunder box to warn a user not to leave the page or the data they typed
      		}*/
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/emailer&&composing&username=Xunnamius`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/emailer/composing/username/Xunnamius`
 <br />
 <br />
 <br />
@@ -199,7 +201,7 @@ We want to store random data in both the key and value of a variable amount of p
 		// function(e){ store.that.data('Full Hash: ' + e[0]); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home&&var1=5&var2=6&var3=3rav&var4&var5=`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home/var1/5/var2/6/var3/bcd/var4/var5/`
 <br />
 <br />
 <br />
@@ -218,7 +220,7 @@ Or we could do what we just did above, except add a limit to the amount of param
 		function(e){ store.that.data('Full Hash (test-limit): ' + e[0]); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home&&var1=5&var2=6&var3=3rav&var4&var5=`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/home/var1/5/var2/6/var3/zxy/var4/var5/`
 <br />
 <br />
 <br />
@@ -236,7 +238,7 @@ For some reason we want all the parameter values to be the same:
 		function(e){ store.that.data('Full Hash (helloworld): ' + this.getStoredHashData()[0]); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/somerandompage&&var1=All params must equal this text!&var2=All params must equal this text!`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/somerandompage/var1/All params must equal this text!/var2/All params must equal this text!`
 <br />
 <br />
 <br />
@@ -251,57 +253,11 @@ How about a general trigger that observes **every** page change (even illegal on
 		function(e){ console.log('Catch all:', e); }
 	);
 
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/foobartester&&catch=all`
+[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method"): `#!/foobartester/catch/all`
 <br />
 <br />
 <br />
 For more information on how to use the observer/trigger system, read the [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#ObserverTriggers). Again, you may also be interested in a live demo of the *whole* class, available here: [http://xunnamius.github.com/HashNav](http://xunnamius.github.com/HashNav). [Click here](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#PMIX "Browse to it!") if you would like to view HashNav's method index.
-
-Zend Framework-style Hash URIs using the Slash parser
-------
-New in version 1.3, along with the ability to create custom hash parsers, is the "slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar :P), etc.
-
-To use it, you must initialize HashNav with the correct parser, provided via the options array, like so:
-
-	var hashnav = new HashNav({ parser: new HashNav.parsers.slash() });
-
-That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='. For developers who wish to create their own custom parsers like the slash parser, have a look at the [documentation](https://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#SlashParser "Jump to it!").
-
-Know that all available parsers are stored under `HashNav.parsers`.
-
-Here's one of the above examples using slashes instead of ampersands:
-
-	// Yep, none of your code changes. Cool, eh?!
-	hashNav.registerObserver(
-	
-		'warning',
-		
-		{
-			page: 'emailer',
-			params: { composing: true, username:'' },
-			qualifiers: { exclusive: true }
-		},
-	
-		function(){
-			warningPopup('Watch out '+
-				this.get('username')+
-				', if you leave the '+
-				this.getCurrent()+
-				' page before saving, everything you just typed will be lost!');
-		}
-		
-		// You can use the event object that is passed to the function to achieve a *similar* effect
-		/* function(e){
-			warningPopup('Watch out '+
-		     		e[1].pathParsed['username']+
-		     		', if you leave the ' + e[0] +
-		     		' page before saving, everything you just typed will be lost!');
-     		}*/
-	);
-
-[Satisfying hash URI](http://xunnamius.github.com/HashNav "Test this method!"): `#!/emailer/username/Xunnamius/composing/true`
-
-Note: if you want to test this out in the playground, be sure to read the initialization text and associated tips.
 
 Syntax
 ------

@@ -14,7 +14,7 @@ Class: HashNav
 	* **Core**: `Core`, **All** `Types`, `Browser`, **All** `Class`, **All** `Slick` (dependency of `Element` & `DOMReady`), `Element` & `Element.Event`, `DOMReady`
 	* *provided*: [String.QueryStringImproved.js, Object.compare.js]
 
-Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic :D), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as HashNav.History) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
+Note that, along with including the *provided* script(s) in your webpage (don't worry, they're microscopic :D), each module that you would like to utilize the funcitonality of needs to be included **AFTER** `HashNav.js`. Choosing to forgo the inclusion of some "essential" modules (such as `HashNav.History`) *might* cause the HashNav class to function in an unexpected manner. **Check out the comments included within each module file for more specific requirements.**
 
 ##Properties
 * Singleton (cannot be reinitialized)
@@ -33,7 +33,7 @@ Note that, along with including the *provided* script(s) in your webpage (don't 
 
 * defaultHome - (`string`: defaults to **"home"**) Your website's "meta-homepage." When visitors navigate to your page using a [Relative Hash](#RelativeHashes "Jump to it!"), the HashNav object will assume the user navigated to the `defaultHome` page. Check out [Relative Hashes](#RelativeHashes "Jump to it!") for more information on this integral setting.
 
-* queryMakeFalse - (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs, a blank parameter (`param=`) will become a blank string (`param:""`) by default. When `queryMakeFalse` is set to `true`, however, a blank parameter will be become a literal `false` (`param:false`). See [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!") for more information.
+* queryMakeFalse - (`boolean`: defaults to **false**) When query strings are transcoded to key/value pairs by the [ampersand parser](#Parsers "Jump to it!"), a blank parameter (`param=`) will become a blank string (`param:""`) by default. When `queryMakeFalse` is set to `true`, however, a blank parameter will be become a literal `false` (`param:false`). See [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!") for more information, and how this applies to the [slash parser](#Parsers "Jump to it!").
 
 * externalConstants - (`array`) Determines the key the [observe()](#DMI-observe "Jump to it!") DOM element method will use to store its pertinent data ("NAVOBJOBSDATA") along with the cookie prefix used when the [serialize()](#PMI-serialize "Jump to it!") method is called ("NAVOBJSERDATA").
 
@@ -77,7 +77,7 @@ Fired on the `window` object when the HashNav object recognizes a hash change.
 
 <a name="PMI-history"></a>
 ###Public Method: <a name="PMI-history.get"></a>history.get
-Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history and returns it. Requires the HashNav.History module.
+Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history and returns it. Requires the `HashNav.History` module.
 
 ####Syntax
 	hashNav.history.get(entry);
@@ -98,7 +98,7 @@ Grabs a [stored hash data object](#getStoredHashData "Jump to it!") from history
 
 <br />
 ###Public Method: <a name="PMI-history.truncate"></a>history.truncate
-Truncates the history array (starting from the front [index 0] and working towards the back [index history.length-1]). Usually used before calling [serialize()](#PMI-serialize "Jump to it!"). Requires the HashNav.History module.
+Truncates the history array (starting from the front [index 0] and working towards the back [index history.length-1]). Usually invoked before calling [serialize()](#PMI-serialize "Jump to it!"). Requires the `HashNav.History` module.
 
 ####Syntax
 	hashNav.history.truncate(count);
@@ -111,10 +111,11 @@ Truncates the history array (starting from the front [index 0] and working towar
 
 ####See Also
 * [History Tracking](#HistoryTracking "Jump to it!")
+* [serialize()](#PMI-serialize "Jump to it!")
 
 <br />
 ###Public Method: <a name="PMI-history.clear"></a>history.clear
-Clears the internal history array. Requires the HashNav.History module.
+Clears the internal history array. Requires the `HashNav.History` module.
 
 ####Syntax
 	hashNav.history.clear();
@@ -136,7 +137,7 @@ Starts the internal polling routine if it is not already started. Note that this
 * (`boolean`) `true` if the polling function was started successfully, otherwise `false`.
 
 ####Notes
-* [startPolling()](#PMI-startPolling "Jump to it!") will always return `false` when native `onHashchange` event functionality is detected within the browser.
+* [startPolling()](#PMI-startPolling "Jump to it!") will always fail and return `false` when native `onHashchange` event functionality is detected within the browser.
 
 <br />
 ###Public Method: <a name="PMI-stopPolling"></a>stopPolling
@@ -157,7 +158,7 @@ Used by the HashNav object to interrogate the `window.location` object and asses
 
 <br />
 ###Public Method: <a name="PMI-registerObserver"></a>registerObserver
-Registers an observer with the HashNav object by setting up a virtual "middle-man," if you will, to mediate between your observing functions and the `window` object in a cross-browser fashion.
+Registers an observer with the HashNav object by setting up a "middle-man" to mediate between your observing functions and the `window` object in a cross-browser fashion.
 
 ####Syntax
 	hashNav.registerObserver(name, trigger, fn[, args[, bind[, scrlto]]]);
@@ -168,9 +169,9 @@ Registers an observer with the HashNav object by setting up a virtual "middle-ma
 2. trigger - (`object`) This object is important. So important, in fact, that it gets its [own section](#ObserverTriggers) below.
 3. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments.
 4. args - (`mixed`, optional) Custom arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments.
-	* **Warning:** If your single argument is an array, wrap it within another array literal to prevent incorrect processing.
+	* **Warning:** If your single argument is an array, wrap it within an array literal to prevent incorrect processing.
 5. bind - (`object`, optional) Object or element to bind the `this` keyword to within the observer function. Defaults to the current `this`.
-6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI. Requires the HashNav.Fx module.
+6. scrlto - (`mixed`, optional) <a name="WindowScrolling"></a>An element to [scroll to](#PMI-scrlTo "Jump to it!") in an aesthetically pleasing manner when the observer's trigger is satisfied by the current hash URI. Requires the `HashNav.Fx` module.
 
 ####Returns
 * (`boolean`) `true` if the observer was registered successfully, otherwise `false`.
@@ -182,15 +183,13 @@ An observer's trigger object is what is used to dictate if the observer should c
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
 An observer registered with the above trigger would call its observing function when the hash URI looked something like the following:
-	#!/home2&&object=1&object2&magic=happening
-
-Note: if you're here for the slash parser URIs, [click here](#SlashParser "Jump to it!").
+	#!/home2/object/1/object2/true/magic/happening
 
 <br />
 #####Trigger Syntax
 The syntax for trigger objects may seem a little esoteric at first, but using them is actually quite easy (maybe even intuitive) when you get the hang of it.
 
-Extending our above example,
+Expounding on our above example,
 
 	{ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }
 
@@ -198,8 +197,8 @@ we see that we have:
 
 * A `page` key, which maps to the page/state designator in a hash URI.
 	* `page: 'home2'` means the observer will only activate when the hash URI is on `home2`.
-* A `params` key, which maps to the hash URI's query string (everything after the && -- basically the object returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!")).
-	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object=1&object2&magic=happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
+* A `params` key, which maps to the hash URI's query string (everything after the current parser's main separator (e.g. `/`), which is basically the object returned by calling [getStoredHash()](#PMI-getStoredHash "Jump to it!")).
+	* `params: {object:1, object2:true, magic:'happening', object3:'~'}` means the observer will only activate when the hash URI has `object/1/object2/true/magic/happening` contained somewhere in its query string (in any order). Note that the parameter `object3` is missing. If said parameter were present, the trigger would not activate.
 
 Pretty simple, 'eh? Just remember that the `page` key is *required* to exist within your trigger objects. If it is missing, your observer will crash. `params`, however, is not required. This means you don't have to use "trigger params" if you don't want to :)
 
@@ -273,7 +272,7 @@ There are also these cool little things called `wildcards`, represented, of cour
 
 <br />
 #####Notes
-* **You must include HashNav_T-QualifierLogic.js and HashNav_T-WildcardLogic.js in your webpage if you plan on using any advanced trigger functionality!**
+* **You must include `HashNav_T-QualifierLogic.js` and `HashNav_T-WildcardLogic.js` in your webpage if you plan on using any advanced trigger functionality!**
 * Due to the way objects work, only one `wildcard` may appear per trigger. To include more than one would cause [registerObserver()](#PMI-registerObserver "Jump to it!") to behave in an `undefined` manner.
 * `wildcards` do **not** have to appear alone (ex. `params:{ '*':false, someparam1:1, somepara2:2 }` is logically and syntactically correct).
 * All trigger objects are optimized when created. Check out the demo page's "Trigger Demystifier" for an in-depth look at how this is done.
@@ -304,7 +303,8 @@ Congratulations, you're now a trigger master!
 	
 	// Register another observer
 	hashNav.registerObserver('superduper', { page: false, params: { '*': ['data1', 'data2', false, 'data5', ''] } }, function(e){ alert('hi!'); }); // Woah!
-
+	
+	// Note that these "folding parameters," aka "nested parameters" or "nested objects," only work with the [ampersand parser](#Parsers "Jump to it!").
 <br />
 ###Public Method: <a name="PMI-registeredObserver"></a>registeredObserver
 Checks the internal observer stack for the supplied name.
@@ -346,7 +346,7 @@ Removes the specified observer from HashNav's internal observer stack, and remov
 
 <br />
 ###Public Method: <a name="PMI-unregisterObservers"></a>unregisterObservers
-[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers (and can utilize the `all` keyword). Requires the HashNav.unregisterObservers module.
+[Unregisters](#PMI-unregisterObserver "Jump to it!") multiple observers (and can utilize the `all` keyword). Requires the `HashNav.unregisterObservers` module.
 
 ####Syntax
 	hashNav.unregisterObservers(name1[, name2[, name3[, ...]]]);
@@ -383,50 +383,72 @@ Navigates the browser to the specified URI or history entry.
 		* If this is a `number` (and `trackHistory` is `true`), the browser will navigate to the history entry that corresponds with the supplied parameter by passing `location` as an argument to [history.get()](#PMI-history.get "Jump to it!"). Note that supplying a number that is "out of bounds" will have this method simply return `false` with no further action taken.
 		* If this is an `object` made up of key/value pairs representing the desired URI query string (similar to what you'd get if [getStoredHash()](#PMI-getStoredHash "Jump to it!") were called), the browser will navigate to the specified parameters (without changing the page/state designator).
 		* If this is a `string`
-			* and the `string` starts with `#`, the current hash URI will be replaced with `location` (ex. '#!/home&&param=1')
-			* and the `string` starts with `&`, the browser will append `location` to the end of the current query string. (ex. '&param=1')
-			* and none of the above rules are matched, the browser will navigate to your `prefix` initialization option + `location`  (ex. '#!/' + 'home&&param=1')
+			* and you're using the [slash parser](#Parsers "Jump to it!")
+				* and the `string` starts with `#`, the current hash URI will be replaced with `location` (ex. '#!/home/param/1')
+				* and the `string` starts with `/`, the current hash URI will be replaced with your `prefix` initialization option + `location` (ex. '/param/1')
+				* and none of the above rules are matched, `location` will be appended to the end of the current query string (ex. 'param/1')
+			* and you're using the [ampersand parser](#Parsers "Jump to it!")
+				* and the `string` starts with `#`, the current hash URI will be replaced with `location` (ex. '#!/home&&param=1')
+				* and the `string` starts with `&`, the browser will append `location` to the end of the current query string (ex. '&param=1')
+				* and none of the above rules are matched, the browser will navigate to your `prefix` initialization option + `location`  (ex. '#!/' + 'home&&param=1')
 	2. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
 
 * Second Mode
 	1. page - (`string`) The page/state designator to navigate to. (ex. 'home')
-	2. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs. (ex. 'hello=world&hello2=2')
+	2. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs. (ex. 'hello/world/hello2/2')
 	3. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
 
 * Third Mode
 	1. prefix - (`string`) The hash prefix to navigate to. (ex. '#')
 	2. page - (`string`) The page/state designator to navigate to. (ex. 'home')
-	3. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs.  (ex. 'hello=world&hello2=2')
+	3. params - (`mixed`) The query string to apply to the new hash URI. This can either be a literal query string or an object comprised of key/value pairs.  (ex. 'hello/world/hello2/2')
 	4. forced - (`boolean`, optional: defaults to **false**) If [triggerEvent()](#PMI-triggerEvent "Jump to it!") should be called after navigation. Setting this to `true` is usually unnecessary, and may cause the `navchange` event to fire twice if used incorrectly.
 
 ####Returns
 * (`boolean`) `true` if navigation completed successfully or `false` on failure.
 
 ####Notes
-* The only time you'd need to use `forced` would be if you were navigating to the same unchanging hash URI again and again, and wanted your observers to take note.
+* The only time you'd need to use `forced` would be if you were navigating to the same unchanging hash URI again and again, and wanted your observers to take notice.
 * In an attempt to mimic the way browser history naturally works, using `forced` will NOT create a new history entry! It only calls [history.triggerEvent()](#PMI-triggerEvent "Jump to it!").
 * Just because you can navigate to it doesn't make it a [legal](#HowHashesAreParsed "Jump to it!") hash URI!
 
 ####Examples
-	// Current URI = #!/home&&param=1   (pretend that each navigateTo below is mutually exclusive)
+	// Current parser = HashNav.parsers.slash
+	// Current URI = #!/home
 	
-	hashNav.navigateTo('#Illegal'); // Current URI becomes #Illegal
-	hashNav.navigateTo('Legal'); // Current URI becomes #!/Legal
-	hashNav.navigateTo('&&Legal'); // Current URI becomes #!/&&Legal
-	hashNav.navigateTo('&Legal'); // Current URI becomes #!/home&&param=1&Legal
-	hashNav.navigateTo(-1); // Current URL remains the same but no observers are triggered (because nothing has changed!)
-	hashNav.navigateTo(-1, true); // Current URL remains the same and any curious observers are triggered (forced!)
-	hashNav.navigateTo({ param2:2 }); // Current URL becomes #!/&&param2=2
-	hashNav.navigateTo('somepage', { param2:2 }); // Current URL becomes #!/somepage&&param2=2
-	hashNav.navigateTo('#', 'IllegalURI', { param2:2 }); // Current URL becomes #IllegalURI&&param2=2
-	hashNav.navigateTo('#!/', 'home', { param:1 }); // Current URL remains the same but no observers are triggered (because nothing has changed!)
-	hashNav.navigateTo('#!/', 'home', { param:1 }, true); // Current URL remains the same and any curious observers are triggered (forced!)
+	hashNav.navigateTo('#Illegal');							// #Illegal
+	hashNav.navigateTo('Legal');							// #!//Legal
+	hashNav.navigateTo('/Legal');							// #!/Legal
+	hashNav.navigateTo('Legal');							// #!/Legal/Legal
+	hashNav.navigateTo('/newpage/hello/world');				// #!/newpage/hello/world
+	hashNav.navigateTo('Legal/goodbye/world');				// #!/newpage/Legal/goodbye/world
+	hashNav.navigateTo(-1);									// URI remains the same but no observers are triggered (because nothing has changed!)
+	hashNav.navigateTo(-1, true);							// URI remains the same and any curious observers are triggered (forced!)
+	hashNav.navigateTo({ param2:2 });						// #!/newpage/param2/2
+	hashNav.navigateTo('somepage', { param2:2 });			// #!/somepage/param2/2
+	hashNav.navigateTo('#', 'IllegalURI', { param2:2 });	// #IllegalURI/param2/2
+	hashNav.navigateTo('#!/', 'home', { param:1 });			// #!/home/param/1
+	hashNav.navigateTo('#!/', 'home', { param:1 });			// URI remains the same but no observers are triggered (because nothing has changed!)
+	hashNav.navigateTo('#!/', 'home', { param:1 }, true);	// URI remains the same and any curious observers are triggered (forced!)
 	
 	// etc...
 
 ####See Also
 * [history.get()](#PMI-history.get "Jump to it!")
 * [history.triggerEvent()](#PMI-triggerEvent "Jump to it!")
+
+<br />
+###Public Method: <a name="PMI-buildURI"></a>buildURI
+Used to generate HashNav-compatible URIs. Accepts the exact same input (yes, all the modes) as [navigateTo()](#PMI-navigateTo "Jump to it!").
+
+####Syntax
+	hashNav.buildURI( ... );
+
+####Returns
+* (`string`) The generated URI.
+
+####See Also
+* [navigateTo()](#PMI-navigateTo "Jump to it!")
 
 <br />
 ###Public Method: <a name="PMI-getCurrent"></a>getCurrent
@@ -439,7 +461,7 @@ Returns the current page/state designator (as recognized by the HashNav instance
 * (`string`) The current page/state designator. May be empty (`''`) if no hash has been navigated to yet.
 
 ####Examples
-	//URI = #!/home&&param=1&param2=2
+	//URI = #!/home/param/1/param2/2
 	
 	hashNav.getCurrent(); // Returns 'home'
 
@@ -454,7 +476,7 @@ Returns an object containing key/value pairs representing a parsed version of th
 * (`object`) A subset of the internal `storedHash` object.
 
 ####Examples
-	//URI = #!/home&&param=1&param2=2
+	//URI = #!/home/param/1/param2/2
 	
 	hashNav.getStoredHash(); // Returns { param:1, param2:2 }
 
@@ -472,7 +494,7 @@ Returns an object containing pertinent data on the currently [recognized](#HowHa
 * (`object`) The entire internal `storedHash` object.
 
 ####Examples
-	//URI = #!/home&&param=1&param2=&param3&param4=4&param4=5&6=7
+	//URI = #!/home/param/1/param2/false/param3/true/6/7
 
 	hashNav.getStoredHashData();
 
@@ -481,17 +503,16 @@ Returns:
 <pre><code>
 storedHash:
 [
-   '#!/home&amp;&amp;param=1&amp;param2=&amp;param3&amp;param4=4&amp;param4=5&amp;6=7',
+   '#!/home/param/1/param2/false/param3/true/6/7',
    {
       page: 'home',
-      pathString: 'param=1&amp;param2=&amp;param3&amp;param4=4&amp;param4=5&amp;6=7',
+      pathString: 'param/1/param2/false/param3/true/6/7',
       pathParsed:
       {
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6: '7',
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param: '1',
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param2: '',
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param3: true,
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param4: ['4', '5']
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param3: true
       }
    }
 ]
@@ -502,21 +523,21 @@ storedHash:
 
 <br />
 ###Public Method: <a name="PMI-get"></a>get
-Grabs the value of a specified query parameter.
+Grabs the value of a specified parameter.
 
 ####Syntax
 	hashNav.get(parameter1[, parameter2[, parameter3]]);
 
 ####Arguments
-1. parameter - (`string`) The name of a hash URI query parameter. If `all` is passed in, the results would be the same as calling [getStoredHash()](#PMI-getStoredHash "Jump to it!").
+1. parameter - (`string`) The name of a hash URI parameter. If `all` is passed in, the results would be the same as calling [getStoredHash()](#PMI-getStoredHash "Jump to it!").
 
 ####Returns
-* (`mixed`) Value of the specified query parameter or `null` if the query parameter does not exist.
+* (`mixed`) Value of the specified parameter or `null` if the parameter does not exist.
 * (`object`) When more than one parameter is specified, an object is returned instead, housing the results in convenient key/value pairs.
 
 <br />
 ###Public Method: <a name="PMI-set"></a>set
-Sets the value of the specified query parameter (merges [current parameter object](#PMI-getStoredHash "Jump to it!") with supplied input using [Object.merge()](http://mootools.net/docs/core/Types/Object#Object:Object-merge "MooTools Core Documentation: Object.merge")).
+Sets the value of the specified parameter (merges [current parameter object](#PMI-getStoredHash "Jump to it!") with supplied input using [Object.merge()](http://mootools.net/docs/core/Types/Object#Object:Object-merge "MooTools Core Documentation: Object.merge")).
 
 ####Syntax
 	hashNav.set(parameter, value);
@@ -524,7 +545,7 @@ Sets the value of the specified query parameter (merges [current parameter objec
 
 ####Arguments
 * First Mode
-	1. parameter - (`string`) The name of a hash URI query parameter.
+	1. parameter - (`string`) The name of a hash URI parameter.
 	2. value - (`mixed`) The value to assign the parameter.
 
 * Second Mode
@@ -532,17 +553,17 @@ Sets the value of the specified query parameter (merges [current parameter objec
 
 ####Notes
 * Calling [set()](#PMI-set "Jump to it!") changes the hash URI and as such will trigger a `navchange` event (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
-* [Although it isn't recommended](#ProTips "Jump to it!"), you can use array literal notation to give a single parameter multiple values (stored within an array). ex. `{ param1: 1, param2: [1, 2, 3, 4] }`
+* [Although it isn't recommended](#ProTips "Jump to it!"), you can use array literal notation to give a single parameter multiple values (stored within an array) when using the [ampersand parser](#Parsers "Jump to it!"). ex. `{ param1: 1, param2: [1, 2, 3, 4] }`
 
 <br />
 ###Public Method: <a name="PMI-unset"></a>unset
-Unsets the specified query parameter.
+Unsets the specified parameter.
 
 ####Syntax
 	hashNav.unset(parameter1[, parameter2[, parameter3]]);
 
 ####Arguments
-1. parameter - (`string`) The name of a hash URI query parameter. If `all` is passed in, all parameters will be unset.
+1. parameter - (`string`) The name of a hash URI parameter. If `all` is passed in, all parameters will be unset.
 
 ####Notes
 * Calling [unset()](#PMI-unset "Jump to it!") changes the hash URI and as such will trigger a `navchange` event  (similar to [navigateTo()](#PMI-navigateTo "Jump to it!")).
@@ -555,7 +576,7 @@ Checks if a specific parameter or parameters are present in the hash URI query s
 	hashNav.has(parameter1[, parameter2[, parameter3]]);
 
 ####Arguments
-1. parameter - (`string`) The name of a hash URI query parameter. If `all` is fed in as an argument, this method will return `false` if there are currently no parameters, and `true` in every other [legal](#HowHashesAreParsed "Jump to it!") case.
+1. parameter - (`string`) The name of a hash URI parameter. If `all` is fed in as an argument, this method will return `false` if there are currently no parameters, and `true` in every other [legal](#HowHashesAreParsed "Jump to it!") case.
 
 ####Returns
 * (`boolean`) If only one parameter was passed in, the result will be `true`/`false`.
@@ -583,7 +604,7 @@ Checks if the specified hash (or the [internally stored hash](#PMI-getStoredHash
 1. hash - (`string`, optional: defaults to **the current hash URI**) The hash to test against.
 
 ####Returns
-* (`boolean`) `true` if the hash is legal, otherwise `false`.
+* (`boolean`) `true` if the provided URI is legal, otherwise `false`.
 
 ####See Also
 * [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")
@@ -591,7 +612,7 @@ Checks if the specified hash (or the [internally stored hash](#PMI-getStoredHash
 
 <br />
 ###Public Method: <a name="PMI-serialize"></a>serialize
-Capture the current hash URI and related browser session data. Check the notes below for some important specifics. Requires [deserialize()](#PMI-deserialize "Jump to it!") as well as the HashNav.serialize module.
+Capture the current hash URI and related browser session data. Check the notes below for some important specifics. Requires [deserialize()](#PMI-deserialize "Jump to it!") as well as the `HashNav.serialize` module.
 
 ####Syntax
 	hashNav.serialize([cookieName, [ nowrite]]);
@@ -608,7 +629,7 @@ Capture the current hash URI and related browser session data. Check the notes b
 * [Serialize()](#PMI-serialize "Jump to it!") stores a variable amount of cookies ([up to a specific limit](#options "Jump to it!")) on your visitor's local machine: '\_history', '\_options', '\_state', and '\_version' (all prefixed by `externalConstants[1]`).
 * Note that Observers and their relationships to the `window` object and various other DOM elements are not included in the serialization process for obvious reasons.
 * Also note that, when using `nowrite`, the JSON object that is returned is not structured like [getStoredHash()](#PMI-getStoredHash "Jump to it!"). Make sure you read this object correctly.
-* **WARNING:** Using cookies to store your serialized data is **very** dangerous. Most browsers and servers are not configured by default to handle massive amounts of data being stored in cookies. There are, of course, measures within the HashNav object put in place to mitigate the massive amounts of data that one can attempt to store by cookie using serialize (such as pseudo-pointers used in place of history entries in the internal history array, which dramatically reduces the history array's size), but even then you may experience data overflow if the user has been browsing around your website and you happen to use hash URIs that contain *massive* amounts of data in them. Some helpful limits:
+* **WARNING:** Using cookies to store your serialized data is **very** dangerous. Most browsers and servers are not configured by default to handle massive amounts of data being stored in cookies. There are, of course, measures within the HashNav object put in place to mitigate the massive amounts of data that one may attempt to store by cookie using serialize (such as pseudo-pointers used in place of history entries in the internal history array, which dramatically reduces the history array's size), but even then you may experience data overflow if the user has been browsing around your website and you happen to use hash URIs that contain *massive* amounts of data in them. Some helpful limits:
 	* It is recommended that you only serialize your HashNav data into cookies if your website contains **around 35 (or less) unique *massive* hash URIs**. Note that I said *unique*! Since URIs are cached and compressed internally, developers should only worry about unique URIs. Once a URI has been stored, it will never be stored (in full) again.
 	* Make sure your server is configured to accept whatever amount of data you're trying to send to it without choking (I'm looking at you, *Apache*).
 	* Do not increase the default limits set in place by the `cookieDataHardLimits` option object unless you know what you're doing. Know that if this method is returning `false` and you can't figure out why, it's probably because you hit the default limits.
@@ -619,7 +640,7 @@ Capture the current hash URI and related browser session data. Check the notes b
 
 <br />
 ###Public Method: <a name="PMI-unserialize"></a>unserialize
-Rebuild (unserialize) serialized HashNav session data. Requires the HashNav.unserialize module.
+Rebuild (unserialize) serialized HashNav session data. Requires the `HashNav.unserialize` module.
 
 ####Syntax
 	hashNav.unserialize([restoreParadigm[, fireEventOnNav[, cookieName[, secure[, customdata]]]]]);
@@ -640,7 +661,7 @@ Rebuild (unserialize) serialized HashNav session data. Requires the HashNav.unse
 
 <br />
 ###Public Method: <a name="PMI-deserialize"></a>deserialize
-Destroys any cookies created with [serialize()](#PMI-serialize "Jump to it!"). Requires [unserialize()](#PMI-unserialize "Jump to it!") as well as the HashNav.deserialize module.
+Destroys any cookies created with [serialize()](#PMI-serialize "Jump to it!"). Requires [unserialize()](#PMI-unserialize "Jump to it!") as well as the `HashNav.deserialize` module.
 
 ####Syntax
 	hashNav.deserialize([cookieName]);
@@ -675,7 +696,7 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 * **WARNING:** Calling [triggerEvent()](#PMI-triggerEvent "Jump to it!") is nothing to scoff at! In fact, it's pretty dangerous, and can lead to some serious bugs if used incorrectly (most often, it'll cause observers to fire multiple times -- even ones that wouldn't normally fire under the circumstances -- which you might or might not desire). Be careful!
 
 ####Examples
-	//First Time Visitor: URI = #!/home&&slideshow=slide5
+	//First Time Visitor: URI = #!/home/slideshow/slide5
 
 	hashNav.registerObserver('test1', { page: 'home' }, function(e){ console.log('event triggered:', e, arguments); }, [1, 2, 3, 4], null, 'header');
 	hashNav.registerObserver('test2', { page: '' }, function(e){ console.log('MatchDefaultHome!'); });
@@ -689,11 +710,11 @@ Triggers a `navchange` event on the window, which triggers any active observers.
 
 <br />
 ###Public Property (supplied by the HashNav.Fx module): <a name="PMI-scrl"></a>scrl
-One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instance of the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's [scrl](#PMI-scrl "Jump to it!") property). Requires the HashNav.Fx module.
+One of the few utilities that is publicly exposed. This property is used to house the internal `Fx.Scroll(window)` instance of the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") Class (initialized just like that, yes). Being public, you can modify the scrolling effect to your heart's content (by calling [setOptions](http://mootools.net/docs/core/Class/Class.Extras#Options:setOptions "MooTools Core Documentation: setOptions") on your HashNav instance's [scrl](#PMI-scrl "Jump to it!") property). Requires the `HashNav.Fx` module.
 
 <br />
 ###Public Method (supplied by the HashNav.Fx module): <a name="PMI-scrlTo"></a>scrlTo
-Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toElement "MooTools More Documentation: Fx.Scroll:toElement()") on the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") instance housed within the [scrl](#PMI-scrl "Jump to it!") property. Requires the HashNav.Fx module.
+Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toElement "MooTools More Documentation: Fx.Scroll:toElement()") on the [Fx.Scroll](http://mootools.net/docs/more/Fx/Fx.Scroll "MooTools More Documentation: Fx.Scroll") instance housed within the [scrl](#PMI-scrl "Jump to it!") property. Requires the `HashNav.Fx module`.
 
 ####Syntax
 	hashNav.scrlTo(elementID);
@@ -705,7 +726,7 @@ Calls [toElement()](http://mootools.net/docs/more/Fx/Fx.Scroll#Fx-Scroll:toEleme
 ##DOM Method Index
 
 ###Element Method: <a name="DMI-observe"></a>observe
-Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#PMI-registerObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the HashNav.DOM module.
+Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element, allowing said element to observe the hash URI and trigger a function if specific conditions are met. Note that this method passes [registerObserver()](#PMI-registerObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the `HashNav.DOM` module.
 
 ####Syntax
 	myElement.observe(trigger, fn[, args[, scrollToElement]]);
@@ -715,7 +736,7 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 2. fn - (`function`) Function to be called when the observer's trigger is satisfied by the current hash URI. This function should accept [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments (the function is bound to the current DOM object).
 3. args - (`mixed`, optional) Custom arguments passed to the observer function when triggered. Can either be a single argument or an array of arguments.
 	* **Warning:** If your single argument is an array, wrap it within another array literal to prevent incorrect processing.
-4. scrollToElement - (`mixed`, optional) An ID string/DOM object that will be scrolled to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead. Requires the HashNav.Fx module.
+4. scrollToElement - (`mixed`, optional) An ID string/DOM object that will be scrolled to using `Fx.Scroll.toElement()`. If `scrollToElement` is `true`, the observing DOM element will be scrolled to instead. Requires the `HashNav.Fx` module.
 
 ####Returns
 * (`element`) The DOM element in question.
@@ -728,11 +749,11 @@ Calls [registerObserver()](#PMI-registerObserver "Jump to it!") on a DOM element
 	// Tell the element to observe the hash URI for our specific changes
 	$('myFirstElement').observe({ page: 'home2', params: {object:1, object2:true, magic:'happening', object3:'~'} }, function(e){ alert('Hello World!'); console.log(arguments); }, [1,2,3], true);
 	
-	// Will trigger when hash URI = #!/home2&&object=1&object2&magic=happening
+	// Will trigger when hash URI = #!/home2/object/1/object2/true/magic/happening
 
 <br />
 ###Element Method: <a name="DMI-unobserve"></a>unobserve
-Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observing DOM element. Note that this method passes [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the HashNav.DOM module.
+Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observing DOM element. Note that this method passes [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") the current object's `ID` (or `Class` or `Name` or `TagName`) as the `name` argument. Requires the `HashNav.DOM` module.
 
 ####Syntax
 	myElement.unobserve();
@@ -748,14 +769,14 @@ Calls [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") on an observ
 	// Tell the element to observe the hash URI
 	$('myFirstElement').observe( ... );
 	
-	// Will trigger when hash URI = #!/home2&&object=1&object2&magic=happening
+	// Will trigger when hash URI = #!/home2/object/1/object2/true/magic/happening
 	
 	// And finally, remove the observer, which will stop the element from observing hash URI changes!
 	$('myFirstElement').unobserve(); // Easy right?
 
 <br />
 ###Element Method: <a name="DMI-observing"></a>observing
-Returns the DOM element's observer status. Requires the HashNav.DOM module.
+Returns the DOM element's observer status. Requires the `HashNav.DOM` module.
 
 ####Syntax
 	myElement.observing();
@@ -783,28 +804,28 @@ Returns the DOM element's observer status. Requires the HashNav.DOM module.
 <br />
 ##Additional Features
 ###How Hashes <a name="HowHashesAreParsed"></a>Are Parsed
-Let's start off with a perfectly fine and "legal" example of a hash URI: `#!/somepage&&someparam=something&somethingelse=too`
+Let's start off with a perfectly fine and "legal" example of a hash URI: `#!/somepage/someparam/something/somethingelse/too`
 
 Wasn't so bad, was it? So, to construct a hash URI that the HashNav object will recognize as legal, the URI will have to conform to these rules:
 
 * Begin with your `prefix` (`!/` by default)
-	* `#!/`home&&param=1
+	* `#!/`home/param/1
 
 * Contain a legal (no spaces) page name/state designator
-	* \#!/`home`&&param=1
+	* \#!/`home`/param/1
 
-* If the hash URI contains any query parameters, they need to occur after the state designator, be delimited by `&` if more than one query parameter is passed, and separated from the state designator by a `&&` (double ampersand)
-	* \#!/home`&&param=1`
-	* \#!/home`&&param=1&param2=2`
+* If the hash URI contains any parameters, they need to occur after the state designator, be delimited by `/` if more than one parameter is passed, and separated from the state designator by a `/` (if you're using the [ampersand parser](#Parsers "Jump to it!"), that'd be `&` and `&&` respectively)
+	* \#!/home`/param/1`
+	* \#!/home`/param/1/param2/2`
 	* **non-existent** in #!/home
 
-Basically: `#!/` `somepage` `&&` `someparam=something` `&` `somethingelse=too`
+Basically: `#!/` `somepage` `/` `someparam/something` `/` `somethingelse/too`
 
-Do note that **empty parameters** (`param=` with no data following it) and **orphan parameters** (`param` with no `=` following it) are also legal, allowed, and encouraged. So `#!/` `somepage` `&&` `someparam=` `&` `somethingelse` is just as legal as its predecessor above.
+Do note that **empty parameters** (`param=`/`param/false`, depending on the parser) and **orphan parameters** (`param` with no `=` following it/`param/true`, depending on the parser) are also legal, allowed, and encouraged. So `#!/` `somepage/true` `/` `someparam/false` `/` `somethingelse/true` is just as legal as its predecessor above. **Note how `true` and `false` are interpreted as *literals* by the [slash parser](#Parsers "Jump to it!").**
 
 Now, the quintessential core facet of the HashNav object is its ability to parse a hash URI and store it in a logical and meaningful manner.
 
-In order to do this efficiently, the HashNav object employs a simple sorting algorithm to parse a legal hash into an accessible key/value object. This object is then passed into every observer's function (as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments) when a change is detected within a hash URI. This object is also accessible by calling [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") (or [getStoredHash()](#PMI-getStoredHash "Jump to it!"), which returns a subset of the former).
+In order to do this efficiently, the HashNav object employs a simple sorting algorithm to parse a legal hash into an accessible key/value object. This object is then passed into every observer's function (as the *first* argument -- usually denoted *e* for *event* -- followed by any custom arguments) when a change is detected within a hash URI. This object is also accessible by calling [getStoredHashData()](#PMI-getStoredHashData "Jump to it!") or [getStoredHash()](#PMI-getStoredHash "Jump to it!"), which returns a subset of the former.
 The object itself is constructed as follows:
 
 <pre><code>storedHash:
@@ -823,17 +844,17 @@ where
 * `storedHash[0]` returns the full hash URI unmodified (including leading pound/hash `#`)
 * `storedHash[1]` returns an object containing the hash URI parsed into useful tidbits
 * `storedHash[1]['page']` returns a string containing the current page/state designation
-* `storedHash[1]['pathString']` returns the query string of the hash URI (everything after -- but not including -- the &&) as a string
+* `storedHash[1]['pathString']` returns the query string of the hash URI (everything after -- but not including -- the parser's main separator [e.g. `/`]) as a string
 * `storedHash[1]['pathParsed']` returns an object of key/value pairs representing the hash URI's query string in a more accessible and developer-friendly form. This is what is returned when one calls [getStoredHash()](#PMI-getStoredHash "Jump to it!").
 
-An example of a real `storedHash` object in action:
+An example of a real `storedHash` object in action (using the [ampersand parser](#Parsers "Jump to it!")):
 
 <pre><code>storedHash:
 [
-   '#!/home&amp;&amp;param=1&amp;param2=&amp;param3&amp;param4=4&amp;param4=5&amp;6=7',
+   '#!/home&&param&1&param2=&param3&param4=4&param4=5&6=7',
    {
       page: 'home',
-      pathString: 'param=1&amp;param2=&amp;param3&amp;param4=4&amp;param4=5&amp;6=7',
+      pathString: 'param&1&param2=&param3&param4=4&param4=5&6=7',
       pathParsed:
       {
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6: '7',
@@ -849,35 +870,35 @@ An example of a real `storedHash` object in action:
 ####Notes
 * If `queryMakeFalse` was set to `true`, `param2` would be set to `false` instead of an empty string
 * When a URI is recognized as *illegal* and a [trigger](#ObserverTriggers "Jump to it!") is set to `{ page: false }`, parameters within that trigger are ignored.
-* Although it is generally a hallmark of bad design, nesting parameters inside of other parameters and parameter-array notation (e.g. `param1[0]=foo&param1[1]=bar`) is [partially supported](#ProTips "Jump to it!") by HashNav.
+* Although it is generally a hallmark of bad design, nesting parameters inside of other parameters and parameter-array notation (e.g. `param1[0]=foo&param1[1]=bar`) is [partially supported](#ProTips "Jump to it!") by HashNav when using the [ampersand parser](#Parsers "Jump to it!").
 
 ###Relative <a name="RelativeHashes"></a>Hashes
 Assuming you've read [How Hashes Are Parsed](#HowHashesAreParsed "Jump to it!") above, relative hashes are basically fully realized hash URIs that are missing their page/state designator. For example:
 
-	#!/home&&param=1  //I'm an absolute hash!
-	#!/&&param=1	  //I'm a relative hash! Ooh!
+	#!/home/param/1  //I'm an absolute hash!
+	#!//param/1	  //I'm a relative hash! Ooh!
 
 Wait, `home` is missing! How can that be? Well, the HashNav object is smart enough to interpret the missing designator as the current page (much like relative URLs in traditional web design), and process the hash URI as if it had included the aforesaid designator all along. For example:
 
-	#!/&&param=1	  //I'm a relative hash! Ooh!
+	#!//param/1	  //I'm a relative hash! Ooh!
 
 becomes:
 
-	#!/contact&&param=1
+	#!/contact/param/1
 
 when the current page is "contact", and becomes:
 
-	#!/about&&param=1
+	#!/about/param/1
 
 when the current page is "about". You can nab the current page string by calling [getCurrent()](#PMI-getCurrent "Jump to it!").
 
 By now you've got to be asking yourself "what if my user navigates to my website using a relative hash within their URL from a location that is *not* governed by the HashNav object?" Valid question, with an equally valid answer! If your vistor is landing on your site utilizing a relative hash (or whenever the current page is read as empty), the HashNav object assumes the target to be the `defaultHome` option set at instantiation. For example:
 
-	#!/&&param=1	  //I'm a relative hash! Ooh!
+	#!//param/1	  //I'm a relative hash! Ooh!
 
 becomes:
 
-	#!/home&&param=1
+	#!/home/param/1
 
 when the current page is unknown or the user is using a relative hash when first landing on your site. This carries with it some heavy implications:
 
@@ -889,60 +910,63 @@ when the current page is unknown or the user is using a relative hash when first
 As you can see, relative hashes are certainly powerful, and definitely have their shining moments, but are dangerous when used willy-nilly. Watch out!
 
 ###History <a name="HistoryTracking"></a>Tracking
-To enable history tracking, make sure to include the HashNav.History module in your webpages.
+To enable history tracking, make sure to include the `HashNav.History` module in your webpages.
 
 What history tracking actually does is take the current hash data object (via [getStoredHashData()](#PMI-getStoredHashData "Jump to it!")) and push it onto a private "history" array. This means accessing history data is the same as accessing the currently stored hash data object, except in the past tense. Using the [history methods](#PMI-history "Jump to it!") or [navigateTo()](#PMI-navigateTo "Jump to it!"), one can turn back the clock and restore any previous state in the web application's history. However, be aware that when a hash change occurs that the parser refuses to acknowledge as [legal](#HowHashesAreParsed "Jump to it!"), it will **not** be logged internally (but it *will* be logged in the browser).
 
 Do <a name="vci"></a>note that History Tracking allows some of the more powerful parameter filtering capabilities of the [registerObserver()](#PMI-registerObserver "Jump to it!") and [observe()](#DMI-observe "Jump to it!") methods to work. Disabling history tracking will cripple both methods' [parameter filtering capabilities](#ObserverTriggers "Jump to it!"), so beware.
 
-###HashNav URI <a name="SlashParser"></a> Parsers
-New in version 1.3, along with the ability to create custom hash parsers, is the "slash parser," which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar), etc.
+###HashNav URI <a name="Parsers"></a> Parsers
+New in version 1.3, along with the ability to create custom hash parsers, is the inclusion by default of the "[slash parser](#Parsers "Jump to it!")" over the "[ampersand parser](#Parsers "Jump to it!")" (previous default), which allows hash URIs to mimic the style of the Zend Framework, or Github (look at your URL bar), etc.
 
-To use it, you must initialize HashNav with the correct parser, provided via the options array, like so:
+To use something other than the default [slash parser](#Parsers "Jump to it!"), such as the [ampersand parser](#Parsers "Jump to it!") or a custom parser, you must initialize HashNav like so:
 
-	var hashnav = new HashNav({ parser: new HashNav.parsers.slash() });
+	var hashnav = new HashNav({ parser: new HashNav.parsers.ampersand() });
 
-That's it, you're all done! You can now play with URIs that use '/' in lieu of '&', '&&', and '='.
+That's it, you're all done! You can now play with URIs that use '&&', '&', and '=' in lieu of '/'.
 
-Know that all available parsers are stored under `HashNav.parsers`.
+Know that all available parsers are stored under `HashNav.parsers`, which is also where any custom parsers should go as well.
 
-####Using The Slash Parser
-Using the slash parser over the default parser comes with a few caveats, mainly:
+####Using The <a name="SlashParser"></a> [slash parser](#Parsers "Jump to it!")
+For those of you coming from version 1.3, using the [slash parser](#Parsers "Jump to it!") over the [ampersand parser](#Parsers "Jump to it!") comes with a few caveats. Mainly:
 
 * Relative URIs `#!//look/like/this`
 * Nested objects are IN NO WAY SUPPORTED (and will be turned into strings by way of toString())
 * Orphaned parameters need to be followed by "true" (e.g. `#!/IAmAn/orphan/true`)
 * Empty parameters need to be followed by "false" (e.g. `#!/IAm/empty/false`)
-* This, of course, means you must use the strings "true" and "false" carefully
+* This, of course, means you must use the strings "true" and "false" carefully, as they are interpreted as literals
 * `options.queryMakeFalse` still applies. If it is `true`, any blank parameters (ones that appear on the end when `params.length` is odd) will be evaluated as `false`
 
-While the slash parser can be found at `HashNav.parsers.slash`, the default parser that comes with HashNav can be found at `HashNav.parsers.default`.
+Both the default [slash parser](#Parsers "Jump to it!") and [ampersand parser](#Parsers "Jump to it!") can be found under `HashNav.parsers`.
 
-To load a parser after another parser has already been loaded, or the page has finished loading (yes, parsers can be loaded onto your HashNav instance dynamically at runtime!), you could do something like the following:
+To load a parser after another parser has already been loaded, or the page has finished loading (yes, parsers can be loaded onto your HashNav instance dynamically at runtime), you could do something like the following:
 
 	var hashnav = new HashNav();
-	hashnav.options.parser = new HashNav.parsers.slash('/');   // '/' is optional
+	hashnav.options.parser = new HashNav.parsers.ampersand();
 	hashnav.options.parser.setInstance(hashnav);
 
-**PRO TIP:** you may supply the slash and default parsers with a string (defaults to `'/'` and `'&&'` respectively) that they will use as their symbols.
+**PRO TIP:** you may supply the [slash parser](#Parsers "Jump to it!") with a string (defaults to `'/'`) that will be used as the delimiter. Similar functionality can be achieved with the [ampersand parser](#Parsers "Jump to it!") by passing in an object in the form of `{ main: '&&', pair: '&', field: '=' }`.
 
 ####Creating Your Own Parser
 If you ever find yourself in need of an alternate URI scheme for your project, you're always free to write your own!
 
-Don't worry, it's actually quite easy (I wrote the slash parser in a few minutes).
+Don't worry, it's actually pretty easy (I wrote the [slash parser](#Parsers "Jump to it!") in 15 minutes).
 
 #####Step 1: Come up with your URI scheme
 Since everything is stored internally as key-value pairs, you'll have to base your parser around this.
 
-The slash parser's scheme goes a little like this: `<prefix><state><symbol><params>` where `<param>` is equivalent to a virtually infinite amount of `<key><symbol><value>` pairs. If the number of key-value pairs is odd, then the last param (always evaluated as a key in this case) will be considered to have an empty string as its value.
+The general scheme goes a little like this: `<prefix><state><symbol><params>` where `<param>` is equivalent to a virtually infinite amount of `<key><symbol><value>` pairs. If the number of key-value pairs is odd, then the last param (always evaluated as a key in this case) will be interpreted as having an empty string as its value.
 
 So my scheme is basically that of a file system or regular basic URL, if my `<symbol>` is `'/'`.
 
 #####Step 2: Extend the `HashNav.parsers.GeneralHashURIParser` abstract class
-Check out the `parser.slash.js` file to see an example of this.
+Check out the [slash parser](#Parsers "Jump to it!")'s internals to see an example of this.
 
-#####Final Step: Redefine the appropriate methods
-Again, check out the `parser.slash.js` file (or `HashNav.js`'s `HashNav.parsers.default`) to see an example of this in action.
+#####Step 3: Account for custom initialization
+Check out the `parser.ampersand.js` file for an excellent demonstration of this.
+
+#####Final Step: Redefine the appropriate methods and properties
+Again, check out any one of the parsers' source to see an example of this in action.
 
 The following are brief descriptions of the methods you can use.
 
@@ -987,23 +1011,27 @@ Once you're done, you can load it up and use it just like any other parser!
 ##Pro <a name="ProTips"></a> Tips
 * **REMOVE OBSERVER EVENTS USING [unregisterObserver()](#PMI-unregisterObserver "Jump to it!") OR [unobserve()](#DMI-unobserve "Jump to it!"), NOT [window.removeEvents()](http://mootools.net/docs/core/Element/Element.Event#Element:removeEvent "MooTools Core Documentation: removeEvents")!**
 * The word/string `all` is treated as a "keyword" within most HashNav methods, so avoid using it as an argument accidentally.
-* Query strings are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
-* The values for all parsed query parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings.
-* **Query params do not overwrite one another!** In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array (instead of a regular string) which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
-* Page or "state" names (`home` in `#!/home&&param=1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser.
+* Hash URIs are *always* trimmed of erroneous whitespace (using [String.trim()](http://mootools.net/docs/core/Types/String#String:trim "MooTools Core Documentation: trim"))!
+* The values for all parsed parameters are, due to [MooTools's QueryString library](http://mootools.net/docs/more/Types/String.QueryString "MooTools More Documentation: QueryString"), interpreted as strings.
+* **Query params do not overwrite one another** when using the [ampersand parser](#Parsers "Jump to it!") (they do when using the [slash parser](#Parsers "Jump to it!")). In `param1=1&param2=2&param1=3`, the value `3` will **not** overwrite the value `1`! In this case, **both** values are stored within an array instead of a regular string, which represents the recognized value of the parameter. (ie. `{ param1:["1", "3"], param2:"2" }`)
+* Page or "state" names (`home` in `#!/home/param/1`) are completely and utterly **stripped** of whitespace using MooTools's [String.clean()](http://mootools.net/docs/core/Types/String#String:clean "MooTools Core Documentation: clean") method when stored internally; however, events may still trigger when these invalid pages are navigated to in the browser.
 * Use the [triggerEvent()](#PMI-triggerEvent "Jump to it!") method whenever you register a new observer (or after you're finished registering *all* of your observers or initializing a page.) Here's an [example](#PMI-triggerEvent "Jump to it!").
 	* If you're a cool professional who knows what (s)he is doing, you'll find times when you *don't* want to use [triggerEvent()](#PMI-triggerEvent "Jump to it!") after registering an observer or two! Ooh! Aah!
 * It is generally unwise to nest parameters inside of other parameters, even though it is partially supported ([set()](#PMI-set "Jump to it!") does not support parameter-array notation). Serializing whole objects using the page's URI is an even worse idea. Instead of nesting parameters/objects, just use separate parameters (or store the data in a variable/session/server-side)!
 * Sometimes IE<9 misbehaves if it is in quirks mode. Make sure to use PROPER LEGAL doctypes if you want HashNav to function at its full capability.
+* **WARNING**: Switching parsers in the middle of a session could have disasterous effects when combined with `HashNav.History` module! Parsers do NOT know how to read each other's history entries, nor should they.
 
 ##Coming <a name="ComingSoon"></a> Soon
-* Make the slash parser the default parser, and the ampersand parser a separate module
+* Total rebuild of the playground (ground up) -- for one, changing parsers via GUI will be super easy
+* Going to add a tutorial to the playground
+* Going to add an in-browser "console" to the playground (for you, IE)
+* Going to write a "HashNav builder"/"script element generator" (similar to MooTools's Core/More builders) to hopefully cut down on the documentation a bit
+* Unit test suite to easily perform rigorous and exhaustive tests on all of HashNav's components (should severly cut into the amount of bugs that may/might/could exist)
 
 ##Documented Bugs
-* deserialize and unserialize do NOT work in a few versions of Opera at the moment (for some Opera reason)
-* a few IE8 bugs with the demo page code
+* None yet, woot!
 
-Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first!
+Did you discover a new bug? [Report it](https://github.com/Xunnamius/HashNav/issues "Issue Tracker") here first.
 
 ##License
 This work is mine; however, you may use and/or modify anything here however and whenever you want. Attribution etc. is not at all necessary (although welcomed :D).

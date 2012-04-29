@@ -1,5 +1,5 @@
 February 2011:
-	Version 0.16 (ALPHA) -- Initial creation, entered ALPHA
+	Version 0.16 (ALPH) -- Initial creation, entered ALPHA
 
 March 2011:
 	Version 0.80 (BETA) -- Fixed a few bugs, added to GitHub, entered BETA
@@ -8,11 +8,13 @@ March 2011:
 	Version 0.90 (BETA) -- Fixed a minor bug within the trigger logic, augmented history grabs, still in BETA
 	Version 0.97 (BETA) -- Fixed a few bugs, added history.truncate, added isNative(), agumented the serialization process, general performance enhancements, still in BETA -> last major release before version 1.0
 
-May 2011:	
-
-        Version 1.0  (BOS)  -- Tuned up the code quite a bit, modularized the HashNav class, perfected advanced trigger syntax, reduced file size by 60%, removed and/or modularized utilities, added explicitChange qualifier, removed useless options, removed immutable cookie limits, removed trigger.params dependency, revamped overall class logic and structure, fixed de/un/serialization bugs, updated documentation and readme to be a bit more coherent
-	Version 1.1  	    -- Added support for "empty" illegal hashes (hashes that only consist of #), updated documentation, created a comprehensive (non-interactive) test suite, fixed a few bugs with get()/set()/unset()/has(), deprecated esoteric syntax support for triggers, hopefully fixed the "forced" bug when using the explicitChange qualifier
+May 2011:
+	Version 1.0	(BOS)	-- Tuned up the code quite a bit, modularized the HashNav class, perfected advanced trigger syntax, reduced file size by 60%, removed and/or modularized utilities, added explicitChange qualifier, removed useless options, removed immutable cookie limits, removed trigger.params dependency, revamped overall class logic and structure, fixed de/un/serialization bugs, updated documentation and readme to be a bit more coherent
+	Version 1.1			-- Added support for "empty" illegal hashes (hashes that only consist of #), updated documentation, created a comprehensive (non-interactive) test suite, fixed a few bugs with get()/set()/unset()/has(), deprecated esoteric syntax support for triggers, hopefully fixed the "forced" bug when using the explicitChange qualifier
 
 March 2012:
-	Version 1.2	    -- Fixed every remaining reported issue/bug found, updated the documentation and the README.md examples, general performance enhancements, left Branches of Sin (BOS) status
-	Version 1.3	    -- Minor optimizations, removed useless options, updated README, modularized URI parser, and added slash module under more/parsers
+	Version 1.2			-- Fixed every remaining reported issue/bug found, updated the documentation and the README.md examples, general performance enhancements, left Branches of Sin (BOS) status
+	Version 1.3			-- Minor optimizations, removed useless options, updated README, modularized URI parser, and added slash module under more/parsers
+
+April 2012:
+	Version 1.4			-- squashed all reported issues/bugs, slash parser is now the default parser (previous default parser is now named "parser.ampersand.js"), added buildURI(), updated HashNav image, updated README and Documentation to reflect new version and features
