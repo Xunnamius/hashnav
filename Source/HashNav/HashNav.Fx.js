@@ -16,7 +16,7 @@ provides: [HashNav.Fx]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	
 	HashNav.implement('Fx',
@@ -32,4 +32,4 @@ provides: [HashNav.Fx]
 		
 	});
 	
-})();
+})(document.id);

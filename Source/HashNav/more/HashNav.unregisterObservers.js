@@ -15,7 +15,7 @@ provides: [HashNav.unregisterObservers]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	var observernames = [];
 	
@@ -35,4 +35,4 @@ provides: [HashNav.unregisterObservers]
 		}.protect()
 		
 	});
-})();
+})(document.id);

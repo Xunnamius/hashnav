@@ -16,7 +16,7 @@ provides: [HashNav.unserialize]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	HashNav.implement({
 		
@@ -75,4 +75,4 @@ provides: [HashNav.unserialize]
 		}
 		
 	});
-})();
+})(document.id);

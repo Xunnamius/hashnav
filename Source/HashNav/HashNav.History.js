@@ -15,7 +15,7 @@ provides: [HashNav.history]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	var history = [];
 	
@@ -85,4 +85,4 @@ provides: [HashNav.history]
 		{ history = newhist; }.protect()
 		
 	});
-})();
+})(document.id);

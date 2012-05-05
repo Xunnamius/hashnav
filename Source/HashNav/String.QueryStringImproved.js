@@ -15,7 +15,7 @@ provides: [String.parseQueryStringImproved, String.parseObjectToQueryString]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	/* Slightly modified versions from MooTools More | script: String.QueryString.js | license: MIT-style license */
 	
@@ -84,4 +84,4 @@ provides: [String.parseQueryStringImproved, String.parseObjectToQueryString]
 		}
 		
 	});
-})();
+})(document.id);

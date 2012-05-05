@@ -16,7 +16,7 @@ provides: [HashNav]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function()
+(function($)
 {
 	var instance = null, observers = {}, version = 1.4, navigateTo = true, // Singleton
 	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
@@ -490,4 +490,4 @@ provides: [HashNav]
 			return Object.toQueryString(obj).replace(/=|&/gi, this.separators.main);
 		}
 	});
-})();
+})(document.id);

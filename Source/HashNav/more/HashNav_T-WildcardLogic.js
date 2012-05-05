@@ -15,7 +15,7 @@ provides: [Logic]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	HashNav.implement({
 		
@@ -92,4 +92,4 @@ provides: [Logic]
 		}.protect()
 		
 	});
-})();
+})(document.id);

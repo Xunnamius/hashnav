@@ -15,7 +15,7 @@ provides: [Element.observe, Element.observing, Element.unobserve]
 */
 
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
-(function() // Private
+(function($) // Private
 {
 	HashNav.implement({ $_hidden_DOM_loaded: true });
 	Element.implement({
@@ -50,4 +50,4 @@ provides: [Element.observe, Element.observing, Element.unobserve]
 		}
 		
 	});
-})();
+})(document.id);
