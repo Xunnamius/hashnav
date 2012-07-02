@@ -257,8 +257,8 @@ provides: [HashNav]
 			// Polymorphism at work!
 			if(typeof(arguments[arguments.length-1]) == 'boolean')
 			{
-				triggerEvent = arguments[--arguments.length];
-				delete arguments[arguments.length];
+				triggerEvent = arguments[arguments.length-1];
+				delete arguments[arguments.length-1];
 			}
 			
 			// Page+params (mode 2)
