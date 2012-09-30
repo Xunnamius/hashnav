@@ -18,8 +18,19 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function($)
 {
-	var instance = null, observers = {}, version = 1.4, navigateTo = true, // Singleton
-	state = { polling: false, 'native': false, current: '', storedHash: ['', { page: '', pathString: '', pathParsed: null }] };
+	var version = 1.4,
+		
+		instance = null,
+		observers = {},
+		navigateTo = true, // Singleton
+		state = {
+			allowHashChangeEvent: true,
+			initial: true,
+			polling: false,
+			'native': false,
+			current: '',
+			storedHash: ['', { page: '', pathString: '', pathParsed: null }]
+		};
 	
 	/* Check the documentation for information on HashNav's public methods and options! */
 	this.HashNav = new Class({
@@ -34,7 +45,7 @@ provides: [HashNav]
 			queryMakeFalse: false,
 			externalConstants: ['NAVOBJOBSDATA', 'NAVOBJSERDATA'],
 			
-			// Leave encoding off, HashNav uses its own internal encoding instead
+			// Leave encoding off for HashNav uses its own internal encoding scheme instead
 			cookieOptions: { path: '/', domain: false, duration: 365, secure: false, document: document, encode: false },
 			cookieDataHardLimits: [2000, 6],
 			
@@ -71,13 +82,15 @@ provides: [HashNav]
 		
 		startPolling: function()
 		{
-			if(this.isNative()) return false;
-			else
+			if(state['polling']) return false;
+			if(!this.isNative())
 			{
 				this.poll();
 				state['polling'] = setInterval(this.poll.bind(this), this.options.interval);
-				return true;
 			}
+			
+			allowHashChangeEvent = true;
+			return true;
 		},
 		
 		stopPolling: function()
@@ -86,10 +99,10 @@ provides: [HashNav]
 			{
 				clearInterval(state['polling']);
 				state['polling'] = false;
-				return true;
 			}
 			
-			return false;
+			allowHashChangeEvent = false;
+			return true;
 		},
 		
 		poll: function()
@@ -122,7 +135,8 @@ provides: [HashNav]
 					state['storedHash'][1]['pathParsed'] = null;
 				}
 				
-				this.triggerEvent();
+				if(allowHashChangeEvent)
+					this.triggerEvent();
 			}
 		},
 		
@@ -132,14 +146,12 @@ provides: [HashNav]
 			if(!trigger.params) trigger.params = {};
 			if(!bind) bind = this;
 			if(!trigger || typeof(trigger.page) == 'undefined') return false;
-			else
-			{
-				/* Check documentation on the specifics of what's going on within each protected method */
-				if(!this.$_hidden_wlogic_loaded && trigger.params && typeof(trigger.params['*']) != 'undefined') delete trigger.params['*'];
-				if(trigger.qualifiers && this.$_hidden_qlogic_loaded) trigger = this.$_hidden_qlogic_optimize(trigger);
-				else if(trigger.qualifiers) delete trigger.qualifiers;
-				if(typeof(trigger.params['*']) != 'undefined' && this.$_hidden_wlogic_loaded) trigger = this.$_hidden_wlogic_optimize(trigger);
-			}
+			
+			/* Check documentation on the specifics of what's going on within each protected method */
+			if(!this.$_hidden_wlogic_loaded && trigger.params && typeof(trigger.params['*']) != 'undefined') delete trigger.params['*'];
+			if(trigger.qualifiers && this.$_hidden_qlogic_loaded) trigger = this.$_hidden_qlogic_optimize(trigger);
+			else if(trigger.qualifiers) delete trigger.qualifiers;
+			if(typeof(trigger.params['*']) != 'undefined' && this.$_hidden_wlogic_loaded) trigger = this.$_hidden_wlogic_optimize(trigger);
 			
 			if(!observers[name]) observers[name] = [];
 			observers[name].push([function(e)
@@ -183,7 +195,7 @@ provides: [HashNav]
 				trigger.page	==  e.page))
 				{
 					if(trigger.page === false && !this.isLegalHash()) map.satisfied = true; // We don't negotiate with terrorists (or illegal hash URIs).
-					hist = Object.every(trigger.params, function(item, index) // The 'hist' variable is being recycled here
+					hist = Object.every(trigger.params, function(item, index) // XXX: The 'hist' variable is being recycled here
 					{
 						if(map.satisfied) return true;
 						else if(index === '*')
@@ -213,7 +225,7 @@ provides: [HashNav]
 					
 					if(hist)
 					{
-						// Last-possible-second qualifier logic
+						// Just-in-time qualifier logic
 						if(trigger.qualifiers && this.$_hidden_qlogic_loaded)
 						{
 							scan = this.$_hidden_qlogic_closeScan(trigger, map);
@@ -293,7 +305,7 @@ provides: [HashNav]
 				return true;
 			}
 			
-			else return '#'+wlh;
+			return '#' + wlh;
 		},
 		
 		buildURI: function()
@@ -347,7 +359,9 @@ provides: [HashNav]
 				(Object.values(result));
 		},
 		
+		isInitial: function(){ return state['initial']; },
 		isNative: function(){ return state['native']; },
+		
 		isLegalHash: function(hash)
 		{
 			hash = hash || this.getStoredHashData()[0];
@@ -356,14 +370,13 @@ provides: [HashNav]
 		
 		triggerEvent: function(customHashData)
 		{
-			var hashData = this.getStoredHashData(),
-				hashData = (customHashData ? customHashData : (hashData ? hashData : false));
-			return (hashData[0] ? !!window.fireEvent('navchange', [this.getStoredHashData()]) : false);
-		},
-		
-		toString: function()
-		{
-			return this.getStoredHashData()[0];
+			var hashData = this.getStoredHashData(), result;
+			
+			hashData = (customHashData ? customHashData : (hashData ? hashData : false));
+			result = (hashData[0] ? !!window.fireEvent('navchange', [this.getStoredHashData()]) : false);
+			state['initial'] = false;
+			
+			return result;
 		},
 		
 		$_hidden_pseudoprivate_getState: function()
@@ -389,17 +402,17 @@ provides: [HashNav]
 		initialize: function()
 		{ throw "TypeError: Class 'GeneralHashURIParser' is abstract and should not be instantiated directly."; },
 			
-		setInstance: function(instance)
-		{ this.instance = instance; },
+		setInstance: function(i)
+		{ this.instance = i; },
 		
 		parse: function(uri)
-		{ throw "TypeError: Object '"+this+"' has no proper method 'parse'"; },
+		{ throw "TypeError: Object '" + this + "' has no proper method 'parse'"; },
 		
 		createURIMode1History: function(data)
 		{
 			var hist = (this.instance.history.get(data) || [null])[0];
 			if(hist) return hist;
-			else return false; // Bad params
+			return false; // Bad params
 		},
 		
 		createURIMode1Object: function(data)
