@@ -18,7 +18,7 @@ provides: [HashNav]
 /* documentation and updates @ http://github.com/Xunnamius/HashNav */
 (function($)
 {
-	var version = 1.4,
+	var version = 1.5,
 		
 		instance = null,
 		observers = {},
@@ -89,7 +89,7 @@ provides: [HashNav]
 				state['polling'] = setInterval(this.poll.bind(this), this.options.interval);
 			}
 			
-			allowHashChangeEvent = true;
+			state.allowHashChangeEvent = true;
 			return true;
 		},
 		
@@ -101,7 +101,7 @@ provides: [HashNav]
 				state['polling'] = false;
 			}
 			
-			allowHashChangeEvent = false;
+			state.allowHashChangeEvent = false;
 			return true;
 		},
 		
@@ -135,7 +135,7 @@ provides: [HashNav]
 					state['storedHash'][1]['pathParsed'] = null;
 				}
 				
-				if(allowHashChangeEvent)
+				if(state.allowHashChangeEvent)
 					this.triggerEvent();
 			}
 		},
@@ -265,6 +265,7 @@ provides: [HashNav]
 			var wlh = window.location.hash,
 				triggerEvent = false,
 				arguments = Array.from(arguments);
+
 			
 			// Polymorphism at work!
 			if(typeof(arguments[arguments.length-1]) == 'boolean')
@@ -316,8 +317,20 @@ provides: [HashNav]
 			return result;
 		},
 		
+		getPrevious: function()
+		{
+			if($_hidden_history_loaded)
+			{
+				var ret = history.get(-2);
+				return ret != null && ret[1] != null ? ret[1].page : null;
+			}
+			
+			return false;
+		},
+		
+		getDefault: function(){ return options.defaultHome; },
 		getCurrent: function(){ return state.current; },
-		getStoredHash: function(){ return state.storedHash[1]['pathParsed'] || {}; },
+		getStoredHash: function(){ return state.storedHash[1].pathParsed || {}; },
 		getStoredHashData: function(){ return state.storedHash; },
 		
 		get: function()
