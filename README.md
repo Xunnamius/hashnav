@@ -1,4 +1,6 @@
-> This old thing was from way back in the day. I keep it around because I'm a code hoarder. Please do not ever use this library in anything ever.
+# WARNING: UNMAINTAINED
+
+This old thing was from way back in the Web 2.0 days of MooTools vs jQuery. I keep it around because I'm a code hoarder. Please do not ever use this in anything ever!
 
 Hash Navigation Made Easy With HashNav!
 =======================================
