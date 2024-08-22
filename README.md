@@ -1,6 +1,17 @@
-# WARNING: UNMAINTAINED
+<!-- badges-start -->
 
-This old thing was from way back in the Web 2.0 days of MooTools vs jQuery. I keep it around because I'm a code hoarder. Please do not ever use this in anything ever!
+[![Black Lives Matter!][badge-blm]][link-blm]
+[![!!UNMAINTAINED!!][badge-unmaintained]][link-unmaintained]
+
+<!-- badges-end -->
+
+# ⛔️ DEPRECATED/UNMAINTAINED
+
+> [!CAUTION] This old thing was from way back in the Web 2.0 days of MooTools vs
+> jQuery. I keep it around because I'm a code hoarder and I love seeing evidence
+> of my improvement over the decades.
+>
+> **Please do not ever use this in anything ever!**
 
 Hash Navigation Made Easy With HashNav!
 =======================================
