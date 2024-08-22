@@ -283,3 +283,10 @@ Arguments
 1. Options (`object`, optional) See [documentation](http://github.com/Xunnamius/HashNav/blob/master/Docs/Documentation.md#options).
 
 *Check the change log for more information on releases!*
+
+[badge-blm]: https://xunn.at/badge-blm 'Join the movement!'
+[link-blm]: https://xunn.at/donate-blm
+[badge-unmaintained]:
+  https://xunn.at/badge-unmaintained
+  'Unfortunately, this project is unmaintained (forks welcome!)'
+[link-unmaintained]: https://xunn.at/link-unmaintained
