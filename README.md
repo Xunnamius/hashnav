@@ -7,7 +7,9 @@
 
 # ⛔️ DEPRECATED/UNMAINTAINED
 
-> [!CAUTION] This old thing was from way back in the Web 2.0 days of MooTools vs
+> [!CAUTION]
+>
+> This old thing was from way back in the Web 2.0 days of MooTools vs
 > jQuery. I keep it around because I'm a code hoarder and I love seeing evidence
 > of my improvement over the decades.
 >
